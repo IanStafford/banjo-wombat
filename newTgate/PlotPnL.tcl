@@ -1,5 +1,5 @@
 source measure_peak_and_levels.tcl
-source fieldplate_10nm.tcl
+source bigate_corrected.tcl
 source GaN_modelfile_masterD
 
 pdbSetDouble Nitride DevPsi RelEps 6.3
@@ -9,4 +9,4 @@ device init
 contact name=D supply=0.1
 window row=1 col=2
 
-measure_peak_and_levels 10nm
+measure_peak_and_levels Original

@@ -6,7 +6,7 @@ source GaN_modelfile_masterD
 Initialize
 device init
 contact name=D supply=0.1
-window row=1 col=2
+window row=1 col=1
 
 run_measurements "peak_5nm.csv" 5nm
 
@@ -83,13 +83,3 @@ device
 contact name=D supply=0.1
 
 run_measurements  "peak_90nm.csv" 90nm
-
-if {0} {
-source bg_c_100nm.tcl
-source GaN_modelfile_masterD
-Initialize
-device
-contact name=D supply=0.1
-
-run_measurements "peak_100nm.csv" 100nm
-}

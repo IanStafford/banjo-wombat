@@ -27,7 +27,7 @@ mater add name=HighK    alias=highk
     #et Oxide electron affinity
     pdbSetDouble HighK Affinity 2.89
 
-    pdbSetDouble HighK DevPsi RelEps 3.9
+    pdbSetDouble HighK DevPsi RelEps 35
     pdbSetDouble HighK Eg 9.3
    
     #Set Ev and Ec using AlGaN Ei as zero
