@@ -108,9 +108,5 @@ proc HEMT_Struct { } {
     sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping name=Doping
     sel z=0.22 name=AlN_Ratio
 }
-
-pdbSetDouble Nitride DevPsi RelEps 6.3
-pdbSetDouble HighK DevPsi RelEps 6.3
-
 HEMT_Struct 
 

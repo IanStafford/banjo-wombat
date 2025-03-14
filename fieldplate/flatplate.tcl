@@ -17,11 +17,13 @@ set DrainGate 3.5
 set SourceT 0.1
 set DrainT 0.15
 set FP2 0.8
+set FPL 0.5
+set FPR 1.5
 
 set AlThick 0.018
 
 proc HEMT_Struct { } {
-    global Gate_Length AlThick SourceGate SourceT DrainGate DrainT FP2
+    global Gate_Length AlThick SourceGate SourceT DrainGate DrainT FPL FPR
 
     #Structure definition (AlGaN is 25nm thick.It is below the critical thickness for relaxation ~65nm Ambacher)
     set Mid_Point 0.0
@@ -30,9 +32,9 @@ proc HEMT_Struct { } {
   
     set bot 4.0
     line x loc=-0.5 spac=0.025 tag=toptop
-    line x loc=-0.35 spac=0.025 tag=top
-    line x loc=-0.25 spac=0.025 tag=topIns
-    # ^^ changes bottom of floating plate
+    # line x loc=-0.4 spac=0.025 tag=top
+    # Moving field plate to side of T gate (100nm min seperation)
+    # line x loc=-0.3 spac=0.025 tag=topIns
     line x loc=-0.15 spac=0.025 tag=topT
     line x loc=-0.10 spac=0.025 tag=topGate
     line x loc=0.0 spac=0.001 tag=AlGaNTop
@@ -45,25 +47,28 @@ proc HEMT_Struct { } {
     line y loc=[expr $Gtl] spac=0.025 tag=GateL
     line y loc=[expr $Gtr] spac=0.01 tag=GateR
     line y loc=[expr $Gtr+$DrainT] spac=0.01 tag=DrainT
-    line y loc=[expr $Gtr+$FP2] spac=0.02 tag=FP2 
-    # ^^ right edge of fp
-    line y loc=[expr $Gtr+$DrainGate] spac=0.05 
+    # line y loc=[expr $Gtr+$FP2] spac=0.02 tag=FP2
+    #line y loc=[expr $Gtr+$DrainGate] spac=0.05 
+    line y loc=[expr $Gtr+$DrainT+$FPL] spac=0.01 tag=SourceFP
+    line y loc=[expr $Gtr+$DrainT+$FPL+$FPR] spac=0.1 tag=DrainFP
     line y loc=[expr $Gtr+$DrainGate+0.125] spac=0.05 tag=right
 
     #work layers top down, left to right
-    region HighK xlo=toptop xhi=top ylo=left yhi=right
+    region HighK xlo=toptop xhi=topT ylo=left yhi=right
 
-    region HighK xlo=top xhi=topIns ylo=left yhi=GateR
-    region Metal xlo=top xhi=topIns ylo=GateR yhi=FP2
-    region HighK xlo=top xhi=topIns ylo=FP2 yhi=right
+    # region HighK xlo=top xhi=topIns ylo=left yhi=GateR
+    # region Metal xlo=top xhi=topIns ylo=GateR yhi=FP2
+    # region HighK xlo=top xhi=topIns ylo=FP2 yhi=right
 
     #buffer between field plate and top of T gate
-    region HighK xlo=topIns xhi=topT ylo=left yhi=right
+    # region HighK xlo=topIns xhi=topT ylo=left yhi=right
 
-    #t gate layer
+    #t gate layer with field plate
     region HighK xlo=topT xhi=topGate ylo=left yhi=SourceT
     region Metal xlo=topT xhi=topGate ylo=SourceT yhi=DrainT
-    region HighK xlo=topT xhi=topGate ylo=DrainT yhi=right
+    region HighK xlo=topT xhi=topGate ylo=DrainT yhi=SourceFP
+    region Metal xlo=topT xhi=topGate ylo=SourceFP yhi=DrainFP
+    region HighK xlo=topT xhi=topGate ylo=DrainFP yhi=right
 
     #gate layer
     region Nitride xlo=topGate xhi=AlGaNTop ylo=left yhi=GateL
@@ -79,7 +84,7 @@ proc HEMT_Struct { } {
     set buf 0.001
 
     #Contacts
-    contact name=FP Metal xlo=[expr -0.35-$buf] xhi=[expr -0.35+$buf] ylo=[expr $Gtr] yhi=[expr $Gtr+$FP2] add depth=1.0 width=1.0
+    contact name=FP Metal xlo=[expr -0.15-$buf] xhi=[expr -0.15+$buf] ylo=[expr $Gtr+$DrainT+$FPL] yhi=[expr $Gtr+$DrainT+$FPL+$FPR] add depth=1.0 width=1.0
     contact name=G Metal xlo=[expr -0.15-$buf] xhi=[expr -0.15+$buf] ylo=[expr $Gtl] yhi=[expr $Gtr] add depth=1.0 width=1.0
     set l [expr $Gtl-$SourceGate-0.125] 
     contact name=S AlGaN ylo=[expr $l-$buf] yhi=[expr $l+$buf] xlo=[expr 0.0-$buf] xhi=[expr $AlThick-$buf] add depth=1.0 width=1.0

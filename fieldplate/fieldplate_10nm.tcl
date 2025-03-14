@@ -111,8 +111,5 @@ proc HEMT_Struct { } {
     sel z=0.22 name=AlN_Ratio
 }
 
-pdbSetDouble Nitride DevPsi RelEps 6.3
-pdbSetDouble HighK DevPsi RelEps 6.3
-
 HEMT_Struct 
 
