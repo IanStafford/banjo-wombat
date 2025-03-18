@@ -4,7 +4,7 @@ proc measure_peak_and_levels {label} {
     set g -4.0
     contact name=G supply=$g
 
-    for {set vds 0.0} {$vds < 50.1} {set vds [expr $vds+0.25]} {
+    for {set vds 0.0} {$vds < 100.1} {set vds [expr $vds+0.25]} {
         contact name=D supply=$vds
         device
         sel z=abs(dot(DevPsi,y))*1.0e-4         
