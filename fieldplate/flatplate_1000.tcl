@@ -17,8 +17,8 @@ set DrainGate 3.5
 set SourceT 0.1
 set DrainT 0.15
 set FP2 0.8
-set FPL 0.5
-set FPR 1
+set FPL 0.2
+set FPR 2.0
 
 set AlThick 0.018
 
