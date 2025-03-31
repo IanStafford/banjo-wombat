@@ -7,7 +7,7 @@ source plotChannelField.tcl
 source bigate_corrected.tcl
 source GaN_modelfile_masterD
 
-plotChannelField 100 flatplate
+plotChannelField 100 Tgate
 
 if {0} {
 

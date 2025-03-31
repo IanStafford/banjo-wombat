@@ -20,7 +20,7 @@ proc plotChannelField {vdsMAX label} {
         
         chart graph=PeakField curve=$label xval=$vds yval=$peakfield leg.left ylab= "Electric Field (V/cm)" title= "Peak Field"
         if { [expr {$vds - floor($vds/10)*10}] == 0 } {
-            plot1d graph=Channel xv=0.018 ylab= "Electric Field (V/cm)" title= "Channel Field" name = "Vds = $vds"
+            plot1d graph=Channel xv=0.015 ylab= "Electric Field (V/cm)" title= "Channel Field" name = "Vds = $vds"
         }
     }
 }
