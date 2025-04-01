@@ -10,7 +10,7 @@ device init
 contact name=D supply=0.1
 window row=1 col=2
 
-run_measurements "IV_run2.csv" "peak_run2.csv" Fieldplate_All_Nit
+run_measurements "IV_run2.csv" "peak_run2.csv" Tgate
 
 if {0} {
 

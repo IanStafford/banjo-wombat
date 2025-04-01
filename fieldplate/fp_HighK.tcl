@@ -1,5 +1,3 @@
-    
-
 pdbSetDouble Math iterLimit 800
 math device dim=2 col umf none scale
 
@@ -34,6 +32,7 @@ proc HEMT_Struct { } {
     line x loc=-0.3 spac=0.025 tag=topIns
     line x loc=-0.15 spac=0.025 tag=topT
     line x loc=-0.10 spac=0.025 tag=topGate
+    line x loc=-0.05 spac=0.025 tag=topNit
     line x loc=0.0 spac=0.001 tag=AlGaNTop
     line x loc=$AlThick spac=0.001 tag=AlGaNBottom
     line x loc=0.1 spac=0.05
@@ -64,9 +63,11 @@ proc HEMT_Struct { } {
     region HighK xlo=topT xhi=topGate ylo=DrainT yhi=right
 
     #gate layer
-    region Nitride xlo=topGate xhi=AlGaNTop ylo=left yhi=GateL
+    region Nitride xlo=topNit xhi=AlGaNTop ylo=left yhi=GateL
+    region HighK xlo=topGate xhi=topNit ylo=left yhi=GateL
     region Metal   xlo=topGate xhi=AlGaNTop ylo=GateL yhi=GateR
-    region Nitride xlo=topGate xhi=AlGaNTop ylo=GateR yhi=right
+    region Nitride xlo=topNit xhi=AlGaNTop ylo=GateR yhi=right    
+    region HighK xlo=topGate xhi=topNit ylo=GateR yhi=right
 
     #AlGaN GaN under gate
     region AlGaN xlo=AlGaNTop xhi=AlGaNBottom ylo=left yhi=right
