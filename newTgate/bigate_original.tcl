@@ -40,7 +40,7 @@ math diffuse dim=2 umf none col !scale
     line x loc= [expr -$Buffer] spac=0.001 tag=Ox
     line x loc=0.0 spac=0.001 tag=AlGaNTop
     line x loc=$Althick spac=0.001 tag=AlGaNBottom
-    line x loc=2.5 spac=0.1 tag=BBottom
+    line x loc=7.5 spac=0.1 tag=BBottom
 
     line y loc=-2.0 spac=0.02 tag=Left
     line y loc=-1.8 spac=0.05 tag=S1
@@ -76,7 +76,7 @@ math diffuse dim=2 umf none col !scale
 
     #Contacts
     contact name=G Metal xlo=-0.3 xhi=-0.15 ylo=[expr {$Gbl+$buf}] yhi=[expr {$Gbr-$buf}] add depth=1.0 width=1.0
-    contact name=B GaN xlo=2.4 xhi=2.6 ylo=-2.0 yhi=2.0 add depth=1.0 width=1.0
+    contact name=B GaN xlo=7.4 xhi=7.6 ylo=-2.0 yhi=2.0 add depth=1.0 width=1.0
     contact name=S AlGaN ylo=-2.0 yhi=-1.9 xlo=-0.7 xhi=0.01 add depth=1.0 width=1.0
     contact name=D AlGaN ylo=1.9 yhi=2.0 xlo=-0.7 xhi=0.01 add depth=1.0 width=1.0
 

@@ -6,13 +6,15 @@ proc run_measurements {ivCSV peakCSV label} {
     device
 
     set f [open $ivCSV w]
-    for {set g 0.05} {$g < 10.01} {set g [expr $g+0.1]} {
+
+    # Loop up from 0.05 to 10 (If we don't loop up before going back down we usually don't converge)
+    for {set g 0.05} {$g < 10.01} {set g [expr $g+0.5]} {
         contact name=G supply=$g
         device
         set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e3}]
     }
 
-    # Loop over gate voltage values from 0.0 down to -4.0 (approximately)
+    # Loop over gate voltage values from  10.0 down to -4.0 (approximately)
     # window row=1 col=2 make window declaration seperately to avoid new window for each run
     for {set g 10.0} {$g > -4.05} {set g [expr $g-0.1]} {
         contact name=G supply=$g
