@@ -22,7 +22,6 @@ set Gbr [expr {$Mid_Point + ($Gate_LengthB/2.0)}]
 
 #***Set AlGaN thickness and how thick the passivation nitride is****
 set Althick 0.015
-set Buffer 0.005
 
 pdbSetDouble Math iterLimit 800
 math device dim=2 col umf none scale
@@ -37,7 +36,6 @@ math diffuse dim=2 umf none col !scale
   
     line x loc=-0.2 spac=0.01 tag=Gwt
     line x loc=-0.1 spac=0.01 tag=Gwb
-    line x loc= [expr -$Buffer] spac=0.001 tag=Ox
     line x loc=0.0 spac=0.001 tag=AlGaNTop
     line x loc=$Althick spac=0.001 tag=AlGaNBottom
     line x loc=7.5 spac=0.1 tag=BBottom
@@ -66,11 +64,11 @@ math diffuse dim=2 umf none col !scale
     region Nitride xlo=Gwt xhi=Gwb ylo=Left yhi=sidewL
     region Nitride xlo=Gwt xhi=Gwb ylo=sidewR yhi=Right
 
-    region Nitride xlo=Gwb xhi=Ox ylo=Left yhi=sidenL
-    region Nitride xlo=Gwb xhi=Ox ylo=sidenR yhi=Right
+    region Nitride xlo=Gwb xhi=AlGaNTop ylo=Left yhi=sidenL
+    region Nitride xlo=Gwb xhi=AlGaNTop ylo=sidenR yhi=Right
 
-    region Nitride xlo=Ox xhi=AlGaNTop ylo=Left yhi=sidenL
-    region Nitride xlo=Ox xhi=AlGaNTop ylo=sidenR yhi=Right
+    #region Nitride xlo=Ox xhi=AlGaNTop ylo=Left yhi=sidenL
+    #region Nitride xlo=Ox xhi=AlGaNTop ylo=sidenR yhi=Right
 
     init 
 

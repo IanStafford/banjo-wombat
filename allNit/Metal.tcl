@@ -9,7 +9,7 @@ pdbSetDouble Metal DevPsi RelEps 1.0e12
 #set phiB 
 #per Ambacher et al, used by Heller, 1.3x+0.84, with x=0.26
 #set phiB 1.0
-set phiB 1.0255 
+set phiB 1.2255 
 # 1.4255 for fieldplate
 
 pdbSetString FP DevPsi Equation "([pdbDelayDouble AlGaN Elec Ec])+FP-$phiB"

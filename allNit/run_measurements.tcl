@@ -2,9 +2,11 @@ proc run_measurements {ivCSV peakCSV label} {
     # Source the provided Tcl file and the GaN model file
     Initialize
     device init
-    contact name=D supply=0.05
-    device
 
+    for {set d 0.0} {$d <10.05} {set d [expr $d+0.1]} {
+    contact name=D supply=$d
+    device
+    }
     set f [open $ivCSV w]
 
     # Loop over gate voltage values from  10.0 down to -4.0 (approximately)
