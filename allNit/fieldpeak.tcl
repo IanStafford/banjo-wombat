@@ -1,7 +1,7 @@
 source run_measurements.tcl
 
 
-source oops_all_nitride.tcl
+source tgate.tcl
 source GaN_modelfile_masterD
 pdbSetDouble Nitride DevPsi RelEps 6.3
 pdbSetDouble HighK DevPsi RelEps 6.3

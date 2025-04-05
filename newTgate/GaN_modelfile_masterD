@@ -49,7 +49,7 @@ HoleContinuity AlN
 
 
 #Add interface charge
-pdbSetString AlGaN_GaN DevPsi Equation "1.17e13"
+pdbSetString AlGaN_GaN DevPsi Equation "1.2e13"
 #pdbSetString AlGaN_GaN DevPsi Equation "-1*(1e13*log(AlN_Ratio)+3e13)"
 
 #Electrical Initial Conditions
