@@ -1,24 +1,22 @@
 source run_measurements.tcl
 
 
-source fieldplate.tcl
+source tgate_mod.tcl
 source GaN_modelfile_masterD
 pdbSetDouble Nitride DevPsi RelEps 6.3
-pdbSetDouble HighK DevPsi RelEps 6.3
 Initialize
 device init
 contact name=D supply=0.1
 window row=1 col=1
 
-run_measurements "null.csv" "null.csv" Fieldplate_All_Nit
+# run_measurements "tgate_Vt.csv" "null.csv" tgate
 
 
 source fieldplate_mod.tcl
 source GaN_modelfile_masterD
 pdbSetDouble Nitride DevPsi RelEps 6.3
-pdbSetDouble HighK DevPsi RelEps 35.0
 Initialize
 device
 contact name=D supply=0.1
 
-run_measurements "null.csv" "null.csv" Tgate_All_Nit
+run_measurements "fieldplate_Vt.csv" "null.csv" fieldplate
