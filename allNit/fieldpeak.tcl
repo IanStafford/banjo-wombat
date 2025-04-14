@@ -9,7 +9,7 @@ device init
 contact name=D supply=0.1
 window row=1 col=1
 
-# run_measurements "tgate_Vt.csv" "null.csv" tgate
+run_measurements "tgate_Vt.csv" "null.csv" tgate
 
 
 source fieldplate_mod.tcl
@@ -19,4 +19,4 @@ Initialize
 device
 contact name=D supply=0.1
 
-run_measurements "fieldplate_Vt.csv" "null.csv" fieldplate
+#run_measurements "fieldplate_Vt.csv" "null.csv" fieldplate
