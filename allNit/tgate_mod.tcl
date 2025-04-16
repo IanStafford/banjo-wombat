@@ -84,7 +84,7 @@ math diffuse dim=2 umf none col !scale
     contact name=S current=(Hole_GaN-Elec_GaN) voltage supply=0.0
       
     #GaN Doping-from Dessis file from Heller-acceptor-p-type
-    sel z=-2.0e15*Mater(GaN) name=GaN_Doping
+    sel z=-6.0e16*Mater(GaN) name=GaN_Doping
 
     #AlGaN Doping-from Dessis file from Heller-he puts equivalent donor and acceptor doping in region to signify traps
     sel z=1e12 name=AlGaN_Doping
