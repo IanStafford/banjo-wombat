@@ -5,7 +5,7 @@
 # ===============================================================================
 
 
-source fieldplate.tcl
+source fieldplate_mod.tcl
 source GaN_modelfile_masterD
 
 window row=1 col=1
@@ -20,13 +20,13 @@ set f [open "fpIV0" w]
 for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
     contact name=D supply=$d 
     device
-    set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e3}]
+    set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}]
     puts $f "$d, $cur"
     chart graph=IV curve="Vg=0" xval=$d yval=$cur leg.left
 }
 close $f
 
-source fieldplate.tcl
+source fieldplate_mod.tcl
 source GaN_modelfile_masterD
 
 Initialize
@@ -43,13 +43,13 @@ set f [open "fpIV1" w]
 for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
     contact name=D supply=$d 
     device
-    set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e3}]
+    set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}]
     puts $f "$d, $cur"
     chart graph=IV curve="Vg=-1" xval=$d yval=$cur leg.left
 }
 close $f
 
-source fieldplate.tcl
+source fieldplate_mod.tcl
 source GaN_modelfile_masterD
 
 Initialize
@@ -66,13 +66,13 @@ set f [open "fpIV2" w]
 for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
     contact name=D supply=$d 
     device
-    set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e3}]
+    set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}]
     puts $f "$d, $cur"
     chart graph=IV curve="Vg=-2" xval=$d yval=$cur leg.left
 }
 close $f
 
-source fieldplate.tcl
+source fieldplate_mod.tcl
 source GaN_modelfile_masterD
 
 Initialize
@@ -89,13 +89,13 @@ set f [open "fpIV3" w]
 for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
     contact name=D supply=$d 
     device
-    set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e3}]
+    set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}]
     puts $f "$d, $cur"
     chart graph=IV curve="Vg=-3" xval=$d yval=$cur leg.left
 }
 close $f
 
-source fieldplate.tcl
+source fieldplate_mod.tcl
 source GaN_modelfile_masterD
 
 Initialize
@@ -112,7 +112,7 @@ set f [open "fpIV4" w]
 for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
     contact name=D supply=$d 
     device
-    set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e3}]
+    set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}]
     puts $f "$d, $cur"
     chart graph=IV curve="Vg=-4" xval=$d yval=$cur leg.left
 }
