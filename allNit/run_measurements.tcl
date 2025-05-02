@@ -3,8 +3,8 @@ proc run_measurements {ivCSV peakCSV label} {
     Initialize
     device init
 
-    if {0} {
-    for {set d 0.0} {$d <10.05} {set d [expr $d+0.5]} {
+    if {1} {
+    for {set d 0.0} {$d <6.05} {set d [expr $d+0.5]} {
     contact name=D supply=$d
     device
     }
@@ -23,7 +23,7 @@ proc run_measurements {ivCSV peakCSV label} {
     close $f
     }
 
-    if {1} {
+    if {0} {
     for {set g 0.0} {$g <-4.0} {set d [expr $g-0.5]} {
         contact name=G supply=$g
         device

@@ -7,7 +7,7 @@ pdbSetDouble Metal Temp DampValue 10.0
 pdbSetDouble Metal DevPsi RelEps 1.0e12
 
 #set phiB 
-#per Ambacher et al, used by Heller, 1.3x+0.84, with x=0.26
+#per Ambacher et al, used by Heller, 1.3x+0.84, with x=0.22
 #set phiB 1.126
 set phiB 1.23
 # 1.2255 initially
