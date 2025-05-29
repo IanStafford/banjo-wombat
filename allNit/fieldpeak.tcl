@@ -11,7 +11,7 @@ contact name=D supply=0.1
 run_measurements "tgate_Vt.csv" "tgate_peakField.csv" tgate
 }
 
-if {0} {
+if {1} {
 source fieldplate_mod.tcl
 source GaN_modelfile_masterD
 Initialize
@@ -21,7 +21,7 @@ contact name=D supply=0.1
 run_measurements "fieldplate_Vt.csv" "fieldplate_peakField.csv" fieldplate
 }
 
-if {1} {
+if {0} {
 source fieldplate_ox.tcl
 source GaN_modelfile_masterD
 Initialize
