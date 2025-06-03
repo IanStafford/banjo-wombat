@@ -9,7 +9,7 @@ mater add name=SiC
     pdbSetDouble SiC DevPsi RelEps 9.6
 
     #set SiC electron affinity
-    pdbSetDouble SiC Affinity 3.
+    pdbSetDouble SiC Affinity 3.0
 
     #set SiC bandgap
     pdbSetDouble SiC Eg "3.2-((3.3e-2*Temp*Temp)/(1.0e5+Temp))"

@@ -104,7 +104,7 @@ proc HEMT_Struct { } {
 
      #Total doping
     sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping name=Doping
-    sel z=0.20 name=AlN_Ratio
+    sel z=0.22 name=AlN_Ratio
 }
 HEMT_Struct 
 
