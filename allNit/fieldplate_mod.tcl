@@ -16,7 +16,7 @@ set SourceT 0.1
 set DrainT 0.15
 set FP2 0.8
 
-set AlThick 0.015
+set AlThick 0.015 ;# 13nm AlGaN thickness
 
 proc HEMT_Struct { } {
     global Gate_Length AlThick SourceGate SourceT DrainGate DrainT FP2
@@ -91,7 +91,7 @@ proc HEMT_Struct { } {
       
     #doping definition-will use method from pfmos_qf deck for simplicity
     #GaN Doping-from Dessis file from Heller-acceptor-p-type
-    sel z=-5.0e17*Mater(GaN) name=GaN_Doping
+    sel z=-5.0e15*Mater(GaN) name=GaN_Doping
 
     #AlGaN Doping-from Dessis file from Heller-he puts equivalent donor and acceptor doping in region to signify traps
     sel z=1e12 name=AlGaN_Doping

@@ -16,7 +16,7 @@ set SourceT 0.1
 set DrainT 0.15
 set FP2 0.8
 
-set AlThick 0.015
+set AlThick 0.012 ;# 13nm AlGaN thickness
 
 proc HEMT_Struct { } {
     global Gate_Length AlThick SourceGate SourceT DrainGate DrainT FP2
@@ -95,7 +95,7 @@ proc HEMT_Struct { } {
     sel z=-2.0e14*Mater(GaN) name=GaN_Doping
 
     #AlGaN Doping-from Dessis file from Heller-he puts equivalent donor and acceptor doping in region to signify traps
-    sel z=1e6 name=AlGaN_Doping
+    sel z=1e12 name=AlGaN_Doping
 
     #Source and Drain contact doping-from contact to 2DEG like Heller-just to make contacts ohmic
     set le [expr $Gtl-$SourceGate]

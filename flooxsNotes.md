@@ -340,4 +340,40 @@ Intermediate expressions:
 - $D_{\text{rel}} = \left( \frac{N_D + 1}{T_{N_{\text{ref}}}} \right)^{\alpha}$  
 - $\mu_{\text{low-field}} = T_{\mu_{\text{min}}} + \frac{T_{\mu_{\text{max}}} - T_{\mu_{\text{min}}}}{1 + D_{\text{rel}}}$  
 ---
+# Research Notes and Goals
+insert overarching goal statement here
 
+## 6/3/2025
+The current goal is to match the fieldplate structure to the experimental data, get TRIM working, quantify the effects on $I_{\text{off}}$ with the gate nitride structure, and a literature review on simulating radiation effects on GaN HEMTs.
+
+**Matching to experimental**
+Currently the fieldplate structure with the is close to REF, I need to slightly shift the threshold voltage and reduce the slope of the $V_{GS}\text{ vs. }I_{D}$ curve at $V_{\text{GS}}=10V$ 
+
+
+**Test Parameters**
+These are only for the transistor with no gate nitride.
+
+| $\Phi_B$ | Doping (GaN) | Al Ratio | Interface Charge |                                                                                        Notes                                                                                        |
+| :------: | :----------: | :------: | :--------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|   1.35   |   -5.0e17    |   0.22   |     1.486e13     |                                                                 Threshold voltage close. Slope still slightly high                                                                  |
+|   1.5    |   -5.0e16    |   0.22   |     1.486e13     |                                                          Current way too high, slope too steep, threshold voltage too high                                                          |
+|   1.5    |   -5.0e16    |   0.22   |     1.060e13     |                                              Threshold voltage too low (in magnitude) current in correct realm, slope still too steep.                                              |
+|   1.5    |   -5.0e16    |   0.22   |     1.200e13     |                                            Threshold voltage is like exact, but now the slope is too steep and the current is too high.                                             |
+|   1.5    |   -5.0e15    |   0.22   |     1.060e13     |                                                                             Same problems as last time                                                                              |
+|   1.5    |   -5.0e15    |   0.18   |     1.060e13     |                                                                                   Didn't converge                                                                                   |
+|   1.5    |   -5.0e15    |   0.21   |     1.060e13     |                                                         Didn't seem to do as much. Maybe some critical threshold near 0.22?                                                         |
+|   1.6    |   -5.0e15    |   0.20   |     1.060e13     |                                                           Didn't do too much again. Going to look for other alternatives                                                            |
+|   1.6    |   -5.0e15    |   0.15   |     1.060e13     |                                                                            Started bringing current down                                                                            |
+|   1.6    |   -5.0e15    |   0.20   |     1.060e13     | Reduced AlGaN thickness to 12nm. Turnoff way too soon now but current in the right regime. Thinking variation in AlGaN thickness can explain high variation in threshold voltage... |
+|   1.6    |   -5.0e15    |   0.20   |     1.060e13     | Reduced AlGaN thickness to 13nm. Turnoff way too soon now but current in the right regime. Thinking variation in AlGaN thickness can explain high variation in threshold voltage... |
+|   1.6    |   -5.0e15    |   0.20   |     1.060e13     |      Reduced AlGaN thickness to 14nm. Turnoff almost right but now current too high. Thinking variation in AlGaN thickness can explain high variation in threshold voltage...       |
+|   1.6    |   -5.0e14    |   0.20   |     1.060e13     |                                   Keeping 13nm AlGaN. Threshold voltage too High and current too high. want to get doping into reasonable range.                                    |
+|   1.6    |   -5.0e14    |   0.25   |     1.060e13     |                                                            Transistor doesnt full turn off now and current way too high.                                                            |
+|   1.23   |   -5.0e14    |   0.22   |     1.060e13     |                                                     Threshold voltage perfect. current too high. contact resistance fix it????                                                      |
+
+*Suggestions*
+- Wait for contact resistance to show up and change the slope of the curve????
+- Ask for help
+
+**Gate Nitride**
+Dr. Law proposed that the transistor may have a thin layer of SiN between the AlGaN and the gate, I implemented this but the transistor was a 2 for 1 special and behaved like a PMOS and HEMT. So I am trying to sort that out. I've reduced the channel charge to a point where it wont converge any longer. I am going to try thinning out the nitride layer so that the gate field can deplete the channel faster than it can attract holes.
