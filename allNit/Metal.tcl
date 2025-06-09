@@ -9,7 +9,8 @@ pdbSetDouble Metal DevPsi RelEps 1.0e12
 #set phiB 
 #per Ambacher et al, used by Heller, 1.3x+0.84, with x=0.22
 set phiB 1.126
-#set phiB 1.23
+set phiB 1.23
+#set phiB 1.8
 # 1.2255 initially
 # with AlN ratio of 0.22 we have theoretical value of 1.126
 

@@ -9,14 +9,14 @@ mater add name=HighK alias=highk
 mater add name=HighK alias=Highk
 
 math diffuse dim=2 umf none col !scale 
-set Gate_Length 0.25
+set Gate_Length 0.2
 set SourceGate 1.0
 set DrainGate 3.5
 set SourceT 0.1
 set DrainT 0.15
 set FP2 0.8
 
-set AlThick 0.015 ;# 13nm AlGaN thickness
+set AlThick 0.015 ;# 15nm AlGaN thickness
 
 proc HEMT_Struct { } {
     global Gate_Length AlThick SourceGate SourceT DrainGate DrainT FP2

@@ -377,3 +377,5 @@ These are only for the transistor with no gate nitride.
 
 **Gate Nitride**
 Dr. Law proposed that the transistor may have a thin layer of SiN between the AlGaN and the gate, I implemented this but the transistor was a 2 for 1 special and behaved like a PMOS and HEMT. So I am trying to sort that out. I've reduced the channel charge to a point where it wont converge any longer. I am going to try thinning out the nitride layer so that the gate field can deplete the channel faster than it can attract holes.
+
+localized field plate to gate and gate to channel
