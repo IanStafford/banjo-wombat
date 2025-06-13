@@ -28,7 +28,7 @@ proc InsPoisson {Mat} {
     pdbSetDouble $Mat DevPsi DampValue $VtRoom
     pdbSetDouble $Mat DevPsi Abs.Error 1.0e-2
     pdbSetDouble $Mat DevPsi Rel.Error 1.0e-2
-    set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q)" 
+    set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping" 
     pdbSetString $Mat DevPsi Equation $eqn
 }
 

@@ -379,3 +379,22 @@ These are only for the transistor with no gate nitride.
 Dr. Law proposed that the transistor may have a thin layer of SiN between the AlGaN and the gate, I implemented this but the transistor was a 2 for 1 special and behaved like a PMOS and HEMT. So I am trying to sort that out. I've reduced the channel charge to a point where it wont converge any longer. I am going to try thinning out the nitride layer so that the gate field can deplete the channel faster than it can attract holes.
 
 localized field plate to gate and gate to channel
+
+## 6/11/25
+We got data from Dr. Anderson and we are trying to model 2 main phenomena now.
+
+**High drain stress during irradiation causes an off-state current change, but not necessarily a threshold voltage shift**
+
+**High gate stress during irradiation causes gate leakage at a certain drain bias**
+
+These two phenomena can explain the behavior in the first round of tested devices. It could potentially be the same phenomena showing up different ways in the measurements. We are trying to explain this phenomenon by importing a lateral gaussian of doping (or really just charge density) to show a current path between the gate and the drain, or the gate and the source. We assume the mechanism of damage is field related, as we see the devices under heavy S-D stress have drain leakage, and we theorize that the devices under heavy gate stress have high gate leakages. More on that later.
+
+Adding a $10^{18}$ doping in a Gaussian distribution to the GaN didn't do too much. Going to mess around with the insulator Poisson and see if I can incorporate charge into the insulator instead of the GaN or the AlGaN.
+
+## 6/12/25
+We can create a continuity equation for the SiN potentially and throw some charge in the insulator and potentially create a pseudo-diode model
+
+It would require significant reworking of how FLOOXS handles insulators as we make assumptions about no charge transport in insulators
+
+
+

@@ -171,6 +171,9 @@
   },
   "active": "b74d6d5578da27d8",
   "lastOpenFiles": [
+    "allNit/fieldplate_rad_Vt.csv",
+    "allNit/fieldplate.tcl",
+    "allNit/bigate.tcl",
     "allNit/fieldplate_wrap.tcl",
     "allNit/transfer.tcl",
     "flooxsNotes.md"

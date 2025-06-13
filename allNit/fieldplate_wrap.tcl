@@ -6,7 +6,7 @@ mater add name=AlGaN
 mater add name=HighK
 mater add name=Metal
 
-math diffuse dim=2 umf none col !scale 
+#math diffuse dim=2 umf none col scale 
 
 set Gate_Length 0.25
 set Gate_Height 0.1
@@ -35,24 +35,24 @@ proc HEMT { } {
 
     # Lines
     line x loc=[expr {0.0-$SiNThick}] spac=0.025 tag=Top
-    line x loc=[expr {0.0-$Gate_Height-$THeight-$FP_Gap-$FP_Height}] spac=0.025 tag=TopPlate
-    line x loc=[expr {0.0-$Gate_Height-$THeight-$FP_Gap}] spac=0.025 tag=BottomPlate
-    line x loc=[expr {0.0-$Gate_Height-$THeight}] spac=0.025 tag=TopT
-    line x loc=[expr {0.0-$Gate_Height}] spac=0.025 tag=TopGate
-    line x loc=[expr {0.0-$Gate_Height-$THeight-$FP_Gap+$FP_Width}] spac=0.025 tag=BottomPlate2
-    line x loc=0.0 spac=0.025 tag = BottomGate
+    line x loc=[expr {0.0-$Gate_Height-$THeight-$FP_Gap-$FP_Height}] spac=0.01 tag=TopPlate
+    line x loc=[expr {0.0-$Gate_Height-$THeight-$FP_Gap}] spac=0.01 tag=BottomPlate
+    line x loc=[expr {0.0-$Gate_Height-$THeight}] spac=0.01 tag=TopT
+    line x loc=[expr {0.0-$Gate_Height}] spac=0.01 tag=TopGate
+    line x loc=[expr {0.0-$Gate_Height-$THeight-$FP_Gap+$FP_Width}] spac=0.01 tag=BottomPlate2
+    line x loc=0.0 spac=0.005 tag=BottomGate
     line x loc=$AlGaNThick spac=0.001 tag=AlGaNBottom
     line x loc=0.1 spac=0.05 tag=BulkBottom
     line x loc=$Bottom spac=0.25 tag=Bottom
 
     line y loc=[expr {$Gate_Left - $Source_Gate}] spac=0.025 tag=Left
-    line y loc=[expr {$Gate_Left - $SourceTLength}] spac=0.025 tag=SourceT
+    line y loc=[expr {$Gate_Left - $SourceTLength}] spac=0.005 tag=SourceT
     line y loc=$Gate_Left spac=0.001 tag=LeftGate
     line y loc=$Gate_Right spac=0.001 tag=RightGate
-    line y loc=[expr {$Gate_Right + $DrainTLength}] spac=0.025 tag=DrainT
-    line y loc=[expr {$Gate_Right + $DrainTLength + $FP_Gap}] spac=0.025 tag=LeftPlate2
-    line y loc=[expr {$Gate_Right + $FP_Gap + $FP_Width}] spac=0.025 tag=RightPlate
-    line y loc=[expr {$Gate_Right+$DrainTLength + $FP_Gap + $FP_Height}] spac=0.025 tag=RightPlate2
+    line y loc=[expr {$Gate_Right + $DrainTLength}] spac=0.005 tag=DrainT
+    line y loc=[expr {$Gate_Right + $DrainTLength + $FP_Gap}] spac=0.005 tag=LeftPlate2
+    line y loc=[expr {$Gate_Right + $FP_Gap + $FP_Width}] spac=0.005 tag=RightPlate
+    line y loc=[expr {$Gate_Right+$DrainTLength + $FP_Gap + $FP_Height}] spac=0.005 tag=RightPlate2
     line y loc=[expr {$Gate_Right + $Drain_Gate}] spac=0.025 tag=Right
 
     # Regions
@@ -61,7 +61,7 @@ proc HEMT { } {
 
     # Nitride on left and right of plate 1, and plate 1 metal
     region Nitride xlo=TopPlate xhi=BottomPlate ylo=Left yhi=RightGate
-    region Metal xlo=TopPlate xhi=BottomPlate ylo=RightGate yhi=RightPlate
+    region Metal xlo=TopPlate xhi=BottomPlate ylo=RightGate yhi=RightPlate2
     region Nitride xlo=TopPlate xhi=BottomPlate ylo=RightPlate yhi=Right
 
     

@@ -9,17 +9,17 @@ mater add name=HighK alias=highk
 mater add name=HighK alias=Highk
 
 math diffuse dim=2 umf none col !scale 
-set Gate_Length 0.25
+set Gate_Length 0.2
 set SourceGate 1.0
 set DrainGate 3.5
 set SourceT 0.1
 set DrainT 0.15
 set FP2 0.8
 
-set AlThick 0.015
+set AlThick 0.015 ;# 15nm AlGaN thickness
 
 proc HEMT_Struct { } {
-    global Gate_Length AlThick SourceGate SourceT DrainGate DrainT FP2
+    global Gate_Length AlThick SourceGate SourceT DrainGate DrainT FP2 radTest
 
     #Structure definition (AlGaN is 25nm thick.It is below the critical thickness for relaxation ~65nm Ambacher)
     set Mid_Point 0.0
@@ -76,22 +76,23 @@ proc HEMT_Struct { } {
 
     #Contacts
     contact name=FP Metal xlo=[expr -0.4-$buf] xhi=[expr -0.4+$buf] ylo=[expr $Gtr] yhi=[expr $Gtr+$FP2] add depth=1.0 width=1.0
-    contact name=G Metal xlo=[expr -0.15-$buf] xhi=[expr -0.15+$buf] ylo=[expr $Gtl] yhi=[expr $Gtr] add depth=1.0 width=1.0
+    #contact name=G Metal xlo=[expr -0.15-$buf] xhi=[expr -0.15+$buf] ylo=[expr $Gtl] yhi=[expr $Gtr] add depth=1.0 width=1.0
+    contact name=G AlGaN xlo=[expr 0.0-$buf] xhi=0.001 ylo=[expr $Gtl+$buf] yhi=[expr $Gtr-$buf] add depth=1.0 width=1.0
     set l [expr $Gtl-$SourceGate-0.125] 
     contact name=S AlGaN ylo=[expr $l-$buf] yhi=[expr $l+$buf] xlo=[expr 0.0-$buf] xhi=[expr $AlThick-$buf] add depth=1.0 width=1.0
     set r [expr $Gtr+$DrainGate+0.125]
     contact name=D AlGaN ylo=[expr $r-$buf] yhi=[expr $r+$buf] xlo=[expr 0.0-$buf] xhi=[expr $AlThick-$buf] add depth=1.0 width=1.0
     contact name=B GaN xlo=[expr $bot-$buf]  xhi=[expr $bot+$buf] ylo=$l yhi=$r add depth=1.0 width=1.0
 
-    contact name=G voltage supply=0.0
-    contact name=B voltage supply=0.0
-    contact name=D voltage supply=0.0
-    contact name=S voltage supply=0.0
+    contact name=G current=(Hole_AlGaN-Elec_AlGaN) voltage supply=0.0
+    contact name=B current=(Hole_GaN-Elec_GaN) voltage supply=0.0
+    contact name=D current=(Hole_GaN-Elec_GaN) voltage supply=0.0
+    contact name=S current=(Hole_GaN-Elec_GaN) voltage supply=0.0
     contact name=FP voltage supply=0.0
       
     #doping definition-will use method from pfmos_qf deck for simplicity
     #GaN Doping-from Dessis file from Heller-acceptor-p-type
-    sel z=-6.0e16*Mater(GaN) name=GaN_Doping
+    sel z=-4e15*Mater(GaN)*(x>0.1) name=GaN_Doping
 
     #AlGaN Doping-from Dessis file from Heller-he puts equivalent donor and acceptor doping in region to signify traps
     sel z=1e12 name=AlGaN_Doping
@@ -102,8 +103,23 @@ proc HEMT_Struct { } {
     sel z=(1e19*(y>$re)+(y<=$re)*1.0e19*exp(-(y-$re)*(y-$re)/(1.5*0.02*0.02)))*(exp(-(x*x)/(2.0*0.03*0.03)))*(x>=0.0) name=Drain_Doping
     sel z=(1e19*(y<$le)+(y>=$le)*1.0e19*exp(-(y-$le)*(y-$le)/(1.5*0.02*0.02)))*(exp(-(x*x)/(2.0*0.03*0.03)))*(x>=0.0) name=Source_Doping
 
-     #Total doping
-    sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping name=Doping
+    # Gaussian distribution for single event charge deposition
+    set sigma 0.01
+    set mean 0.0
+    if {$radTest} {
+        sel z=1e18*exp(-((x-$mean)*(x-$mean)+(y-$mean)*(y-$mean))/(2.0*$sigma*$sigma))*Mater(GaN) name=Rad_Doping
+        window row=1 col=1
+        plot2d
+        sel z=1e18*exp(-((x-$mean)*(x-$mean)+(y-$mean)*(y-$mean))/(2.0*$sigma*$sigma))*Mater(AlGaN) name=AlGaN_Rad_Doping
+    } else {
+        sel z=0.0 name=Rad_Doping
+        sel z=0.0 name=AlGaN_Rad_Doping
+    }
+    
+    
+
+    #Total doping
+    sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping+Rad_Doping+AlGaN_Rad_Doping name=Doping
     sel z=0.22 name=AlN_Ratio
 }
 HEMT_Struct 
