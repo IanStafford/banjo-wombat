@@ -18,7 +18,7 @@ source GaN_modelfile_masterD
 run_measurements "fieldplate_Vt.csv" "fieldplate_peakField.csv" fieldplate
 }
 
-if {0} {
+if {1} {
 source fieldplate_ox.tcl
 source GaN_modelfile_masterD
 Initialize
@@ -38,7 +38,7 @@ contact name=D supply=0.1
 run_measurements "fieldplate_wrap_Vt.csv" "fieldplate_wrap_peakField.csv" fieldplate_wrap
 }
 
-if {1} {
+if {0} {
 set radTest 0
 source fieldplate.tcl
 source GaN_modelfile_masterD

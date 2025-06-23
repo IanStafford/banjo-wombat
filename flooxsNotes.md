@@ -341,7 +341,7 @@ Intermediate expressions:
 - $\mu_{\text{low-field}} = T_{\mu_{\text{min}}} + \frac{T_{\mu_{\text{max}}} - T_{\mu_{\text{min}}}}{1 + D_{\text{rel}}}$  
 ---
 # Research Notes and Goals
-insert overarching goal statement here
+Until August 20th, we are trying to model and explain the phenomena that appears in the HEMT devices from MACOM that were irradiated by NASA scientists.
 
 ## 6/3/2025
 The current goal is to match the fieldplate structure to the experimental data, get TRIM working, quantify the effects on $I_{\text{off}}$ with the gate nitride structure, and a literature review on simulating radiation effects on GaN HEMTs.
@@ -395,6 +395,16 @@ Adding a $10^{18}$ doping in a Gaussian distribution to the GaN didn't do too mu
 We can create a continuity equation for the SiN potentially and throw some charge in the insulator and potentially create a pseudo-diode model
 
 It would require significant reworking of how FLOOXS handles insulators as we make assumptions about no charge transport in insulators
+
+## 6/18/25 Ideas
+Studies show that when Bi impacts on the gate there is a massive threshold voltage shift. This is not good for matching the experimental data, and we can deduce that the ions do not penetrate the whole gate directly. Due to the fields the device experiences under heavy DC bias, the Bi ion likely gets swept away. Maybe to the drain region? Modelling filaments will involve inserting material strips/regions with higher conductivity or traps. It will likely span down into the GaN buffer, or at least we assume so due to TRIM plots. We implement defect characteristics potential. We can interrupt the heterojunction with a spatially confined interface charge. Will learn more about where the current is going soon.
+
+Try putting GaN in the new regions and dope it heavily.
+
+## New idea
+What if there is a virtual gate forming from traps caused by the strike path of the heavy ion? The fluences are low but really are of no consequence. We can find a model for vacancies produced by a single ion strike, throw them into a deck and see if the drain-> source field is producing such a virtual gate by flooding the traps with more charge than the gate can repel.
+
+
 
 
 
