@@ -29,8 +29,8 @@ proc HEMT_Struct { } {
     set bot 7.5
     line x loc=-0.5 spac=0.025 tag=toptop
     line x loc=-0.4 spac=0.025 tag=top
-    line x loc=-0.3 spac=0.025 tag=topIns
-    line x loc=-0.15 spac=0.025 tag=topT
+    line x loc=-0.3 spac=0.005 tag=topIns
+    line x loc=-0.15 spac=0.005 tag=topT
     line x loc=-0.10 spac=0.025 tag=topGate
     line x loc=0.0 spac=0.001 tag=AlGaNTop
     line x loc=$AlThick spac=0.001 tag=AlGaNBottom
@@ -39,8 +39,9 @@ proc HEMT_Struct { } {
 
     line y loc=[expr $Gtl-$SourceGate-0.125] spac=0.05 tag=left
     line y loc=[expr $Gtl-$SourceT] spac=0.03 tag=SourceT
-    line y loc=[expr $Gtl] spac=0.025 tag=GateL
-    line y loc=[expr $Gtr] spac=0.01 tag=GateR
+    line y loc=[expr $Gtl] spac=0.01 tag=GateL
+    line y loc=[expr $Gtr] spac=0.005 tag=GateR
+    line y loc=[expr $Gtr+0.04] spac=0.005 tag=StrikeRight
     line y loc=[expr $Gtr+$DrainT] spac=0.01 tag=DrainT
     line y loc=[expr $Gtr+$FP2] spac=0.02 tag=FP2
     line y loc=[expr $Gtr+$DrainGate] spac=0.05 
@@ -53,8 +54,10 @@ proc HEMT_Struct { } {
     region Metal xlo=top xhi=topIns ylo=GateR yhi=FP2
     region Nitride xlo=top xhi=topIns ylo=FP2 yhi=right
 
-    #buffer between field plate and top of T gate
-    region Nitride xlo=topIns xhi=topT ylo=left yhi=right
+    #buffer between field plate and top of T gate AND ION STRIKE PATH
+    region Nitride xlo=topIns xhi=topT ylo=left yhi=GateR
+    region GaN xlo=topIns xhi=topT ylo=GateR yhi=StrikeRight
+    region Nitride xlo=topIns xhi=topT ylo=StrikeRight yhi=right
 
     #t gate layer
     region Nitride xlo=topT xhi=topGate ylo=left yhi=SourceT
@@ -77,7 +80,7 @@ proc HEMT_Struct { } {
     #Contacts
     contact name=FP Metal xlo=[expr -0.4-$buf] xhi=[expr -0.4+$buf] ylo=[expr $Gtr] yhi=[expr $Gtr+$FP2] add depth=1.0 width=1.0
     #contact name=G Metal xlo=[expr -0.15-$buf] xhi=[expr -0.15+$buf] ylo=[expr $Gtl] yhi=[expr $Gtr] add depth=1.0 width=1.0
-    contact name=G AlGaN xlo=[expr 0.0-$buf] xhi=0.001 ylo=[expr $Gtl+$buf] yhi=[expr $Gtr-$buf] add depth=1.0 width=1.0
+    contact name=G Metal xlo=-$buf xhi=[expr 0.0+$buf] ylo=[expr $Gtl+$buf] yhi=[expr $Gtr-$buf] add depth=1.0 width=1.0
     set l [expr $Gtl-$SourceGate-0.125] 
     contact name=S AlGaN ylo=[expr $l-$buf] yhi=[expr $l+$buf] xlo=[expr 0.0-$buf] xhi=[expr $AlThick-$buf] add depth=1.0 width=1.0
     set r [expr $Gtr+$DrainGate+0.125]
@@ -93,6 +96,7 @@ proc HEMT_Struct { } {
     #doping definition-will use method from pfmos_qf deck for simplicity
     #GaN Doping-from Dessis file from Heller-acceptor-p-type
     sel z=-4e15*Mater(GaN)*(x>0.1) name=GaN_Doping
+    sel z=1e19*Mater(GaN)*(x<=0) name=Strike_Doping
 
     #AlGaN Doping-from Dessis file from Heller-he puts equivalent donor and acceptor doping in region to signify traps
     sel z=1e12 name=AlGaN_Doping
@@ -103,23 +107,12 @@ proc HEMT_Struct { } {
     sel z=(1e19*(y>$re)+(y<=$re)*1.0e19*exp(-(y-$re)*(y-$re)/(1.5*0.02*0.02)))*(exp(-(x*x)/(2.0*0.03*0.03)))*(x>=0.0) name=Drain_Doping
     sel z=(1e19*(y<$le)+(y>=$le)*1.0e19*exp(-(y-$le)*(y-$le)/(1.5*0.02*0.02)))*(exp(-(x*x)/(2.0*0.03*0.03)))*(x>=0.0) name=Source_Doping
 
-    # Gaussian distribution for single event charge deposition
-    set sigma 0.01
-    set mean 0.0
-    if {$radTest} {
-        sel z=1e18*exp(-((x-$mean)*(x-$mean)+(y-$mean)*(y-$mean))/(2.0*$sigma*$sigma))*Mater(GaN) name=Rad_Doping
-        window row=1 col=1
-        plot2d
-        sel z=1e18*exp(-((x-$mean)*(x-$mean)+(y-$mean)*(y-$mean))/(2.0*$sigma*$sigma))*Mater(AlGaN) name=AlGaN_Rad_Doping
-    } else {
-        sel z=0.0 name=Rad_Doping
-        sel z=0.0 name=AlGaN_Rad_Doping
-    }
+
     
     
 
     #Total doping
-    sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping+Rad_Doping+AlGaN_Rad_Doping name=Doping
+    sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping+Strike_Doping name=Doping
     sel z=0.22 name=AlN_Ratio
 }
 HEMT_Struct 

@@ -1,5 +1,6 @@
 source run_measurements.tcl
 window row=1 col=1
+set radTest 0
 
 if {0} {
 source tgate_mod.tcl
@@ -18,7 +19,7 @@ source GaN_modelfile_masterD
 run_measurements "fieldplate_Vt.csv" "fieldplate_peakField.csv" fieldplate
 }
 
-if {1} {
+if {0} {
 source fieldplate_ox.tcl
 source GaN_modelfile_masterD
 Initialize
@@ -38,6 +39,7 @@ contact name=D supply=0.1
 run_measurements "fieldplate_wrap_Vt.csv" "fieldplate_wrap_peakField.csv" fieldplate_wrap
 }
 
+
 if {0} {
 set radTest 0
 source fieldplate.tcl
@@ -48,4 +50,14 @@ set radTest 1
 source fieldplate.tcl
 source GaN_modelfile_masterD
 run_measurements "fieldplate_rad_Vt.csv" "fieldplate_rad_peakField.csv" fieldplate_rad
+}
+
+if {1} {
+source fieldplate_strike.tcl
+source GaN_modelfile_masterD
+Initialize
+device
+contact name=D supply=0.1
+
+run_measurements "fieldplate_strike_Vt.csv" "fieldplate_strike_peakField.csv" fieldplate_wrap
 }

@@ -2,8 +2,8 @@ proc Poisson {Mat} {
     global VtRoom k q eps0
 
     pdbSetDouble $Mat DevPsi DampValue $VtRoom
-    pdbSetDouble $Mat DevPsi Abs.Error 1.0e-2
-    pdbSetDouble $Mat DevPsi Rel.Error 1.0e-2
+    pdbSetDouble $Mat DevPsi Abs.Error 1.0e-1
+    pdbSetDouble $Mat DevPsi Rel.Error 1.0e-1
 
     set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping - Elec + Hole"
     pdbSetString $Mat DevPsi Equation $eqn
