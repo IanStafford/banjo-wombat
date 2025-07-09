@@ -1,6 +1,5 @@
 source run_measurements.tcl
 window row=1 col=1
-set radTest 0
 
 if {0} {
 source tgate_mod.tcl
@@ -40,7 +39,7 @@ run_measurements "fieldplate_wrap_Vt.csv" "fieldplate_wrap_peakField.csv" fieldp
 }
 
 
-if {0} {
+if {1} {
 set radTest 0
 source fieldplate.tcl
 source GaN_modelfile_masterD
@@ -52,7 +51,7 @@ source GaN_modelfile_masterD
 run_measurements "fieldplate_rad_Vt.csv" "fieldplate_rad_peakField.csv" fieldplate_rad
 }
 
-if {1} {
+if {0} {
 source fieldplate_strike.tcl
 source GaN_modelfile_masterD
 Initialize

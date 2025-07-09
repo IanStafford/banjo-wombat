@@ -103,15 +103,13 @@ proc HEMT_Struct { } {
     sel z=(1e19*(y>$re)+(y<=$re)*1.0e19*exp(-(y-$re)*(y-$re)/(1.5*0.02*0.02)))*(exp(-(x*x)/(2.0*0.03*0.03)))*(x>=0.0) name=Drain_Doping
     sel z=(1e19*(y<$le)+(y>=$le)*1.0e19*exp(-(y-$le)*(y-$le)/(1.5*0.02*0.02)))*(exp(-(x*x)/(2.0*0.03*0.03)))*(x>=0.0) name=Source_Doping
 
-    # Gaussian distribution for single event charge deposition
-    set sigma 0.01
-    set mean 0.0
-    set radTest 1
+    # Gaussian distribution for single event charge deposition centered at x=0, y=Gtr
+    set sigma 0.025   ;# ~30nm falloff (FWHM)
+    set mean_x 0.0
+    set mean_y $Gtr
     if {$radTest} {
-        sel z=1e18*exp(-((x-$mean)*(x-$mean)+(y-$mean)*(y-$mean))/(2.0*$sigma*$sigma))*Mater(GaN) name=Rad_Doping
-        window row=1 col=1
-        plot2d
-        sel z=1e18*exp(-((x-$mean)*(x-$mean)+(y-$mean)*(y-$mean))/(2.0*$sigma*$sigma))*Mater(AlGaN) name=AlGaN_Rad_Doping
+        sel z=1e19*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))*Mater(GaN) name=Rad_Doping
+        sel z=1e19*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))*Mater(AlGaN) name=AlGaN_Rad_Doping
     } else {
         sel z=0.0 name=Rad_Doping
         sel z=0.0 name=AlGaN_Rad_Doping
@@ -123,5 +121,5 @@ proc HEMT_Struct { } {
     sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping+Rad_Doping+AlGaN_Rad_Doping name=Doping
     sel z=0.22 name=AlN_Ratio
 }
-HEMT_Struct 
+HEMT_Struct
 
