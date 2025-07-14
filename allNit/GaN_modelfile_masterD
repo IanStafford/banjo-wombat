@@ -25,13 +25,20 @@ solution add name=Temp const val=300.0
 
 #electrical domain
 
-#solution add name=DevPsi solve negative damp continuous
+solution add name=DevPsi solve negative damp continuous
 solution add name=Qfp solve negative damp continuous
 solution add name=Qfn solve negative damp continuous
 
 source Poisson.tcl
-Poisson GaN
-Poisson AlGaN
+if {$donkey} {
+    PoissonAcceptorTrap GaN 1e18 2.1
+    PoissonAcceptorTrap AlGaN 1e18 2.1
+} else {
+    Poisson GaN
+    Poisson AlGaN
+}
+
+
 InsPoisson Metal
 InsPoisson Nitride
 InsPoisson Oxide

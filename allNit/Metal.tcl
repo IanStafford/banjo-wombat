@@ -2,7 +2,7 @@ mater add name=Metal
 
 pdbSetDouble Metal Temp Abs.Error 0.1
 pdbSetDouble Metal Temp Rel.Error 1.0e-2
-pdbSetDouble Metal Temp DampValue 10.0
+pdbSetDouble Metal Temp DampValue 0.025
 
 pdbSetDouble Metal DevPsi RelEps 1.0e12
 
@@ -42,6 +42,13 @@ if {$Original} {
     set n0B "([pdbDelayDouble AlGaN Elec Nc]) * f12( - ($phiB) / ($Vt) )"
     pdbSetString G Qfn Equation "-2.0e6 * (Elec - $n0B)"
     pdbSetDouble G Qfn Flux.Scale 1.602e-19
+
+    pdbSetDouble G Qfn Abs.Error 0.1
+    pdbSetDouble G Qfn Rel.Error 1.0e-2
+    pdbSetDouble G Qfn DampValue 0.025
+    pdbSetDouble G Qfp Abs.Error 0.1
+    pdbSetDouble G Qfp Rel.Error 1.0e-2
+    pdbSetDouble G Qfp DampValue 0.025
 }
 
 proc InitMetal {} {

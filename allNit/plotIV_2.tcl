@@ -4,8 +4,8 @@
 # ===============================================================================
 # ===============================================================================
 
-
-source fieldplate_matchedGate.tcl
+set radTest 1
+source fieldplate.tcl
 source GaN_modelfile_masterD
 
 window row=1 col=1
@@ -26,7 +26,7 @@ for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
 }
 close $f
 
-source fieldplate_matchedGate.tcl
+source fieldplate.tcl
 source GaN_modelfile_masterD
 
 Initialize
@@ -49,7 +49,7 @@ for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
 }
 close $f
 
-source fieldplate_matchedGate.tcl
+source fieldplate.tcl
 source GaN_modelfile_masterD
 
 Initialize
@@ -72,7 +72,7 @@ for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
 }
 close $f
 
-source fieldplate_matchedGate.tcl
+source fieldplate.tcl
 source GaN_modelfile_masterD
 
 Initialize
@@ -95,7 +95,7 @@ for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
 }
 close $f
 
-source fieldplate_matchedGate.tcl
+source fieldplate.tcl
 source GaN_modelfile_masterD
 
 Initialize

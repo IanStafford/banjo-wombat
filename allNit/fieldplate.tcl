@@ -77,7 +77,7 @@ proc HEMT_Struct { } {
     #Contacts
     contact name=FP Metal xlo=[expr -0.4-$buf] xhi=[expr -0.4+$buf] ylo=[expr $Gtr] yhi=[expr $Gtr+$FP2] add depth=1.0 width=1.0
     #contact name=G Metal xlo=[expr -0.15-$buf] xhi=[expr -0.15+$buf] ylo=[expr $Gtl] yhi=[expr $Gtr] add depth=1.0 width=1.0
-    contact name=G AlGaN xlo=[expr 0.0-$buf] xhi=0.001 ylo=[expr $Gtl+$buf] yhi=[expr $Gtr-$buf] add depth=1.0 width=1.0
+    contact name=G Metal xlo=[expr 0.0-$buf] xhi=0.001 ylo=[expr $Gtl+$buf] yhi=[expr $Gtr-$buf] add depth=1.0 width=1.0
     set l [expr $Gtl-$SourceGate-0.125] 
     contact name=S AlGaN ylo=[expr $l-$buf] yhi=[expr $l+$buf] xlo=[expr 0.0-$buf] xhi=[expr $AlThick-$buf] add depth=1.0 width=1.0
     set r [expr $Gtr+$DrainGate+0.125]
@@ -104,12 +104,12 @@ proc HEMT_Struct { } {
     sel z=(1e19*(y<$le)+(y>=$le)*1.0e19*exp(-(y-$le)*(y-$le)/(1.5*0.02*0.02)))*(exp(-(x*x)/(2.0*0.03*0.03)))*(x>=0.0) name=Source_Doping
 
     # Gaussian distribution for single event charge deposition centered at x=0, y=Gtr
-    set sigma 0.025   ;# ~30nm falloff (FWHM)
+    set sigma 0.025
     set mean_x 0.0
     set mean_y $Gtr
     if {$radTest} {
-        sel z=1e19*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))*Mater(GaN) name=Rad_Doping
-        sel z=1e19*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))*Mater(AlGaN) name=AlGaN_Rad_Doping
+        sel z=-6e18*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))*Mater(GaN) name=Rad_Doping
+        sel z=-6e18*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))*Mater(AlGaN) name=AlGaN_Rad_Doping
     } else {
         sel z=0.0 name=Rad_Doping
         sel z=0.0 name=AlGaN_Rad_Doping
@@ -119,6 +119,11 @@ proc HEMT_Struct { } {
 
     #Total doping
     sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping+Rad_Doping+AlGaN_Rad_Doping name=Doping
+    if {0} {
+        window row=1 col=1
+        plot2d levels=20
+        plot2d xmax=0.5
+    }
     sel z=0.22 name=AlN_Ratio
 }
 HEMT_Struct

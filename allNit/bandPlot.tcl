@@ -1,10 +1,8 @@
-proc bandPlot {filename bias new} {
+proc bandPlot {bias new penstyle} {
     if {$new} {
         window row=1 col=2
     }
 
-    source GaN_modelfile_masterD
-    source $filename
     Initialize
     device init
 
@@ -14,14 +12,20 @@ proc bandPlot {filename bias new} {
     }
 
     sel z=[expr {"Econd-Qfn"}]
-    plot1d graph=Elec xv=0.08 ylab="Econd-Qfn(eV)" title="ConductingBandDiagram" name="Vds=$bias"
+    plot1d graph=Elec xv=0.01 ylab="Econd-Qfn(eV)" title="ConductingBandDiagram" name="Vds=$bias" penstyle=$penstyle
 
     sel z=[expr {"Eval-Qfp"}]
-    plot1d graph=Hole xv=0.08 ylab= "Eval-Qfp (eV)" title= "ValenceBandDiagram" name= "Vds=$bias"
+    plot1d graph=Hole xv=0.01 ylab= "Eval-Qfp (eV)" title= "ValenceBandDiagram" name= "Vds=$bias" penstyle=$penstyle
 
 
 }
-bandPlot "fieldplate.tcl" 0.0 1
-bandPlot "fieldplate.tcl" 2.0 0
-bandPlot "fieldplate.tcl" 5.0 0
-bandPlot "fieldplate.tcl" 10.0 0
+source GaN_modelfile_masterD
+set radTest 1
+source fieldplate.tcl
+pen name=noRad black
+bandPlot 10.0 1 noRad
+
+set radTest 0
+source fieldplate.tcl
+pen name=rad red
+bandPlot 10.0 0 rad
