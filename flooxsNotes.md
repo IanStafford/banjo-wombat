@@ -278,7 +278,15 @@ Nitride (commonly SiNₓ or similar) is used for passivation and isolation, offe
 
 Thermal transport equation:  
 $$C_p \cdot \frac{\partial T}{\partial t} - k \cdot \nabla T = 0$$
----
+---|Property|Value (approx.)|
+|---|---|
+|**Bandgap**|~5.0 – 5.3 eV (insulator)|
+|**Electron mobility**|~1e-2 – 1 cm²/V·s (very low)|
+|**Hole mobility**|~1e-4 – 1e-2 cm²/V·s (very low)|
+|**Relative permittivity (εᵣ)**|~7.0 – 7.8|
+|**Breakdown field**|~10 MV/cm|
+|**Electron affinity**|~2.0 eV (varies with deposition)|
+
 **Oxide**
 Oxide (typically SiO₂ or equivalent) is used for insulation and interface control. It has a higher band offset and lower dielectric constant than high-k materials. We don't use it in our simulations except to define High-K.
 

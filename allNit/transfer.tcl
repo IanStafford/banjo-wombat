@@ -11,8 +11,9 @@ contact name=D supply=0.1
 run_measurements "figures/tgate_Vt.csv" "figures/tgate_peakField.csv" tgate
 }
 
-if {0} {
+if {1} {
 set radTest 0
+set donkey 0
 source fieldplate.tcl
 source GaN_modelfile_masterD
 run_measurements "figures/fieldplate_Vt.csv" "figures/fieldplate_peakField.csv" fieldplate
@@ -68,10 +69,10 @@ source GaN_modelfile_masterD
 run_measurements "figures/fieldplate_rad2_Vt.csv" "figures/fieldplate_rad_peakField.csv" fieldplate_rad
 }
 
-if {1} {
+if {0} {
 set radTest 0
-set donkey 1
+set donkey 0
 source fieldplate.tcl
 source GaN_modelfile_masterD
-run_measurements "figures/trapTest_Vt.csv" "figures/fieldplate_rad_peakField.csv" fieldplate_trap
+run_measurements "figures/nitrideTest_Vt.csv" "figures/fieldplate_rad_peakField.csv" fieldplate_trap
 }

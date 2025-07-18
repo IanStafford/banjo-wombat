@@ -13,8 +13,8 @@ set egan 7.88e-13
 
 source GaN.tcl
 source AlGaN.tcl
-source SiC.tcl
-source AlN.tcl
+#source SiC.tcl
+#source AlN.tcl
 source Metal.tcl
 source Insulator.tcl
 
@@ -40,19 +40,24 @@ if {$donkey} {
 
 
 InsPoisson Metal
-InsPoisson Nitride
-InsPoisson Oxide
-InsPoisson HighK
+Poisson Nitride
+#InsPoisson Oxide
+#InsPoisson HighK
 
 source Continuity.tcl
 ElecContinuity GaN
 ElecContinuity AlGaN
-ElecContinuity SiC
-ElecContinuity AlN
+ElecContinuity Nitride
+
+#ElecContinuity SiC
+#ElecContinuity AlN
+
 HoleContinuity GaN
 HoleContinuity AlGaN
-HoleContinuity SiC
-HoleContinuity AlN
+HoleContinuity Nitride
+
+#HoleContinuity SiC
+#HoleContinuity AlN
 
 
 #Add interface charge
@@ -88,8 +93,18 @@ proc Initialize {} {
     sel z = "Mater(AlGaN) * ((Doping>0.0) ? (-$Vt * log(AbsDop / $nc) + $aff) : 0.0)"  name=AlGaN_N
     sel z = "Mater(AlGaN) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=AlGaN_P
 
+    #Now Nitride???
+    set nc "([pdbDelayDouble Nitride Elec Nc])"
+    set nv "([pdbDelayDouble Nitride Hole Nv])" 
+    set aff "([pdbGetDouble Nitride Affinity])"
+    set Eg "([pdbGetDouble Nitride Eg])"
+    
+    sel z = "Mater(Nitride) * ((Doping>0.0) ? (-$Vt * log(AbsDop / $nc) + $aff) : 0.0)"  name=Nitride_N
+    sel z = "Mater(Nitride) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=Nitride_P
+
  
     #now SiC
+    if {0} {
     set nc "([pdbDelayDouble SiC Elec Nc])"
     set nv "([pdbDelayDouble SiC Hole Nv])"
     set aff "([pdbGetDouble SiC Affinity])"
@@ -106,7 +121,7 @@ proc Initialize {} {
 
     sel z = "Mater(AlN) * ((Doping>0.0) ?  (-$Vt * log(AbsDop / $nc) + $aff) : 0.0)"  name=AlN_N
     sel z = "Mater(AlN) * ((Doping<0.0) ?  ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=AlN_P
-
+    }
     #now Metal
     InitMetal
 
