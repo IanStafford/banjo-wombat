@@ -12,11 +12,13 @@ run_measurements "figures/tgate_Vt.csv" "figures/tgate_peakField.csv" tgate
 }
 
 if {1} {
+
 set radTest 0
 set donkey 0
 source fieldplate.tcl
-source GaN_modelfile_masterD
-run_measurements "figures/fieldplate_Vt.csv" "figures/fieldplate_peakField.csv" fieldplate
+source testMasterFile.tcl
+#source GaN_modelfile_masterD
+run_measurements "figures/fieldplateNewNit_Vt.csv" "figures/fieldplate_peakField2.csv" fieldplate_newNit
 }
 
 if {0} {

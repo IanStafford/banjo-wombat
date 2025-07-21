@@ -40,21 +40,21 @@ if {$donkey} {
 
 
 InsPoisson Metal
-Poisson Nitride
+InsPoisson Nitride
 #InsPoisson Oxide
 #InsPoisson HighK
 
 source Continuity.tcl
 ElecContinuity GaN
 ElecContinuity AlGaN
-ElecContinuity Nitride
+#ElecContinuity Nitride
 
 #ElecContinuity SiC
 #ElecContinuity AlN
 
 HoleContinuity GaN
 HoleContinuity AlGaN
-HoleContinuity Nitride
+#HoleContinuity Nitride
 
 #HoleContinuity SiC
 #HoleContinuity AlN
@@ -94,14 +94,15 @@ proc Initialize {} {
     sel z = "Mater(AlGaN) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=AlGaN_P
 
     #Now Nitride???
-    set nc "([pdbDelayDouble Nitride Elec Nc])"
-    set nv "([pdbDelayDouble Nitride Hole Nv])" 
-    set aff "([pdbGetDouble Nitride Affinity])"
-    set Eg "([pdbGetDouble Nitride Eg])"
-    
-    sel z = "Mater(Nitride) * ((Doping>0.0) ? (-$Vt * log(AbsDop / $nc) + $aff) : 0.0)"  name=Nitride_N
-    sel z = "Mater(Nitride) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=Nitride_P
-
+    if { 0} {
+        set nc "([pdbDelayDouble Nitride Elec Nc])"
+        set nv "([pdbDelayDouble Nitride Hole Nv])" 
+        set aff "([pdbGetDouble Nitride Affinity])"
+        set Eg "([pdbGetDouble Nitride Eg])"
+        
+        sel z = "Mater(Nitride) * ((Doping>0.0) ? (-$Vt * log(AbsDop / $nc) + $aff) : 0.0)"  name=Nitride_N
+        sel z = "Mater(Nitride) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=Nitride_P
+    }
  
     #now SiC
     if {0} {
@@ -127,6 +128,9 @@ proc Initialize {} {
 
     #now Insulators
     InitInsulator Oxide
+    if {1} {
+        InitInsulator Nitride
+    }
     InitInsulator Nitride
     InitInsulator HighK
     

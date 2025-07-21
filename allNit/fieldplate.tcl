@@ -104,12 +104,12 @@ proc HEMT_Struct { } {
     sel z=(1e19*(y<$le)+(y>=$le)*1.0e19*exp(-(y-$le)*(y-$le)/(1.5*0.02*0.02)))*(exp(-(x*x)/(2.0*0.03*0.03)))*(x>=0.0) name=Source_Doping
 
     # Gaussian distribution for single event charge deposition centered at x=0, y=Gtr
-    set sigma 0.025
+    set sigma 0.05
     set mean_x 0.0
     set mean_y [expr $Gtr + 0.04]
     if {$radTest} {
-        sel z=-6e18*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))*Mater(GaN) name=Rad_Doping
-        sel z=-6e18*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))*Mater(AlGaN) name=AlGaN_Rad_Doping
+        sel z=-6e17*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))*Mater(GaN) name=Rad_Doping
+        sel z=-6e17*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))*Mater(AlGaN) name=AlGaN_Rad_Doping
     } else {
         sel z=0.0 name=Rad_Doping
         sel z=0.0 name=AlGaN_Rad_Doping

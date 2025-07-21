@@ -1,76 +1,57 @@
+mater add name=Nitride alias = nitride
+
+pdbSetString Nitride YoungsModulus "(3.9e12-0.16e10*(Temp-300.0)) "
+# We're not doing temp simluations so may remove this
+pdbSetString Nitride PoissonRatio 0.352
+
+#set Nitride electron effective mass
+pdbSetDouble Nitride Elec me 0.2
+#set Nitride hole effective mass
+pdbSetDouble Nitride Hole mh 1.5
+
+set me ([pdbDelayDouble Nitride Elec me])
+set mh ([pdbDelayDouble Nitride Hole mh])
+
+pdbSetDouble Nitride Elec Nc (2.50945e19*sqrt($me*$me*$me)*sqrt(Temp*Temp*Temp/2.7e7))
+pdbSetDouble Nitride Hole Nv (2.50945e19*sqrt($mh*$mh*$mh)*sqrt(Temp*Temp*Temp/2.7e7))
+
+#set Nitride electron affinity
+pdbSetDouble Nitride Affinity 0.95
+#set affO ([pdbDelayDouble Nitride Affinity])
+
+# Feel like its weird that I'm not using these values for the model?
+pdbSetDouble Nitride Eg 9.0
+pdbSetDouble Nitride DevPsi RelEps 6.3
+pdbSetDouble Nitride Elec mob 1e-2 
+pdbSetDouble Nitride Hole mob 1e-3        
+
+#Set Ev and Ec using AlGaN Ei as zero
+pdbSetDouble Nitride Hole Ev "((-[pdbGetDouble Nitride Affinity])-([pdbGetDouble Nitride Eg])+(DevPsi))"
+pdbSetDouble Nitride Elec Ec "((-[pdbGetDouble Nitride Affinity])+(DevPsi))"
+
 if {0} {
-mater add name=Nitride    alias = nitride
+    mater add name=Oxide    alias=oxide
+        #et Oxide electron affinity
+        pdbSetDouble Oxide Affinity 2.89
 
-    #set Nitride electron affinity
-    pdbSetDouble Nitride Affinity 0.95
-    set affO ([pdbDelayDouble Nitride Affinity])
-
-    #set Nitride bandgap
-    pdbSetDouble Nitride Eg 9.0
-    pdbSetDouble Nitride DevPsi RelEps 6.3
-
-    #Set Ev and Ec using AlGaN Ei as zero
-    pdbSetDouble Nitride Hole Ev "((-[pdbGetDouble Nitride Affinity])-([pdbGetDouble Nitride Eg])+(DevPsi))"
-    pdbSetDouble Nitride Elec Ec "((-[pdbGetDouble Nitride Affinity])+(DevPsi))"
-
-} 
-if {1} {
-
-    mater add name=Nitride alias = nitride
+        pdbSetDouble Oxide DevPsi RelEps 3.9
+        pdbSetDouble Oxide Eg 9.3
     
-    pdbSetString Nitride YoungsModulus "(3.9e12-0.16e10*(Temp-300.0)) "
-    # We're not doing temp simluations so may remove this
-    pdbSetString Nitride PoissonRatio 0.352
+        #Set Ev and Ec using AlGaN Ei as zero
+        pdbSetDouble Oxide Hole Ev "((-[pdbGetDouble Oxide Affinity])-([pdbGetDouble Oxide Eg])+(DevPsi))"
+        pdbSetDouble Oxide Elec Ec "((-[pdbGetDouble Oxide Affinity])+(DevPsi))"
 
-    #set Nitride electron effective mass
-    pdbSetDouble Nitride Elec me 0.2
-    #set Nitride hole effective mass
-    pdbSetDouble Nitride Hole mh 1.5
+    mater add name=HighK    alias=highk
+        #et Oxide electron affinity
+        pdbSetDouble HighK Affinity 2.89
 
-    set me ([pdbDelayDouble Nitride Elec me])
-    set mh ([pdbDelayDouble Nitride Hole mh])
-    pdbSetDouble Nitride Elec Nc (2.50945e19*sqrt($me*$me*$me)*sqrt(Temp*Temp*Temp/2.7e7))
-    pdbSetDouble Nitride Hole Nv (2.50945e19*sqrt($mh*$mh*$mh)*sqrt(Temp*Temp*Temp/2.7e7))
-
-    #set Nitride electron affinity
-    pdbSetDouble Nitride Affinity 0.95
-    #set affO ([pdbDelayDouble Nitride Affinity])
-
-    #set Nitride bandgap
-    pdbSetDouble Nitride Eg 9.0
-    pdbSetDouble Nitride DevPsi RelEps 6.3
-    pdbSetDouble Nitride Elec mob 1e-2         ;# Electron mobility (low)
-    pdbSetDouble Nitride Hole mob 1e-3         ;# Hole mobility (very low)
-
-    #Set Ev and Ec using AlGaN Ei as zero
-    pdbSetDouble Nitride Hole Ev "((-[pdbGetDouble Nitride Affinity])-([pdbGetDouble Nitride Eg])+(DevPsi))"
-    pdbSetDouble Nitride Elec Ec "((-[pdbGetDouble Nitride Affinity])+(DevPsi))"
-
-
+        pdbSetDouble HighK DevPsi RelEps 35
+        pdbSetDouble HighK Eg 9.3
+    
+        #Set Ev and Ec using AlGaN Ei as zero
+        pdbSetDouble HighK Hole Ev "((-[pdbGetDouble Oxide Affinity])-([pdbGetDouble Oxide Eg])+(DevPsi))"
+        pdbSetDouble HighK Elec Ec "((-[pdbGetDouble Oxide Affinity])+(DevPsi))"
 }
-
-mater add name=Oxide    alias=oxide
-    #et Oxide electron affinity
-    pdbSetDouble Oxide Affinity 2.89
-
-    pdbSetDouble Oxide DevPsi RelEps 3.9
-    pdbSetDouble Oxide Eg 9.3
-   
-    #Set Ev and Ec using AlGaN Ei as zero
-    pdbSetDouble Oxide Hole Ev "((-[pdbGetDouble Oxide Affinity])-([pdbGetDouble Oxide Eg])+(DevPsi))"
-    pdbSetDouble Oxide Elec Ec "((-[pdbGetDouble Oxide Affinity])+(DevPsi))"
-
-mater add name=HighK    alias=highk
-    #et Oxide electron affinity
-    pdbSetDouble HighK Affinity 2.89
-
-    pdbSetDouble HighK DevPsi RelEps 35
-    pdbSetDouble HighK Eg 9.3
-   
-    #Set Ev and Ec using AlGaN Ei as zero
-    pdbSetDouble HighK Hole Ev "((-[pdbGetDouble Oxide Affinity])-([pdbGetDouble Oxide Eg])+(DevPsi))"
-    pdbSetDouble HighK Elec Ec "((-[pdbGetDouble Oxide Affinity])+(DevPsi))"
-
 
 
 pdbSetDouble Nitride Temp Abs.Error 0.1
