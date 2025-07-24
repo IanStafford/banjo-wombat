@@ -31,8 +31,8 @@ solution add name=Qfn solve negative damp continuous
 
 source Poisson.tcl
 if {$donkey} {
-    PoissonAcceptorTrap GaN 1e18 2.1
-    PoissonAcceptorTrap AlGaN 1e18 2.1
+    PoissonAcceptorTrap GaN 1e19 0.1
+    PoissonAcceptorTrap AlGaN 1e19 0.1
 } else {
     Poisson GaN
     Poisson AlGaN
@@ -40,25 +40,16 @@ if {$donkey} {
 
 
 InsPoisson Metal
-InsPoisson Nitride
-#InsPoisson Oxide
-#InsPoisson HighK
+Poisson Nitride
 
 source Continuity.tcl
 ElecContinuity GaN
 ElecContinuity AlGaN
-#ElecContinuity Nitride
-
-#ElecContinuity SiC
-#ElecContinuity AlN
+ElecContinuity Nitride
 
 HoleContinuity GaN
 HoleContinuity AlGaN
-#HoleContinuity Nitride
-
-#HoleContinuity SiC
-#HoleContinuity AlN
-
+HoleContinuity Nitride
 
 #Add interface charge
 pdbSetString AlGaN_GaN DevPsi Equation "1.06e13"
@@ -94,48 +85,19 @@ proc Initialize {} {
     sel z = "Mater(AlGaN) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=AlGaN_P
 
     #Now Nitride???
-    if { 0} {
-        set nc "([pdbDelayDouble Nitride Elec Nc])"
-        set nv "([pdbDelayDouble Nitride Hole Nv])" 
-        set aff "([pdbGetDouble Nitride Affinity])"
-        set Eg "([pdbGetDouble Nitride Eg])"
-        
-        sel z = "Mater(Nitride) * ((Doping>0.0) ? (-$Vt * log(AbsDop / $nc) + $aff) : 0.0)"  name=Nitride_N
-        sel z = "Mater(Nitride) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=Nitride_P
-    }
- 
-    #now SiC
-    if {0} {
-    set nc "([pdbDelayDouble SiC Elec Nc])"
-    set nv "([pdbDelayDouble SiC Hole Nv])"
-    set aff "([pdbGetDouble SiC Affinity])"
-    set Eg "([pdbGetDouble SiC Eg])"
+    set nc "([pdbDelayDouble Nitride Elec Nc])"
+    set nv "([pdbDelayDouble Nitride Hole Nv])" 
+    set aff "([pdbGetDouble Nitride Affinity])"
+    set Eg "([pdbGetDouble Nitride Eg])"
+    
+    sel z = "Mater(Nitride) * ((Doping>0.0) ? (-$Vt * log(AbsDop / $nc) + $aff) : 0.0)"  name=Nitride_N
+    sel z = "Mater(Nitride) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=Nitride_P
 
-    sel z = "Mater(SiC) * ((Doping>0.0) ? (-$Vt * log(AbsDop / $nc) + $aff) : 0.0)"  name=SiC_N
-    sel z = "Mater(SiC) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=SiC_P
-
-    #now AlN
-    set nc "([pdbDelayDouble AlN Elec Nc])"
-    set nv "([pdbDelayDouble AlN Hole Nv])"
-    set aff "([pdbGetDouble AlN Affinity])"
-    set Eg "([pdbGetDouble AlN Eg])"
-
-    sel z = "Mater(AlN) * ((Doping>0.0) ?  (-$Vt * log(AbsDop / $nc) + $aff) : 0.0)"  name=AlN_N
-    sel z = "Mater(AlN) * ((Doping<0.0) ?  ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=AlN_P
-    }
     #now Metal
     InitMetal
-
-    #now Insulators
-    InitInsulator Oxide
-    if {1} {
-        InitInsulator Nitride
-    }
-    InitInsulator Nitride
-    InitInsulator HighK
     
     #sum them together
-    sel z=GaN_N+GaN_P+AlGaN_N+AlGaN_P+MetalDevPsi+DevPsiOxide+DevPsiNitride+DevPsiHighK name=DevPsi
+    sel z=GaN_N+GaN_P+AlGaN_N+AlGaN_P+MetalDevPsi+Nitride_N+Nitride_P name=DevPsi
 
     sel z=0 name=DonorTraps
     sel z=0.0 name=Qfn

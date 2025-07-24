@@ -20,7 +20,7 @@ pdbSetDouble Nitride Affinity 0.95
 #set affO ([pdbDelayDouble Nitride Affinity])
 
 # Feel like its weird that I'm not using these values for the model?
-pdbSetDouble Nitride Eg 9.0
+pdbSetDouble Nitride Eg 5.4
 pdbSetDouble Nitride DevPsi RelEps 6.3
 pdbSetDouble Nitride Elec mob 1e-2 
 pdbSetDouble Nitride Hole mob 1e-3        

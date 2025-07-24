@@ -2,23 +2,11 @@ source run_measurements.tcl
 window row=1 col=1
 
 if {0} {
-source tgate_mod.tcl
-source GaN_modelfile_masterD
-Initialize
-device init
-contact name=D supply=0.1
-
-run_measurements "figures/tgate_Vt.csv" "figures/tgate_peakField.csv" tgate
-}
-
-if {1} {
-
-set radTest 0
 set donkey 0
+set radTest 0
 source fieldplate.tcl
-source testMasterFile.tcl
-#source GaN_modelfile_masterD
-run_measurements "figures/fieldplateNewNit_Vt.csv" "figures/fieldplate_peakField2.csv" fieldplate_newNit
+source GaN_modelfile_masterD
+run_measurements "figures/fieldplate_Vt.csv" "null" fieldplate
 }
 
 if {0} {
@@ -64,17 +52,11 @@ contact name=D supply=0.1
 run_measurements "figures/fieldplate_strike_Vt.csv" "figures/fieldplate_strike_peakField.csv" fieldplate_wrap
 }
 
-if {0} {
-set radTest 1
-source fieldplate.tcl
-source GaN_modelfile_masterD
-run_measurements "figures/fieldplate_rad2_Vt.csv" "figures/fieldplate_rad_peakField.csv" fieldplate_rad
-}
+if {1} {
+    set donkey 1
+    set radTest 0
+    source fieldplate.tcl
+    source GaN_modelfile_masterD
+    run_measurements "figures/fieldplate_trap_Vt.csv" "null" fieldplate_trap
+    }
 
-if {0} {
-set radTest 0
-set donkey 0
-source fieldplate.tcl
-source GaN_modelfile_masterD
-run_measurements "figures/nitrideTest_Vt.csv" "figures/fieldplate_rad_peakField.csv" fieldplate_trap
-}
