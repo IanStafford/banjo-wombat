@@ -30,17 +30,26 @@ solution add name=Qfp solve negative damp continuous
 solution add name=Qfn solve negative damp continuous
 
 source Poisson.tcl
-if {$donkey} {
-    PoissonAcceptorTrap GaN 1e19 0.1
-    PoissonAcceptorTrap AlGaN 1e19 0.1
+
+set sigma 0.05
+set mean_x 0.0
+set mean_y 0.14
+set trapConc "6e16*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))"
+
+global trapLevel
+
+if {$trapEn} {
+    PoissonAcceptorTrap GaN $trapConc $trapLevel
+    PoissonAcceptorTrap AlGaN $trapConc $trapLevel
+    PoissonAcceptorTrap Nitride $trapConc $trapLevel
 } else {
     Poisson GaN
     Poisson AlGaN
+    Poisson Nitride
 }
 
 
 InsPoisson Metal
-Poisson Nitride
 
 source Continuity.tcl
 ElecContinuity GaN
@@ -52,9 +61,9 @@ HoleContinuity AlGaN
 HoleContinuity Nitride
 
 #Add interface charge
-pdbSetString AlGaN_GaN DevPsi Equation "1.06e13"
+#pdbSetString AlGaN_GaN DevPsi Equation "1.06e13"
 #pdbSetString AlGaN_GaN DevPsi Equation "1.2e13"
-#pdbSetString AlGaN_GaN DevPsi Equation "7.0e12"
+pdbSetString AlGaN_GaN DevPsi Equation "7.0e12"
 #pdbSetString AlGaN_GaN DevPsi Equation "1.486e13"
 #pdbSetString AlGaN_GaN DevPsi Equation "-1*(1e13*log(AlN_Ratio)+3e13)"
 

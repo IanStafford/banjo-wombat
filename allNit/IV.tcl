@@ -1,17 +1,19 @@
+set radTest 0
+set trapEn 1
+set trapLevel 1.0
 
-source fieldplate_strike.tcl
+source fieldplate.tcl
 source GaN_modelfile_masterD
 
 window row=1 col=1
 
 Initialize
 device init
-set g 0.0
-contact name=G supply=$g
 
-set f [open "newIV0" w]
 
-for {set d 0.0} {$d < 10.05} {set d [expr $d+0.1]} {
+set f [open "figures/fpIV0.csv" w]
+
+for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
     contact name=D supply=$d 
     device
     set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}]
@@ -20,7 +22,7 @@ for {set d 0.0} {$d < 10.05} {set d [expr $d+0.1]} {
 }
 close $f
 
-source tgate_mod.tcl
+source fieldplate.tcl
 source GaN_modelfile_masterD
 
 Initialize
@@ -32,7 +34,7 @@ for {set g 0.0} {$g > -1.05} {set g [expr $g-0.5]} {
     device
 }
 
-set f [open "newIV1" w]
+set f [open "figures/fpIV1.csv" w]
 
 for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
     contact name=D supply=$d 
@@ -43,7 +45,7 @@ for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
 }
 close $f
 
-source tgate_mod.tcl
+source fieldplate.tcl
 source GaN_modelfile_masterD
 
 Initialize
@@ -55,7 +57,7 @@ for {set g 0.0} {$g > -2.05} {set g [expr $g-0.5]} {
     device
 }
 
-set f [open "newIV2" w]
+set f [open "figures/fpIV2.csv" w]
 
 for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
     contact name=D supply=$d 
@@ -66,7 +68,7 @@ for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
 }
 close $f
 
-source tgate_mod.tcl
+source fieldplate.tcl
 source GaN_modelfile_masterD
 
 Initialize
@@ -78,7 +80,7 @@ for {set g 0.0} {$g > -3.05} {set g [expr $g-0.5]} {
     device
 }
 
-set f [open "newIV3" w]
+set f [open "figures/fpIV3.csv" w]
 
 for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
     contact name=D supply=$d 
@@ -89,7 +91,7 @@ for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
 }
 close $f
 
-source tgate_mod.tcl
+source fieldplate.tcl
 source GaN_modelfile_masterD
 
 Initialize
@@ -101,7 +103,7 @@ for {set g 0.0} {$g > -4.05} {set g [expr $g-0.5]} {
     device
 }
 
-set f [open "newIV4" w]
+set f [open "figures/fpIV4.csv" w]
 
 for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
     contact name=D supply=$d 

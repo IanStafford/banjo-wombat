@@ -9,6 +9,7 @@ pdbSetDouble Metal DevPsi RelEps 1.0e12
 #set phiB 
 #per Ambacher et al, used by Heller, 1.3x+0.84, with x=0.26
 set phiB 1.2255
+set phiB 1.4
 #set phiB 1.2255
 
 

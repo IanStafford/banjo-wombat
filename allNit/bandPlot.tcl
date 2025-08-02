@@ -19,13 +19,19 @@ proc bandPlot {bias new penstyle} {
 
 
 }
-source GaN_modelfile_masterD
-set radTest 1
-source fieldplate.tcl
-pen name=noRad black
-bandPlot 10.0 1 noRad
 
 set radTest 0
+set trapEn 1
+set trapLevel 1.0
+
+source GaN_modelfile_masterD
 source fieldplate.tcl
-pen name=rad red
-bandPlot 10.0 0 rad
+pen name=low black
+bandPlot 10.0 1 low
+
+set trapLevel 2.0
+
+source GaN_modelfile_masterD
+source fieldplate.tcl
+pen name=high red
+bandPlot 10.0 0 high

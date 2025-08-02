@@ -130,7 +130,7 @@ proc AcceptorTrap {Mat Ntrap Etrap Efwhm} {
 	set Off [expr sqrt(12.0)*$Efwhm/2.0]
 	set e1 "(($Ntrap/6.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap + $Off - Qfp) / ($Vt) )))))"
 	set e2 "((2.0*$Ntrap/3.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap - Qfp) / ($Vt) )))))"
-	set e3 "(($Ntrap/6.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap + $Off - Qfp) / ($Vt) )))))"
+	set e3 "(($Ntrap/6.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap - $Off - Qfp) / ($Vt) )))))"
     }
     set Acceptor "$Acceptor + $e1 + $e2 + $e3"
     solution name=Acceptor $Mat solve const val = "$Acceptor"
