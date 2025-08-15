@@ -1,6 +1,6 @@
 set radTest 0
 set trapEn 1
-set trapLevel 1.0
+set trapLevel 5
 
 source fieldplate.tcl
 source GaN_modelfile_masterD

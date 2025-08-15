@@ -32,7 +32,7 @@ set eps0 8.854e-14
 proc Poisson {Mat} {
     global q eps0
 
-    pdbSetDouble $Mat DevPsi DampValue 0.025
+    pdbSetDouble $Mat DevPsi DampValue 0.026
     pdbSetDouble $Mat DevPsi Abs.Error 0.001
     pdbSetDouble $Mat DevPsi Rel.Error 0.01
 

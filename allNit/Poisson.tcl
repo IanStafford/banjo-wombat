@@ -45,3 +45,24 @@ proc PoissonAcceptorTrap {Mat Conc Level} {
     set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping - Trap - Elec + Hole"
     pdbSetString $Mat DevPsi Equation $eqn
 }
+proc AcceptorTrap {Mat Ntrap Etrap Efwhm} {
+    global k q
+
+    set Acceptor [solution name=Acceptor $Mat print]
+    set Vt ($k*HTemp/$q)
+
+    #do a switch so we can figure out testing...
+    if {$Efwhm == 0.0} {
+	set e1 0.0
+	set e2 "(($Ntrap) / (1 + 4.0 * exp( (Eval + $Etrap - Qfp) / ($Vt) )))"
+	set e3 0.0
+    } else {
+	#set the evaluation point for the Gaussian-Hermite Quadrature
+	set Off [expr sqrt(12.0)*$Efwhm/2.0]
+	set e1 "(($Ntrap/6.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap + $Off - Qfp) / ($Vt) )))))"
+	set e2 "((2.0*$Ntrap/3.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap - Qfp) / ($Vt) )))))"
+	set e3 "(($Ntrap/6.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap - $Off - Qfp) / ($Vt) )))))"
+    }
+    set Acceptor "$Acceptor + $e1 + $e2 + $e3"
+    solution name=Acceptor $Mat solve const val = "$Acceptor"
+}

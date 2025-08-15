@@ -34,7 +34,8 @@ source Poisson.tcl
 set sigma 0.05
 set mean_x 0.0
 set mean_y 0.14
-set trapConc "6e16*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))"
+#set mean_y 0.4
+set trapConc "5e18*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))"
 
 global trapLevel
 
@@ -42,6 +43,10 @@ if {$trapEn} {
     PoissonAcceptorTrap GaN $trapConc $trapLevel
     PoissonAcceptorTrap AlGaN $trapConc $trapLevel
     PoissonAcceptorTrap Nitride $trapConc $trapLevel
+
+    #AcceptorTrap GaN $trapConc $trapLevel 0.25
+    #AcceptorTrap AlGaN $trapConc $trapLevel 0.25
+    #AcceptorTrap Nitride $trapConc $trapLevel 0.25
 } else {
     Poisson GaN
     Poisson AlGaN
