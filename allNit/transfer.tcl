@@ -12,9 +12,7 @@ run_measurements "figures/fieldplate_Vt.csv" "null" fieldplate
 if {0} {
 source fieldplate_ox.tcl
 source GaN_modelfile_masterD
-Initialize
-device
-contact name=D supply=0.1
+set trapEn 0
 
 run_measurements "figures/fieldplate_ox_Vt.csv" "figures/fieldplate_ox_peakField.csv" fieldplate_ox
 }
@@ -22,20 +20,26 @@ run_measurements "figures/fieldplate_ox_Vt.csv" "figures/fieldplate_ox_peakField
 if {0} {
 source fieldplate_wrap.tcl
 source GaN_modelfile_masterD
-Initialize
-device
-contact name=D supply=0.1
+set trapEn 0
 
 run_measurements "figures/fieldplate_wrap_Vt.csv" "figures/fieldplate_wrap_peakField.csv" fieldplate_wrap
 }
 
+if {0} {
+source fieldplate_wrap.tcl
+source GaN_modelfile_masterD
+set trapEn 0
 
-if {1} {
+run_measurements "figures/fieldplate_strike_Vt.csv" "null" fieldplate_strike
+}
+
+
+if {0} {
 set radTest 0
 set trapEn 0
 source fieldplate.tcl
 source GaN_modelfile_masterD
-run_measurements "figures/fieldplate_Vt.csv" "figures/fieldplate_peakField.csv" fieldplate
+#run_measurements "figures/fieldplate_Vt.csv" "figures/fieldplate_peakField.csv" fieldplate
 
 set radTest 1
 source fieldplate.tcl
@@ -55,7 +59,7 @@ contact name=D supply=0.1
 run_measurements "figures/fieldplate_strike_Vt.csv" "figures/fieldplate_strike_peakField.csv" fieldplate_wrap
 }
 
-if {0} {
+if {1} {
     if {0} {
         set trapEn 0
         set radTest 0

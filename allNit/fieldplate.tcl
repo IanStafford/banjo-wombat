@@ -106,7 +106,7 @@ proc HEMT_Struct { } {
     # Gaussian distribution for single event charge deposition centered at x=0, y=Gtr
     set sigma 0.025
     set mean_x 0.0
-    set mean_y [expr $Gtl - 0.04]
+    set mean_y [expr $Gtr + 0.04]
     if {$radTest} {
         sel z=-5e17*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma)) name=Rad_Doping
     } else {

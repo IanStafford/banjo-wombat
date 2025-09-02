@@ -40,13 +40,13 @@ set trapConc "5e18*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$
 global trapLevel
 
 if {$trapEn} {
-    PoissonAcceptorTrap GaN $trapConc $trapLevel
-    PoissonAcceptorTrap AlGaN $trapConc $trapLevel
-    PoissonAcceptorTrap Nitride $trapConc $trapLevel
+    #PoissonAcceptorTrap GaN $trapConc $trapLevel
+    #PoissonAcceptorTrap AlGaN $trapConc $trapLevel
+    #PoissonAcceptorTrap Nitride $trapConc $trapLevel
 
-    #AcceptorTrap GaN $trapConc $trapLevel 0.25
-    #AcceptorTrap AlGaN $trapConc $trapLevel 0.25
-    #AcceptorTrap Nitride $trapConc $trapLevel 0.25
+    AcceptorTrap GaN $trapConc $trapLevel 0.15
+    AcceptorTrap AlGaN $trapConc $trapLevel 0.15
+    AcceptorTrap Nitride $trapConc $trapLevel 0.25
 } else {
     Poisson GaN
     Poisson AlGaN
@@ -72,7 +72,7 @@ pdbSetString AlGaN_GaN DevPsi Equation "7.0e12"
 #pdbSetString AlGaN_GaN DevPsi Equation "1.486e13"
 #pdbSetString AlGaN_GaN DevPsi Equation "-1*(1e13*log(AlN_Ratio)+3e13)"
 
-#Electrical Initial sourConditions
+#Electrical Initial Conditions
 proc Initialize {} {
     global Vt
     sel z=300.00 name=Temp

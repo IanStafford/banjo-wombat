@@ -412,6 +412,13 @@ Try putting GaN in the new regions and dope it heavily.
 ## New idea
 What if there is a virtual gate forming from traps caused by the strike path of the heavy ion? The fluences are low but really are of no consequence. We can find a model for vacancies produced by a single ion strike, throw them into a deck and see if the drain-> source field is producing such a virtual gate by flooding the traps with more charge than the gate can repel.
 
+## Presentation "TODO"
+- Objectives
+- Structs
+- Figures
+- Parameters
+- Models
+
 
 
 
