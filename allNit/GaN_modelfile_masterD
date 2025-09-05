@@ -36,6 +36,7 @@ set mean_x 0.0
 set mean_y 0.14
 #set mean_y 0.4
 set trapConc "5e18*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))"
+#set trapConc 1e18
 
 global trapLevel
 
@@ -44,9 +45,14 @@ if {$trapEn} {
     #PoissonAcceptorTrap AlGaN $trapConc $trapLevel
     #PoissonAcceptorTrap Nitride $trapConc $trapLevel
 
-    AcceptorTrap GaN $trapConc $trapLevel 0.15
-    AcceptorTrap AlGaN $trapConc $trapLevel 0.15
-    AcceptorTrap Nitride $trapConc $trapLevel 0.25
+    AcceptorTrap GaN $trapConc $trapLevel 0.015
+    AcceptorTrap AlGaN $trapConc $trapLevel 0.015
+        #AcceptorTrap Nitride $trapConc $trapLevel 0.025
+    Poisson Nitride
+
+    #AcceptorTrap GaN 3.1e18 2.5 0.025
+    #AcceptorTrap AlGaN 3.1e18 2.5 0.025
+    #AcceptorTrap Nitride 3.1e18 2.5 0.025
 } else {
     Poisson GaN
     Poisson AlGaN

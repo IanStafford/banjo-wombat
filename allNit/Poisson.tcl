@@ -68,12 +68,14 @@ proc AcceptorTrapOld {Mat Ntrap Etrap Efwhm} {
 }
 
 proc AcceptorTrap {Mat Ntrap Etrap Efwhm} {
-    global k q eps0
+    global k q eps0 sigma mean_x mean_y
 
-    set Acceptor [solution name=Acceptor $Mat print]
+    #set Acceptor [solution name=Acceptor $Mat print]
     set Vt ($k*Temp/$q)
 
     #do a switch so we can figure out testing...
+    #solution name=TrapConc solve $Mat const val = ($Ntrap)
+
     if {$Efwhm == 0.0} {
 	set e1 0.0
 	set e2 "(($Ntrap) / (1 + 4.0 * exp( (Eval + $Etrap - Qfp) / ($Vt) )))"
@@ -82,12 +84,12 @@ proc AcceptorTrap {Mat Ntrap Etrap Efwhm} {
 	#set the evaluation point for the Gaussian-Hermite Quadrature
     set sigma [expr $Efwhm/2.355]
     set Off   [expr sqrt(3.0)*$sigma]
-	set e1 "(($Ntrap/6.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap + $Off - Qfp) / ($Vt) )))))"
-	set e2 "((2.0*$Ntrap/3.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap - Qfp) / ($Vt) )))))"
-	set e3 "(($Ntrap/6.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap - $Off - Qfp) / ($Vt) )))))"
+	set e1 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap + $Off - Qfp) / ($Vt) )))))"
+	set e2 "((2.0/3.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap - Qfp) / ($Vt) )))))"
+	set e3 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap - $Off - Qfp) / ($Vt) )))))"
     }
-    set Acceptor "$Acceptor + $e1 + $e2 + $e3"
-    solution name=Acceptor $Mat solve const val = "$Acceptor"
+    set Acceptor "$Ntrap * ($e1 + $e2 + $e3)"
+    solution name=Acceptor solve $Mat const val = ($Acceptor)
 
     set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping + Acceptor - Elec + Hole"
     pdbSetString $Mat DevPsi Equation $eqn

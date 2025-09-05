@@ -70,7 +70,7 @@ if {1} {
 
     set trapEn 1
     set radTest 0
-    set trapLevel 0.1
+    set trapLevel 5.0
     source fieldplate.tcl
     source GaN_modelfile_masterD
     run_measurements "figures/fieldplate_trap_Vt.csv" "null" fieldplate_trap.1

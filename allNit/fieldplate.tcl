@@ -111,7 +111,6 @@ proc HEMT_Struct { } {
         sel z=-5e17*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma)) name=Rad_Doping
     } else {
         sel z=0.0 name=Rad_Doping
-        sel z=0.0 name=AlGaN_Rad_Doping
     }
     
     
@@ -120,10 +119,11 @@ proc HEMT_Struct { } {
     sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping+Rad_Doping name=Doping
     if {0} {
         window row=1 col=1
+        sel z=Rad_Doping
         plot2d levels=20
         plot2d xmax=0.5
     }
     sel z=0.22 name=AlN_Ratio
 }
 HEMT_Struct
-
+set radTest 1
