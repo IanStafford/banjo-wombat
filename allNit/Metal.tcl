@@ -8,20 +8,20 @@ pdbSetDouble Metal DevPsi RelEps 1.0e12
 
 #set phiB 
 #per Ambacher et al, used by Heller, 1.3x+0.84, with x=0.26
-set phiB 1.2255
-set phiB 1.4
+set phiB 1.7
+#set phiB 1.4
 #set phiB 1.2255
 
 
 #Jsut electrostatics for the field plate
-pdbSetString FP DevPsi Equation "([pdbDelayDouble AlGaN Elec Ec])+FP-$phiB"
+pdbSetString FP DevPsi Equation "([pdbDelayDouble Nitride Elec Ec])+FP-$phiB"
 pdbSetBoolean FP DevPsi Fixed 1
 pdbSetDouble FP DevPsi Flux.Scale 1.602e-19
 
 
 #Schottky Contact - assume that the contact itself is in contact with the AlGaN
 #a more complicated way would be to solve the metal and have an interface equation for the current
-pdbSetString G DevPsi Equation "([pdbDelayDouble AlGaN Elec Ec])+G-$phiB"
+pdbSetString G DevPsi Equation "([pdbDelayDouble Nitride Elec Ec])+G-$phiB"
 pdbSetBoolean G DevPsi Fixed 1
 pdbSetDouble G DevPsi Flux.Scale 1.602e-19
 
@@ -35,12 +35,12 @@ if {$Original} {
     #original code had no no equation for Qfn, so comment out the next three lines to go back
 } else {
     #thermionic emission current at the contact using guesstimates of the emission velocity
-    set p0B "(([pdbDelayDouble AlGaN Hole Nv]) * f12( -(([pdbDelayDouble AlGaN Eg]) - $phiB) / ($Vt) ))"
-    pdbSetString G Qfp Equation "-2.0e6 * (Hole - $p0B)"
+    set p0B "(([pdbDelayDouble Nitride Hole Nv]) * f12( -(([pdbDelayDouble Nitride Eg]) - $phiB) / ($Vt) ))"
+    pdbSetString G Qfp Equation "-1.5e6 * (Hole - $p0B)"
     pdbSetDouble G Qfp Flux.Scale 1.602e-19
 
     #thermionic emission current for electrons
-    set n0B "([pdbDelayDouble AlGaN Elec Nc]) * f12( - ($phiB) / ($Vt) )"
+    set n0B "([pdbDelayDouble Nitride Elec Nc]) * f12( - ($phiB) / ($Vt) )"
     pdbSetString G Qfn Equation "-2.0e6 * (Elec - $n0B)"
     pdbSetDouble G Qfn Flux.Scale 1.602e-19
 
@@ -54,7 +54,7 @@ if {$Original} {
 
 proc InitMetal {} {
     global phiB
-    sel z = "Mater(Metal) * ( ([pdbDelayDouble AlGaN Affinity])+$phiB)" name=MetalDevPsi
+    sel z = "Mater(Metal) * ( ([pdbDelayDouble Nitride Affinity])+$phiB)" name=MetalDevPsi
 }
 
 #create a procedure for ohmic contacts

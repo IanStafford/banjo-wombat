@@ -60,7 +60,7 @@ run_measurements "figures/fieldplate_strike_Vt.csv" "figures/fieldplate_strike_p
 }
 
 if {1} {
-    if {0} {
+    if {1} {
         set trapEn 0
         set radTest 0
         source fieldplate.tcl

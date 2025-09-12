@@ -1,15 +1,30 @@
-proc trapPlot {trapLevel bias} {
+proc nearHalfVolt {V {tol 0.01}} {
+    set scaled [expr {$V / 0.5}]
+    set frac [expr {abs($scaled - round($scaled))}]
+    return [expr {$frac < ($tol / 0.5)}]
+}
+
+proc trapPlot {ivCSV trapLevel bias} {
     Initialize
     device init
+
+    set f [open $ivCSV w]
 
     for {set d 0.0} {$d < [expr $bias + 0.01]} {set d [expr $d+0.1]} {
         contact name=D supply=$d
         device
-        sel z=Acceptor
+        set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e3}] 
+        #FLOOXS GIVES A/um
+        puts $f "$d, $cur"
+        chart graph=IV curve=DrainCur xval=$d yval=$cur leg.left
+        if { [nearHalfVolt $d 0.01] } {
+            sel z=log10(abs(Acceptor)+1.0)
+            plot1d graph=Vertical xv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$d" log
+            #plot1d graph=Lateral yv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$d" penstyle=solid ymin=-0.5 ymax=0.5
+        }        
     }
-    plot1d graph=Vertical xv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$bias" xmin=-0.5 xmax=0.5
-    plot1d graph=Lateral yv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$bias" penstyle=solid ymin=-0.5 ymax=0.5
 
+    close $f
 
 }
 window row=1 col=2
@@ -19,20 +34,4 @@ set radTest 0
 set trapLevel 5.0
 source GaN_modelfile_masterD
 source fieldplate.tcl
-trapPlot $trapLevel 0.1
-
-source GaN_modelfile_masterD
-source fieldplate.tcl
-trapPlot $trapLevel 0.5
-
-source GaN_modelfile_masterD
-source fieldplate.tcl
-trapPlot $trapLevel 1.0
-
-source GaN_modelfile_masterD
-source fieldplate.tcl
-trapPlot $trapLevel 2.0
-
-source GaN_modelfile_masterD
-source fieldplate.tcl
-trapPlot $trapLevel 2.4
+trapPlot "figures/test.csv" $trapLevel 10.0

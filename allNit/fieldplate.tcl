@@ -32,6 +32,7 @@ proc HEMT_Struct { } {
     line x loc=-0.3 spac=0.025 tag=topIns
     line x loc=-0.15 spac=0.025 tag=topT
     line x loc=-0.10 spac=0.01 tag=topGate
+    line x loc=-0.005 spac=0.001 tag=topGateIns
     line x loc=0.0 spac=0.001 tag=AlGaNTop
     line x loc=$AlThick spac=0.001 tag=AlGaNBottom
     line x loc=0.1 spac=0.01
@@ -63,7 +64,8 @@ proc HEMT_Struct { } {
 
     #gate layer
     region Nitride xlo=topGate xhi=AlGaNTop ylo=left yhi=GateL
-    region Metal   xlo=topGate xhi=AlGaNTop ylo=GateL yhi=GateR
+    region Metal   xlo=topGate xhi=topGateIns ylo=GateL yhi=GateR
+    region Nitride xlo=topGateIns xhi=AlGaNTop ylo=GateL yhi=GateR
     region Nitride xlo=topGate xhi=AlGaNTop ylo=GateR yhi=right
 
     #AlGaN GaN under gate
@@ -76,15 +78,17 @@ proc HEMT_Struct { } {
 
     #Contacts
     contact name=FP Metal xlo=[expr -0.4-$buf] xhi=[expr -0.4+$buf] ylo=[expr $Gtr] yhi=[expr $Gtr+$FP2] add depth=1.0 width=1.0
-    #contact name=G Metal xlo=[expr -0.15-$buf] xhi=[expr -0.15+$buf] ylo=[expr $Gtl] yhi=[expr $Gtr] add depth=1.0 width=1.0
-    contact name=G AlGaN xlo=[expr 0.0-$buf] xhi=0.001 ylo=[expr $Gtl+$buf] yhi=[expr $Gtr-$buf] add depth=1.0 width=1.0
+    # contact name=G Metal xlo=[expr -0.15-$buf] xhi=[expr -0.15+$buf] ylo=[expr $Gtl] yhi=[expr $Gtr] add depth=1.0 width=1.0
+    # contact name=G AlGaN xlo=[expr 0.0-$buf] xhi=0.001 ylo=[expr $Gtl+$buf] yhi=[expr $Gtr-$buf] add depth=1.0 width=1.0
+    contact name=G Nitride xlo=[expr -0.006] xhi=-0.001 ylo=[expr $Gtl+$buf] yhi=[expr $Gtr-$buf] add depth=1.0 width=1.0
+
     set l [expr $Gtl-$SourceGate-0.125] 
     contact name=S AlGaN ylo=[expr $l-$buf] yhi=[expr $l+$buf] xlo=[expr 0.0-$buf] xhi=[expr $AlThick-$buf] add depth=1.0 width=1.0
     set r [expr $Gtr+$DrainGate+0.125]
     contact name=D AlGaN ylo=[expr $r-$buf] yhi=[expr $r+$buf] xlo=[expr 0.0-$buf] xhi=[expr $AlThick-$buf] add depth=1.0 width=1.0
     contact name=B GaN xlo=[expr $bot-$buf]  xhi=[expr $bot+$buf] ylo=$l yhi=$r add depth=1.0 width=1.0
 
-    contact name=G current=(Hole_AlGaN-Elec_AlGaN) voltage supply=0.0
+    contact name=G current=(Hole_Nitride-Elec_Nitride) voltage supply=0.0
     contact name=B current=(Hole_GaN-Elec_GaN) voltage supply=0.0
     contact name=D current=(Hole_GaN-Elec_GaN) voltage supply=0.0
     contact name=S current=(Hole_GaN-Elec_GaN) voltage supply=0.0
@@ -92,7 +96,7 @@ proc HEMT_Struct { } {
       
     #doping definition-will use method from pfmos_qf deck for simplicity
     #GaN Doping-from Dessis file from Heller-acceptor-p-type
-    sel z=-4e15*Mater(GaN)*(x>0.1) name=GaN_Doping
+    sel z=-4e17*Mater(GaN)*(x>0.1) name=GaN_Doping
 
     #AlGaN Doping-from Dessis file from Heller-he puts equivalent donor and acceptor doping in region to signify traps
     sel z=1e12 name=AlGaN_Doping
@@ -107,7 +111,7 @@ proc HEMT_Struct { } {
     set sigma 0.025
     set mean_x 0.0
     set mean_y [expr $Gtr + 0.04]
-    if {$radTest} {
+    if {0} {
         sel z=-5e17*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma)) name=Rad_Doping
     } else {
         sel z=0.0 name=Rad_Doping
@@ -126,4 +130,4 @@ proc HEMT_Struct { } {
     sel z=0.22 name=AlN_Ratio
 }
 HEMT_Struct
-set radTest 1
+
