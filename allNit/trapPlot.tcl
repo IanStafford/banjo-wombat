@@ -8,6 +8,11 @@ proc trapPlot {ivCSV trapLevel bias} {
     Initialize
     device init
 
+    for {set g 0.0} {$g > -2.0} {set g [expr $g-0.25]} {
+        contact name=G supply=$g
+        device
+    }   
+
     set f [open $ivCSV w]
 
     for {set d 0.0} {$d < [expr $bias + 0.01]} {set d [expr $d+0.1]} {

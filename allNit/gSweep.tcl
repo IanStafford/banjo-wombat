@@ -23,7 +23,7 @@ proc gSweep {vds vgmin vgmax} {
 }
 window row=1 col=1
 
-set trapEn 1
+set trapEn 0
 set trapLevel 5.0
 source fieldplate.tcl
 source GaN_modelfile_masterD

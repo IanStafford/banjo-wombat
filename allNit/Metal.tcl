@@ -19,7 +19,7 @@ pdbSetBoolean FP DevPsi Fixed 1
 pdbSetDouble FP DevPsi Flux.Scale 1.602e-19
 
 
-#Schottky Contact - assume that the contact itself is in contact with the AlGaN
+#Schottky Contact - assume that the contact itself is in contact with the Nitride
 #a more complicated way would be to solve the metal and have an interface equation for the current
 pdbSetString G DevPsi Equation "([pdbDelayDouble Nitride Elec Ec])+G-$phiB"
 pdbSetBoolean G DevPsi Fixed 1
@@ -90,7 +90,7 @@ proc Ohmic {Mat Contact} {
     pdbSetString $Contact Qfp Equation "Qfp+$Contact"
 }
 
-Ohmic AlGaN S
-Ohmic AlGaN D
+Ohmic Nitride S
+Ohmic Nitride D
 Ohmic GaN B
 
