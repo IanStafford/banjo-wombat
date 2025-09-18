@@ -32,11 +32,12 @@ solution add name=Qfn solve negative damp continuous
 
 source Poisson.tcl
 
-set sigma 0.05
+
+# 2D Gaussian trap distribution
+set sigma 0.025
 set mean_x 0.0
 set mean_y 0.14
-#set mean_y 0.4
-set trapConc "1e19*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))"
+set trapConc "4e19*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))"
 #set trapConc 5e18
 
 global trapLevel
@@ -111,10 +112,13 @@ proc Initialize {} {
     set nv "([pdbDelayDouble Nitride Hole Nv])" 
     set aff "([pdbGetDouble Nitride Affinity])"
     set Eg "([pdbGetDouble Nitride Eg])"
-    
-    sel z = "Mater(Nitride) * ((Doping>0.0) ? (-$Vt * log(AbsDop / $nc) + $aff) : 0.0)"  name=Nitride_N
-    sel z = "Mater(Nitride) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=Nitride_P
-
+    if {1} {
+        sel z = "Mater(Nitride) * ((Doping>0.0) ? (-$Vt * log(AbsDop / $nc) + $aff) : 0.0)"  name=Nitride_N
+        sel z = "Mater(Nitride) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=Nitride_P
+    } else {
+        sel z = "Mater(Nitride) * (-$Vt * log(AbsDop / $nc) + $aff)"  name=Nitride_N
+        sel z = "Mater(Nitride) * ($Vt * log(AbsDop / $nv) + $aff + $Eg)"  name=Nitride_P
+    }
     #now Metal
     InitMetal
     

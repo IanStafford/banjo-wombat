@@ -36,7 +36,7 @@ if {$Original} {
 } else {
     #thermionic emission current at the contact using guesstimates of the emission velocity
     set p0B "(([pdbDelayDouble Nitride Hole Nv]) * f12( -(([pdbDelayDouble Nitride Eg]) - $phiB) / ($Vt) ))"
-    pdbSetString G Qfp Equation "-1.5e6 * (Hole - $p0B)"
+    pdbSetString G Qfp Equation "-2.0e6 * (Hole - $p0B)"
     pdbSetDouble G Qfp Flux.Scale 1.602e-19
 
     #thermionic emission current for electrons

@@ -15,7 +15,21 @@ proc trapPlot {ivCSV trapLevel bias} {
 
     set f [open $ivCSV w]
 
-    for {set d 0.0} {$d < [expr $bias + 0.01]} {set d [expr $d+0.1]} {
+    for {set d 0.0} {$d < [expr 2.0 + 0.01]} {set d [expr $d+0.1]} {
+        contact name=D supply=$d
+        device
+        set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e3}] 
+        #FLOOXS GIVES A/um
+        puts $f "$d, $cur"
+        chart graph=IV curve=DrainCur xval=$d yval=$cur leg.left
+        if { [nearHalfVolt $d 0.01] } {
+            sel z=log10(abs(Acceptor)+1.0)
+            plot1d graph=Vertical xv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$d" log
+            #plot1d graph=Lateral yv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$d" penstyle=solid ymin=-0.5 ymax=0.5
+        }        
+    }
+
+    for {set d 2.005} {$d < [expr $bias + 0.001]} {set d [expr $d+0.002]} {
         contact name=D supply=$d
         device
         set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e3}] 
