@@ -1,4 +1,4 @@
-proc nearHalfVolt {V {tol 0.01}} {
+proc nearHalfVolt {V {tol 0.001}} {
     set scaled [expr {$V / 0.5}]
     set frac [expr {abs($scaled - round($scaled))}]
     return [expr {$frac < ($tol / 0.5)}]
@@ -15,10 +15,10 @@ proc trapPlot {ivCSV trapLevel bias} {
 
     set f [open $ivCSV w]
 
-    for {set d 0.0} {$d < [expr 2.0 + 0.01]} {set d [expr $d+0.1]} {
+    for {set d 0.0} {$d < [expr $bias + 0.001]} {set d [expr $d+0.005]} {
         contact name=D supply=$d
         device
-        set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e3}] 
+        set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}] 
         #FLOOXS GIVES A/um
         puts $f "$d, $cur"
         chart graph=IV curve=DrainCur xval=$d yval=$cur leg.left
@@ -28,19 +28,20 @@ proc trapPlot {ivCSV trapLevel bias} {
             #plot1d graph=Lateral yv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$d" penstyle=solid ymin=-0.5 ymax=0.5
         }        
     }
-
-    for {set d 2.005} {$d < [expr $bias + 0.001]} {set d [expr $d+0.002]} {
-        contact name=D supply=$d
-        device
-        set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e3}] 
-        #FLOOXS GIVES A/um
-        puts $f "$d, $cur"
-        chart graph=IV curve=DrainCur xval=$d yval=$cur leg.left
-        if { [nearHalfVolt $d 0.01] } {
-            sel z=log10(abs(Acceptor)+1.0)
-            plot1d graph=Vertical xv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$d" log
-            #plot1d graph=Lateral yv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$d" penstyle=solid ymin=-0.5 ymax=0.5
-        }        
+    if {0} {
+        for {set d 3.105} {$d < [expr $bias + 0.001]} {set d [expr $d+0.002]} {
+            contact name=D supply=$d
+            device
+            set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}] 
+            #FLOOXS GIVES A/um
+            puts $f "$d, $cur"
+            chart graph=IV curve=DrainCur xval=$d yval=$cur leg.left
+            if { [nearHalfVolt $d 0.01] } {
+                sel z=log10(abs(Acceptor)+1.0)
+                plot1d graph=Vertical xv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$d" log
+                #plot1d graph=Lateral yv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$d" penstyle=solid ymin=-0.5 ymax=0.5
+            }        
+        }
     }
 
     close $f

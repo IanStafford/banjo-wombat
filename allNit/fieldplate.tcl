@@ -41,8 +41,8 @@ proc HEMT_Struct { } {
     line y loc=[expr $Gtl-$SourceGate-0.125] spac=0.05 tag=left
     line y loc=[expr $Gtl-$SourceT] spac=0.03 tag=SourceT
     line y loc=[expr $Gtl] spac=0.01 tag=GateL
-    line y loc=[expr $Gtr] spac=0.01 tag=GateR
-    line y loc=[expr $Gtr+$DrainT] spac=0.01 tag=DrainT
+    line y loc=[expr $Gtr] spac=0.001 tag=GateR
+    line y loc=[expr $Gtr+$DrainT] spac=0.005 tag=DrainT
     line y loc=[expr $Gtr+$FP2] spac=0.02 tag=FP2
     line y loc=[expr $Gtr+$DrainGate] spac=0.05 
     line y loc=[expr $Gtr+$DrainGate+0.125] spac=0.05 tag=right
@@ -96,7 +96,7 @@ proc HEMT_Struct { } {
       
     #doping definition-will use method from pfmos_qf deck for simplicity
     #GaN Doping-from Dessis file from Heller-acceptor-p-type
-    sel z=-4e17*Mater(GaN)*(x>0.1) name=GaN_Doping
+    sel z=-8e16*Mater(GaN) name=GaN_Doping
 
     #AlGaN Doping-from Dessis file from Heller-he puts equivalent donor and acceptor doping in region to signify traps
     sel z=1e12 name=AlGaN_Doping
