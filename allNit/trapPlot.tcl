@@ -8,19 +8,22 @@ proc trapPlot {ivCSV trapLevel bias} {
     Initialize
     device init
 
-    for {set g 0.0} {$g > -2.0} {set g [expr $g-0.25]} {
+    for {set g 0.0} {$g > -2.05} {set g [expr $g-0.25]} {
         contact name=G supply=$g
         device
     }   
 
     set f [open $ivCSV w]
+    close $f
 
-    for {set d 0.0} {$d < [expr $bias + 0.001]} {set d [expr $d+0.005]} {
+    for {set d 0.0} {$d < [expr $bias + 0.001]} {set d [expr $d+0.1]} {
+        set f [open $ivCSV a]
         contact name=D supply=$d
         device
         set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}] 
         #FLOOXS GIVES A/um
         puts $f "$d, $cur"
+        close $f
         chart graph=IV curve=DrainCur xval=$d yval=$cur leg.left
         if { [nearHalfVolt $d 0.01] } {
             sel z=log10(abs(Acceptor)+1.0)

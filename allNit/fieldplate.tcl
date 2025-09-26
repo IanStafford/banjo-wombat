@@ -112,7 +112,7 @@ proc HEMT_Struct { } {
     set mean_x 0.0
     set mean_y [expr $Gtr + 0.04]
     if {0} {
-        sel z=-4.0e18*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma)) name=Rad_Doping
+        sel z=-4.0e17*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma)) name=Rad_Doping
     } else {
         sel z=0.0 name=Rad_Doping
     }

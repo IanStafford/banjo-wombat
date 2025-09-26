@@ -48,7 +48,7 @@ mater add name=GaN
     set Gseg1 "$Gmumin*(1*exp(log(Temp/300)*($Gbeta1)))"
     set Gseg2 "($Gmumax-$Gmumin)*(1*exp(log(Temp/300)*($Gbeta2)))"
     set Gseg3 "$GNref*(1*exp(log(Temp/300)*($Gbeta3)))"
-    set Gseg4 "abs((Doping+1)/$Gseg3)";     #modified to include ionized donor or acceptor traps
+    set Gseg4 "abs((Doping+Acceptor+1)/$Gseg3)";     #modified to include ionized donor or acceptor traps
     set Gseg5 "$Glowalpha*(1*exp(log(Temp/300)*($Gbeta4)))"
     set Gseg6 "1*exp(log($Gseg4)*($Gseg5))"
     set Gseg7 "1+$Gseg6"

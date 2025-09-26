@@ -36,20 +36,22 @@ if {$Original} {
 } else {
     #thermionic emission current at the contact using guesstimates of the emission velocity
     set p0B "(([pdbDelayDouble Nitride Hole Nv]) * f12( -(([pdbDelayDouble Nitride Eg]) - $phiB) / ($Vt) ))"
-    pdbSetString G Qfp Equation "-2.0e6 * (Hole - $p0B)"
+    set v_p 2.0e5
+    pdbSetString G Qfp Equation "-$v_p * (Hole - $p0B)"
     pdbSetDouble G Qfp Flux.Scale 1.602e-19
 
     #thermionic emission current for electrons
     set n0B "([pdbDelayDouble Nitride Elec Nc]) * f12( - ($phiB) / ($Vt) )"
-    pdbSetString G Qfn Equation "-2.0e6 * (Elec - $n0B)"
+    set v_n 2.0e5
+    pdbSetString G Qfn Equation "-$v_n * (Elec - $n0B)"
     pdbSetDouble G Qfn Flux.Scale 1.602e-19
 
     pdbSetDouble G Qfn Abs.Error 0.1
     pdbSetDouble G Qfn Rel.Error 1.0e-2
-    pdbSetDouble G Qfn DampValue 0.025
-    pdbSetDouble G Qfp Abs.Error 0.1
-    pdbSetDouble G Qfp Rel.Error 1.0e-2
-    pdbSetDouble G Qfp DampValue 0.025
+    pdbSetDouble G Qfn DampValue 0.0125
+    pdbSetDouble G Qfp Abs.Error 1.0
+    pdbSetDouble G Qfp Rel.Error 1.0e-1
+    pdbSetDouble G Qfp DampValue 0.002
 }
 
 proc InitMetal {} {
@@ -63,10 +65,10 @@ proc Ohmic {Mat Contact} {
 
     pdbSetDouble $Contact Qfp Rel.Error 1.0e-2
     pdbSetDouble $Contact Qfp Abs.Error 1.0e-2
-    pdbSetDouble $Contact Qfp DampValue 0.025
+    pdbSetDouble $Contact Qfp DampValue 0.0125
     pdbSetDouble $Contact Qfn Rel.Error 1.0e-2
     pdbSetDouble $Contact Qfn Abs.Error 1.0e-2
-    pdbSetDouble $Contact Qfn DampValue 0.025
+    pdbSetDouble $Contact Qfn DampValue 0.0125
     pdbSetDouble $Contact DevPsi Rel.Error 1.0e-2
     pdbSetDouble $Contact DevPsi Abs.Error 1.0e-2
     pdbSetDouble $Contact DevPsi DampValue 0.025
