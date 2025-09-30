@@ -8,7 +8,7 @@ proc trapPlot {ivCSV trapLevel bias} {
     Initialize
     device init
 
-    for {set g 0.0} {$g > -2.05} {set g [expr $g-0.25]} {
+    for {set g 0.0} {$g < -2.05} {set g [expr $g-0.25]} {
         contact name=G supply=$g
         device
     }   
@@ -16,7 +16,7 @@ proc trapPlot {ivCSV trapLevel bias} {
     set f [open $ivCSV w]
     close $f
 
-    for {set d 0.0} {$d < [expr $bias + 0.001]} {set d [expr $d+0.1]} {
+    for {set d 0.0} {$d < [expr 1.1 + 0.001]} {set d [expr $d+0.1]} {
         set f [open $ivCSV a]
         contact name=D supply=$d
         device
@@ -25,12 +25,27 @@ proc trapPlot {ivCSV trapLevel bias} {
         puts $f "$d, $cur"
         close $f
         chart graph=IV curve=DrainCur xval=$d yval=$cur leg.left
-        if { [nearHalfVolt $d 0.01] } {
+        if { [nearHalfVolt $d 0.001] } {
             sel z=log10(abs(Acceptor)+1.0)
             plot1d graph=Vertical xv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$d" log
             #plot1d graph=Lateral yv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$d" penstyle=solid ymin=-0.5 ymax=0.5
         }        
     }
+    device time=1.0e-6 t.ini=1.0e-20 userstep=1.0e-9 movie= {
+
+        set d [expr 1.1 + 0.1 * $Time / 1.0e-6]
+        contact name=D supply=$d
+
+
+        set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}] 
+        chart graph=IV curve=DrainCur xval=$d yval=$cur leg.left
+        if { [nearHalfVolt $d 0.001] } {
+            sel z=log10(abs(Acceptor)+1.0)
+            plot1d graph=Vertical xv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$d" log
+            #plot1d graph=Lateral yv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$d" penstyle=solid ymin=-0.5 ymax=0.5
+        }
+    }
+
     if {0} {
         for {set d 3.105} {$d < [expr $bias + 0.001]} {set d [expr $d+0.002]} {
             contact name=D supply=$d
@@ -57,4 +72,4 @@ set radTest 0
 set trapLevel 5.0
 source GaN_modelfile_masterD
 source fieldplate.tcl
-trapPlot "figures/test.csv" $trapLevel 10.0
+trapPlot "figures/newIV0.csv" $trapLevel 10.0

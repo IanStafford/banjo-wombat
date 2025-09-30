@@ -6,6 +6,10 @@ proc Poisson {Mat} {
     pdbSetDouble $Mat DevPsi Rel.Error 1.0e-1
 
     set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping - Elec + Hole"
+
+    # To let the mobility model work with new acceptor term.
+    solution name=Acceptor solve $Mat const val = 0.0
+
     pdbSetString $Mat DevPsi Equation $eqn
 }
 
