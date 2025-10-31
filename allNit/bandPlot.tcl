@@ -11,27 +11,27 @@ proc bandPlot {bias new penstyle} {
     device
     }
 
-    sel z=[expr {"Econd-Qfn"}]
-    plot1d graph=Elec xv=0.01 ylab="Econd-Qfn(eV)" title="ConductingBandDiagram" name="Vds=$bias" penstyle=$penstyle
+    sel z=[expr {"Eval+3.1-Qfp"}]
+    plot1d graph=Elec xv=0.018 ylab="Eval+3.4-Qfn(eV)" title="TrapLevel" name="Vds=$bias" penstyle=$penstyle
 
-    sel z=[expr {"Eval-Qfp"}]
-    plot1d graph=Hole xv=0.01 ylab= "Eval-Qfp (eV)" title= "ValenceBandDiagram" name= "Vds=$bias" penstyle=$penstyle
+    sel z=[expr {"Econd-Qfn"}]
+    plot1d graph=Hole xv=0.018 ylab= "Econd-Qfn(eV)" title= "Conduction" name= "Vds=$bias" penstyle=$penstyle
 
 
 }
 
 set radTest 0
-set trapEn 0
-set trapLevel 1.0
+set trapEn 1
+
 
 source GaN_modelfile_masterD
 source fieldplate.tcl
 pen name=low black
 bandPlot 6.0 1 low
 
-set trapLevel 1.0
+set trapEn 0
 
 source GaN_modelfile_masterD
 source fieldplate.tcl
 pen name=high red
-bandPlot 10.0 0 high
+bandPlot 6.0 0 high

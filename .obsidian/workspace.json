@@ -172,17 +172,18 @@
   },
   "active": "b74d6d5578da27d8",
   "lastOpenFiles": [
+    "allNit/IV_recompute.tcl",
+    "allNit/figMaker.tcl",
+    "allNit/figures/4e19cloud3.csv",
+    "allNit/figures/4e19cloud2.csv",
+    "allNit/figures/acceptor_GaN_AlGaN_3.csv",
+    "allNit/figures/4e19cloud.csv",
     "Pasted image 20250723110535.png",
     "allNit/figures/gateBias.csv",
     "allNit/blank.csv",
     "allNit/gateBias.csv",
     "allNit/gLeak.tcl",
     "allNit/Insulator.tcl",
-    "allNit/newInsulator.tcl",
-    "OLD/new GaN Modelfile/GaN_modelfile_masterD",
-    "OLD/new GaN Modelfile/dpFiles/GaN_modelfile_masterD",
-    "allNit/figures/fieldplateNewNit_Vt.csv",
-    "allNit/testMasterFile.tcl",
     "flooxsNotes.md"
   ]
 }

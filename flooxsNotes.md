@@ -420,6 +420,21 @@ What if there is a virtual gate forming from traps caused by the strike path of 
 - Models
 
 
+___
+Is there a problem with the way 2DEG is calculated? It seems like it is constant as it is not included in any material or DevPsi equations. This may impact the acceptor trapping as the charge is fixed and cannot move back into the GaN bulk to annihilate the holes in the acceptor traps
+
+Also the equations for density of states may be bugged? I'm assuming I am missing something. Should it be Nc or Nv in the numerator instead of AbsDop
+
+More focus on the GaN is probably necessary as there are more charges in the GaN
+
+___
+### Figures
+- Convergence Collapse plot
+- Standard calibration plot
+- structure plot showing the device
+- structure plot showing location of the charge cloud
+- 
+
 
 
 

@@ -1,5 +1,5 @@
 set radTest 0
-set trapEn 1
+set trapEn 0
 set trapLevel 5
 
 source fieldplate.tcl

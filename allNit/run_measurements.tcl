@@ -4,7 +4,9 @@ proc run_measurements {ivCSV peakCSV label} {
     device init
 
     if {1} {
-    for {set d 0.0} {$d <10.05} {set d [expr $d+0.5]} {
+    for {set d 0.0} {$d <1.05} {set d [expr $d+0.5]} {
+    # update global Vds so the structure's Gaussian amplitude follows the applied drain voltage
+    set ::Vds $d
     contact name=D supply=$d
     device
     }
@@ -32,6 +34,8 @@ proc run_measurements {ivCSV peakCSV label} {
 
     # Loop over Vds values from 0.0 to 20.0 (approximately)
     for {set vds 0.0} {$vds < 100.1} {set vds [expr $vds+0.25]} {
+        # ensure the global Vds used by the structure is updated
+        set ::Vds $vds
         contact name=D supply=$vds
         device
         sel z=abs(dot(DevPsi,y))*1.0e-4         

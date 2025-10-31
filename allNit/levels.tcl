@@ -6,7 +6,7 @@ proc levels {label vdsMAX} {
     device init
     #set g -1.0
     #contact name=G supply=$g
-    for {set g 0.0} {$g > -10.05} {set g [expr $g-0.5]} {
+    for {set g 0.0} {$g > 2.05} {set g [expr $g-0.5]} {
         contact name=G supply=$g
         device
     }
@@ -21,7 +21,6 @@ proc levels {label vdsMAX} {
     sel z=DevPsi
     #puts peak
     plot2d levels=20
-    plot2d xmax=0.5
     #plot2d zmax=3e6
 
 }

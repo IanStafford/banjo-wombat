@@ -8,6 +8,7 @@ set Vt ($k*Temp/$q)
 set eps0 8.854e-14
 set kev 8.617e-5
 set VtRoom [expr $k*300.0/$q]
+global VtRoom
 set hbar 1.054571628e-34
 set egan 7.88e-13
 
@@ -17,7 +18,7 @@ source AlGaN.tcl
 #source AlN.tcl
 source Insulator.tcl
 source Metal.tcl
-source Insulator.tcl
+
 
 #thermal domain
 #solution add name=Temp solve pde !negative continuous damp
@@ -34,28 +35,26 @@ source Poisson.tcl
 
 
 # 2D Gaussian trap distribution
-set sigma 0.025
+set sigma 0.015
 set mean_x 0.0
-set mean_y 0.14
+set mean_y 0.24
 set trapConc "4e19*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))"
-#set trapConc 5e18
+#set trapConc 5e19
 
 global trapLevel
+global trapEn
 
 if {$trapEn} {
-    #PoissonAcceptorTrap GaN $trapConc $trapLevel
-    #PoissonAcceptorTrap AlGaN $trapConc $trapLevel
-    #PoissonAcceptorTrap Nitride $trapConc $trapLevel
 
-    AcceptorTrap GaN $trapConc $trapLevel 0.015
-    AcceptorTrap AlGaN $trapConc $trapLevel 0.015
-        #AcceptorTrap Nitride $trapConc $trapLevel 0.025
+    AcceptorTrap GaN $trapConc 3.1 0.025 ; #GaN bandgap is about 3.4 eV
+    #Poisson 
+    AcceptorTrap AlGaN $trapConc 3.4 0.025 ; #AlGaN bandgap is about 3.75 eV at our Al fraction
+    #AcceptorTrap Nitride $trapConc $trapLevel 0.025
+
+    #DonorTrap GaN $trapConc $trapLevel 0.01
+    #DonorTrap AlGaN $trapConc $trapLevel 0.01
     Poisson Nitride
-    #Poisson GaN
 
-    #AcceptorTrap GaN 3.1e18 2.5 0.025
-    #AcceptorTrap AlGaN 3.1e18 2.5 0.025
-    #AcceptorTrap Nitride 3.1e18 2.5 0.025
 } else {
     Poisson GaN
     Poisson AlGaN
@@ -74,6 +73,7 @@ HoleContinuity GaN
 HoleContinuity AlGaN
 HoleContinuity Nitride
 
+# Is the interface charge constant everwhere all the time?
 #Add interface charge
 #pdbSetString AlGaN_GaN DevPsi Equation "1.06e13"
 pdbSetString AlGaN_GaN DevPsi Equation "6e12"
@@ -95,7 +95,7 @@ proc Initialize {} {
     set Eg "([pdbGetDouble GaN Eg])"
     sel z= abs(Doping)+1.0 name=AbsDop
 
-    sel z = "Mater(GaN) * ((Doping>0.0) ? (-$Vt * log( AbsDop / $nc) + $aff) : 0.0)"  name=GaN_N
+    sel z = "Mater(GaN) * ((Doping>0.0) ? (-$Vt * log( AbsDop / $nc) + $aff) : 0.0)"  name=GaN_N ;# Is the fraction in the logarithm inverted?
     sel z = "Mater(GaN) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=GaN_P
 
     #now AlGaN

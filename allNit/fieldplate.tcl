@@ -18,8 +18,14 @@ set FP2 0.8
 
 set AlThick 0.015 ;# 15nm AlGaN thickness
 
+# Parameters for the Gaussian radial cloud (exposed globals so other scripts can recompute)
+set radBase -4.0e17
+set radVscale 10.0
+set sigma 0.015
+set mean_x 0.0
+
 proc HEMT_Struct { } {
-    global Gate_Length AlThick SourceGate SourceT DrainGate DrainT FP2 radTest
+    global Gate_Length AlThick SourceGate SourceT DrainGate DrainT FP2 radTest Vds radBase radVscale sigma mean_x mean_y
 
     #Structure definition (AlGaN is 25nm thick.It is below the critical thickness for relaxation ~65nm Ambacher)
     set Mid_Point 0.0
@@ -108,14 +114,17 @@ proc HEMT_Struct { } {
     sel z=(1e19*(y<$le)+(y>=$le)*1.0e19*exp(-(y-$le)*(y-$le)/(1.5*0.02*0.02)))*(exp(-(x*x)/(2.0*0.03*0.03)))*(x>=0.0) name=Source_Doping
 
     # Gaussian distribution for single event charge deposition centered at x=0, y=Gtr
-    set sigma 0.025
-    set mean_x 0.0
-    set mean_y [expr $Gtr + 0.04]
-    if {0} {
-        sel z=-4.0e17*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma)) name=Rad_Doping
-    } else {
-        sel z=0.0 name=Rad_Doping
+    # Expose mean_y so external procs can recompute Rad_Doping when Vds changes
+    set mean_y [expr $Gtr + 0.34]
+
+    # Ensure defaults exist for Vds
+    if {![info exists Vds]} {
+        set Vds 0.0
     }
+
+    # initial Rad_Doping (will be recomputed by RecomputeRad during sweeps)
+    set radAmp [expr {$radBase * (1.0 + ($Vds / $radVscale))}]
+    sel z=$radAmp*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma)) name=Rad_Doping
     
     
 
@@ -130,4 +139,12 @@ proc HEMT_Struct { } {
     sel z=0.22 name=AlN_Ratio
 }
 HEMT_Struct
+
+# Helper to explicitly recompute the radial Gaussian doping based on the current global Vds.
+proc RecomputeRad {} {
+    global radBase radVscale Vds sigma mean_x mean_y
+    if {![info exists Vds]} { set Vds 0.0 }
+    set radAmp [expr {$radBase * (1.0 + ($Vds / $radVscale))}]
+    sel z=$radAmp*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma)) name=Rad_Doping
+}
 

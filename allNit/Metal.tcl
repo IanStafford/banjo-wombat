@@ -46,7 +46,7 @@ if {$Original} {
     pdbSetString G Qfn Equation "-$v_n * (Elec - $n0B)"
     pdbSetDouble G Qfn Flux.Scale 1.602e-19
 
-    pdbSetDouble G Qfn Abs.Error 0.1
+    pdbSetDouble G Qfn Abs.Error 0.01
     pdbSetDouble G Qfn Rel.Error 1.0e-2
     pdbSetDouble G Qfn DampValue 0.0125
     pdbSetDouble G Qfp Abs.Error 1.0
