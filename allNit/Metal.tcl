@@ -25,7 +25,7 @@ pdbSetString G DevPsi Equation "([pdbDelayDouble Nitride Elec Ec])+G-$phiB"
 pdbSetBoolean G DevPsi Fixed 1
 pdbSetDouble G DevPsi Flux.Scale 1.602e-19
 
-set Original 0
+set Original 1
 
 if {$Original} {
     #original code to pin holes

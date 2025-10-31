@@ -277,28 +277,28 @@ Struct2D  ;#for e-field calc, work for Id calc now also, SD contacts have to be 
 # none of this is used
 set dose 2.0e14
 
-profile name=Vgag inf=Vga-gate.flps log ymin=1.0 offset=0.3
+#profile name=Vgag inf=Vga-gate.flps log ymin=1.0 offset=0.3
 sel z= $dose*Vgag*0.5*erfc((y-0.5)/sqrt(2)/5.0e-2) name=profile_r   ;#2.0e13/cm2 rad dose 
 sel z= $dose*Vgag*0.5*erfc(-(y+0.5)/sqrt(2)/5.0e-2) name=profile_l
 sel z= (profile_r*(y>=0))+(profile_l*(y<0)) name=gate_Vga
 
-profile name=Vng inf=Vn-gate.flps log ymin=1.0 offset=0.3
+#profile name=Vng inf=Vn-gate.flps log ymin=1.0 offset=0.3
 sel z= $dose*Vng*0.5*erfc((y-0.5)/sqrt(2)/5.0e-2) name=profile_r   ;#2.0e13/cm2 rad dose 
 sel z= $dose*Vng*0.5*erfc(-(y+0.5)/sqrt(2)/5.0e-2) name=profile_l
 sel z= (profile_r*(y>=0))+(profile_l*(y<0)) name=gate_Vn
 
-profile name=Vga inf=Vn-nitride.flps log ymin=1.0 offset=0.3
+#profile name=Vga inf=Vn-nitride.flps log ymin=1.0 offset=0.3
 sel z= $dose*Vga*0.5*erfc((y-0.5)/sqrt(2)/5.0e-2) name=profile_r   ;#2.0e13/cm2 rad dose 
 sel z= $dose*Vga*0.5*erfc(-(y+0.5)/sqrt(2)/5.0e-2) name=profile_l
 sel z= (profile_r*(y>=0))+(profile_l*(y<0)) name=nitride_Vga
 
-profile name=Vn inf=Vn-nitride.flps log ymin=1.0 offset=0.3
+#profile name=Vn inf=Vn-nitride.flps log ymin=1.0 offset=0.3
 sel z= $dose*Vn*0.5*erfc((y-0.5)/sqrt(2)/5.0e-2) name=profile_r   ;#2.0e13/cm2 rad dose 
 sel z= $dose*Vn*0.5*erfc(-(y+0.5)/sqrt(2)/5.0e-2) name=profile_l
 sel z= (profile_r*(y>=0))+(profile_l*(y<0)) name=nitride_Vn
 
 
-profile name=vac inf=trim_gate.ux3 log ymin=1.0 offset=0.3
+#profile name=vac inf=trim_gate.ux3 log ymin=1.0 offset=0.3
 
 sel z= 9.82e16*0.5*erfc((y-0.5)/sqrt(2)/5.0e-2) name=profile_r   ;#2.0e14/cm2 rad dose 
 sel z= 9.82e16*0.5*erfc(-(y+0.5)/sqrt(2)/5.0e-2) name=profile_l
@@ -389,9 +389,9 @@ solution add name=Donor solve const val = 10.0
 solution add name=Acceptor solve const val = 10.0
 
 ###### uncomment these to add traps at varius concentrations and energies (conc  energy level  spread)
-#DonorTrap GaN 1.0e17 0.1 0.025
-#AcceptorTrap AlGaN 3.1e18 3.4 0.025
-#AcceptorTrap GaN 1.0e17 1.0 0.025
+DonorTrap GaN 1.0e17 0.1 0.025
+AcceptorTrap AlGaN 3.1e18 3.4 0.025
+AcceptorTrap GaN 1.0e17 1.0 0.025
 Poisson AlGaN
 Poisson metal
 Poisson oxide

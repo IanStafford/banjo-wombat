@@ -31,6 +31,7 @@ solution add name=DevPsi solve negative damp continuous
 solution add name=Qfp solve negative damp continuous
 solution add name=Qfn solve negative damp continuous
 
+
 source Poisson.tcl
 
 
@@ -85,6 +86,8 @@ pdbSetString AlGaN_GaN DevPsi Equation "6e12"
 proc Initialize {} {
     global Vt
     sel z=300.00 name=Temp
+    solution name=Qfn val=0 const
+    solution name=Qfp val=0 const
 
     #four components - GaN ntype, GaN ptype, AlGaN ntype, AlGaN ptype
 
@@ -95,8 +98,10 @@ proc Initialize {} {
     set Eg "([pdbGetDouble GaN Eg])"
     sel z= abs(Doping)+1.0 name=AbsDop
 
-    sel z = "Mater(GaN) * ((Doping>0.0) ? (-$Vt * log( AbsDop / $nc) + $aff) : 0.0)"  name=GaN_N ;# Is the fraction in the logarithm inverted?
-    sel z = "Mater(GaN) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=GaN_P
+    #sel z = "Mater(GaN) * ((Doping>0.0) ? (-$Vt * log( AbsDop / $nc) + $aff) : 0.0)"  name=GaN_N ;# Is the fraction in the logarithm inverted?
+    #sel z = "Mater(GaN) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=GaN_P
+
+    newton GaN eqn=Doping-Elec+Hole var=DevPsi damp=0.025
 
     #now AlGaN
     set nc "([pdbDelayDouble AlGaN Elec Nc])"
@@ -104,8 +109,11 @@ proc Initialize {} {
     set aff "([pdbGetDouble AlGaN Affinity])"
     set Eg "([pdbGetDouble AlGaN Eg])"
 
-    sel z = "Mater(AlGaN) * ((Doping>0.0) ? (-$Vt * log(AbsDop / $nc) + $aff) : 0.0)"  name=AlGaN_N
-    sel z = "Mater(AlGaN) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=AlGaN_P
+    #sel z = "Mater(AlGaN) * ((Doping>0.0) ? (-$Vt * log(AbsDop / $nc) + $aff) : 0.0)"  name=AlGaN_N
+    #sel z = "Mater(AlGaN) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=AlGaN_P
+
+    newton AlGaN eqn=Doping-Elec+Hole var=DevPsi damp=0.025
+
 
     #Now Nitride???
     set nc "([pdbDelayDouble Nitride Elec Nc])"
@@ -113,20 +121,27 @@ proc Initialize {} {
     set aff "([pdbGetDouble Nitride Affinity])"
     set Eg "([pdbGetDouble Nitride Eg])"
     if {1} {
-        sel z = "Mater(Nitride) * ((Doping>0.0) ? (-$Vt * log(AbsDop / $nc) + $aff) : 0.0)"  name=Nitride_N
-        sel z = "Mater(Nitride) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=Nitride_P
+        #sel z = "Mater(Nitride) * ((Doping>0.0) ? (-$Vt * log(AbsDop / $nc) + $aff) : 0.0)"  name=Nitride_N
+        #sel z = "Mater(Nitride) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=Nitride_P
     } else {
         sel z = "Mater(Nitride) * (-$Vt * log(AbsDop / $nc) + $aff)"  name=Nitride_N
         sel z = "Mater(Nitride) * ($Vt * log(AbsDop / $nv) + $aff + $Eg)"  name=Nitride_P
     }
+
+    #newton Nitride eqn=Doping-Elec+Hole var=DevPsi damp=0.025
+
     #now Metal
     InitMetal
     
     #sum them together
-    sel z=GaN_N+GaN_P+AlGaN_N+AlGaN_P+MetalDevPsi+Nitride_N+Nitride_P name=DevPsi
+    #sel z=GaN_N+GaN_P+AlGaN_N+AlGaN_P+MetalDevPsi+Nitride_N+Nitride_P name=DevPsi
 
     sel z=0 name=DonorTraps
     sel z=0.0 name=Qfn
     sel z=0.0 name=Qfp
     sel z=0.0 name=Impurity
+
+    device init
+    solution add name=Qfp solve negative damp continuous pde
+    solution add name=Qfn solve negative damp continuous pde
 }
