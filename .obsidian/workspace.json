@@ -172,6 +172,10 @@
   },
   "active": "b74d6d5578da27d8",
   "lastOpenFiles": [
+    "allNit/figures/transfer.csv",
+    "allNit/transferCurve.tcl",
+    "allNit/figures/IVcurves.csv",
+    "allNit/figures/fpIV0_recompute.csv",
     "allNit/IV_recompute.tcl",
     "allNit/figMaker.tcl",
     "allNit/figures/4e19cloud3.csv",
@@ -180,10 +184,6 @@
     "allNit/figures/4e19cloud.csv",
     "Pasted image 20250723110535.png",
     "allNit/figures/gateBias.csv",
-    "allNit/blank.csv",
-    "allNit/gateBias.csv",
-    "allNit/gLeak.tcl",
-    "allNit/Insulator.tcl",
     "flooxsNotes.md"
   ]
 }

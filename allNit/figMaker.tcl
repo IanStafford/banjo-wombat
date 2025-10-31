@@ -22,10 +22,8 @@
 # - Data in the form of a .csv file specified by the dataFile variable
 # ===========================================
 set trapEn 0
-proc transferCurve {lib struct vd vgMax vgMin dataFile} {
-    source $lib
-	source $struct
-    
+proc transferCurve {vd vgMax vgMin dataFile} {
+
 	Initialize
 	device init
 
@@ -78,12 +76,11 @@ proc transferCurve {lib struct vd vgMax vgMin dataFile} {
 # - Transfer curve plot into plot window
 # - Data in the form of a .csv file specified by the dataFile variable
 # ===========================================
-proc IVCurves {lib struct vd vgMax vgMin step dataFile} {
-	source $struct
-    source $lib
+proc IVCurves {vd vgMax vgMin step dataFile} {
 
 	Initialize
 	device init
+
 	for {set g 0.0} {$g > [expr $vgMin - 0.05]} {set g [expr $g-0.5]} {
 		contact name=G supply=$g
 		device
@@ -92,38 +89,70 @@ proc IVCurves {lib struct vd vgMax vgMin step dataFile} {
 	set f [open $dataFile w]
 
 	set n $vgMin
-	while {n < $vgMax} {
-
+	while {$n < $vgMax} {
+		puts "gary"
 		for {set d 0.0} {$d < [expr $vd + 0.05]} {set d [expr $d+0.5]} {
 				# update global Vds so structure expressions follow the drain sweep
 				set ::Vds $d
 			contact name=D supply=$d
 			device
-			set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e3}] 
+			set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}] 
         	puts $f "$d, $cur"
-        	chart graph=IV curve=$n xval=$g yval=$cur leg.left
+        	chart graph=IV curve=$n xval=$d yval=$cur leg.left
 		}
 
-		for {set g $n} {$g < [expr $n + $step + 0.05]} {set g [expr $g + 0.25]} {
+		source fieldplate.tcl
+		#source GaN_modelfile_masterD
+		
+		set n [expr $n + $step]
+
+		Initialize
+		device init
+		
+		for {set g 0.0} {$g > [expr $n - 0.05]} {set g [expr $g-0.5]} {
 			contact name=G supply=$g
 			device
 		}
 
-		set n [expr $n + $step]
+
 	}
 	close $f
 }
 
-# Creating a transfer curve
-window row=1 col=1
-set lib "GaN_modelfile_masterD"
-set struct "fieldplate.tcl"
-set vd 10.0
-set vgMax 0.0
-set vgMin -4.0
-set dataFile "figures/transfer.csv"
-set trapEn 0; # Disable trapping for transfer curve
-transferCurve $lib $struct $vd $vgMax $vgMin $dataFile
+if {0} {
+	# Creating a transfer curve
+	window row=1 col=1
+	set lib "GaN_modelfile_masterD"
+	set struct "fieldplate.tcl"
+	set vd 10.0
+	set vgMax 0.0
+	set vgMin -4.0
+	set dataFile "figures/transfer.csv"
+	set trapEn 0; # Disable trapping for transfer curve
+
+	# Source the structure and library files before calling transferCurve
+	source $struct
+	source $lib
+	transferCurve $vd $vgMax $vgMin $dataFile
+}
+
+if {1} {
+	# Creating IV curves
+	window row=1 col=1
+	set lib "GaN_modelfile_masterD"
+	set struct "fieldplate.tcl"
+	set vd 1.0
+	set vgMax 0.0
+	set vgMin -3.0
+	set step 1.0
+	set dataFile "figures/IVcurves.csv"
+	set trapEn 0; # Disable trapping for IV curves
+
+	# Source the structure and library files before calling IVCurves
+	source $struct
+	source $lib
+	IVCurves $vd $vgMax $vgMin $step $dataFile
+}
 
 
 

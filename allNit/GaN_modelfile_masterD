@@ -43,7 +43,7 @@ set trapConc "4e19*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$
 #set trapConc 5e19
 
 global trapLevel
-global trapEn
+if {![info exists trapEn]} { set trapEn 0.0 }
 
 if {$trapEn} {
 

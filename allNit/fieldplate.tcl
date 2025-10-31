@@ -129,7 +129,7 @@ proc HEMT_Struct { } {
     
 
     #Total doping
-    sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping+Rad_Doping name=Doping
+    sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping name=Doping
     if {0} {
         window row=1 col=1
         sel z=Rad_Doping
