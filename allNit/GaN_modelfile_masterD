@@ -39,22 +39,24 @@ source Poisson.tcl
 set sigma 0.015
 set mean_x 0.0
 set mean_y 0.24
-set trapConc "4e19*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))"
+set trapConc "1e19*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))"
 #set trapConc 5e19
 
-global trapLevel
 if {![info exists trapEn]} { set trapEn 0.0 }
 
 if {$trapEn} {
 
-    AcceptorTrap GaN $trapConc 3.1 0.025 ; #GaN bandgap is about 3.4 eV
-    #Poisson 
-    AcceptorTrap AlGaN $trapConc 3.4 0.025 ; #AlGaN bandgap is about 3.75 eV at our Al fraction
-    #AcceptorTrap Nitride $trapConc $trapLevel 0.025
-
-    #DonorTrap GaN $trapConc $trapLevel 0.01
-    #DonorTrap AlGaN $trapConc $trapLevel 0.01
     Poisson Nitride
+    Poisson GaN
+    Poisson AlGaN
+
+    #AcceptorTrap GaN $trapConc 3.0 0.025 ; #GaN bandgap is about 3.4 eV
+    #AcceptorTrap AlGaN $trapConc 3.0 0.025 ; #AlGaN bandgap is about 3.75 eV at our Al fraction
+
+    DonorTrap GaN $trapConc 0.05 0.01
+    DonorTrap AlGaN $trapConc 0.05 0.01
+
+
 
 } else {
     Poisson GaN

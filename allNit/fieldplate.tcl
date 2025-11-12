@@ -19,7 +19,7 @@ set FP2 0.8
 set AlThick 0.015 ;# 15nm AlGaN thickness
 
 # Parameters for the Gaussian radial cloud (exposed globals so other scripts can recompute)
-set radBase -4.0e17
+set radBase -4.0e4
 set radVscale 10.0
 set sigma 0.015
 set mean_x 0.0
@@ -122,14 +122,21 @@ proc HEMT_Struct { } {
         set Vds 0.0
     }
 
+    if {![info exists Vds]} {
+        set Vgs 0.0
+    }
+
     # initial Rad_Doping (will be recomputed by RecomputeRad during sweeps)
-    set radAmp [expr {$radBase * (1.0 + ($Vds / $radVscale))}]
+    # Exponential increase around Vds = 3V (to start with)
+    set radAmp [expr {$radBase * (1.0 + exp(($Vds - 1.5)**3 / 0.5))}]
+    #set radAmp 1e18
     sel z=$radAmp*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma)) name=Rad_Doping
+
     
     
 
     #Total doping
-    sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping name=Doping
+    sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping+Rad_Doping name=Doping
     if {0} {
         window row=1 col=1
         sel z=Rad_Doping
@@ -142,9 +149,14 @@ HEMT_Struct
 
 # Helper to explicitly recompute the radial Gaussian doping based on the current global Vds.
 proc RecomputeRad {} {
-    global radBase radVscale Vds sigma mean_x mean_y
+    global radBase Vds sigma mean_x mean_y
     if {![info exists Vds]} { set Vds 0.0 }
-    set radAmp [expr {$radBase * (1.0 + ($Vds / $radVscale))}]
-    sel z=$radAmp*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma)) name=Rad_Doping
+    # Exponential increase around Vds = V threshold
+    set radAmp [expr {$radBase * (1.0 + exp(($Vds - 1.5)**3 / 0.5))}]
+    if {$radAmp > -1e18} {
+        sel z=$radAmp*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma)) name=Rad_Doping
+        sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping+Rad_Doping name=Doping
+    }
+
 }
 

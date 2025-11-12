@@ -5,7 +5,7 @@ if {1} {
 set trapEn 0
 source fieldplate.tcl
 source GaN_modelfile_masterD
-run_measurements "figures/4e19cloud3.csv" "null" fieldplate
+run_measurements "figures/1e18cloud.csv" "null" fieldplate
 }
 
 if {0} {

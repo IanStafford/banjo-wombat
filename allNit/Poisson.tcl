@@ -4,8 +4,8 @@ proc Poisson {Mat} {
     pdbSetDouble $Mat DevPsi Abs.Error 1.0e-1
     pdbSetDouble $Mat DevPsi Rel.Error 1.0e-1
 
-    set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping + Acceptor - Donor - Elec + Hole"
-
+    set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping - Donor - Elec + Hole"
+    #set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping - Elec + Hole"
     # To let the mobility model work with new acceptor term.
     solution name=Acceptor solve $Mat const val = 0.0
     solution name=Donor solve $Mat const val = 1.0
@@ -57,25 +57,25 @@ proc AcceptorTrap {Mat Ntrap Etrap Efwhm} {
     #solution name=TrapConc solve $Mat const val = ($Ntrap)
 
     if {$Efwhm == 0.0} {
-	set e1 0.0
-	set e2 "(($Ntrap) / (1 + 4.0 * exp( (Eval + $Etrap - Qfn) / ($Vt) )))"
-	set e3 0.0
+        set e1 0.0
+        set e2 "(($Ntrap) / (1 + 4.0 * exp( (Eval + $Etrap - Qfn) / ($Vt) )))"
+        set e3 0.0
     } else {
-	#set the evaluation point for the Gaussian-Hermite Quadrature
-    set sigma [expr $Efwhm/2.355]
-    set Off   [expr sqrt(3.0)*$sigma]
-	#set e1 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap + $Off - Qfp) / ($Vt) )))))"
-	#set e2 "((2.0/3.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap - Qfp) / ($Vt) )))))"
-	#set e3 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap - $Off - Qfp) / ($Vt) )))))"
-    set e1 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( (Qfp - (Eval + $Etrap + $Off)) / ($Vt) )))))"
-	set e2 "((2.0/3.0) * ((1 / (1 + 4.0 * exp( (Qfp - (Eval + $Etrap)) / ($Vt) )))))"
-	set e3 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( (Qfp - (Eval + $Etrap - $Off)) / ($Vt) )))))"
+        #set the evaluation point for the Gaussian-Hermite Quadrature
+        set sigma [expr $Efwhm/2.355]
+        set Off   [expr sqrt(3.0)*$sigma]
+        set e1 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap + $Off - Qfp) / ($Vt) )))))"
+        set e2 "((2.0/3.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap - Qfp) / ($Vt) )))))"
+        set e3 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap - $Off - Qfp) / ($Vt) )))))"
+        #set e1 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( (Qfp - (Eval + $Etrap + $Off)) / ($Vt) )))))"
+        #set e2 "((2.0/3.0) * ((1 / (1 + 4.0 * exp( (Qfp - (Eval + $Etrap)) / ($Vt) )))))"
+        #set e3 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( (Qfp - (Eval + $Etrap - $Off)) / ($Vt) )))))"
     }
     set Acceptor "$Ntrap * ($e1 + $e2 + $e3) + 1.0"
     solution name=Acceptor solve $Mat const val = ($Acceptor)
 
-    set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping - Acceptor - Elec + Hole"
-    pdbSetString $Mat DevPsi Equation $eqn
+    #set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping - Acceptor - Elec + Hole"
+    #pdbSetString $Mat DevPsi Equation $eqn
 }
 
 proc DonorTrap {Mat Ntrap Etrap Efwhm} {
@@ -91,21 +91,26 @@ proc DonorTrap {Mat Ntrap Etrap Efwhm} {
     #solution name=TrapConc solve $Mat const val = ($Ntrap)
 
     if {$Efwhm == 0.0} {
-	set e1 0.0
-	set e2 "(($Ntrap) / (1 + 4.0 * exp( (Econd - $Etrap - Qfn) / ($Vt) )))"
-	set e3 0.0
+        set e1 0.0
+        set e2 "(($Ntrap) / (1 + 4.0 * exp( (Econd - $Etrap - Qfn) / ($Vt) )))"
+        set e3 0.0
     } else {
-	#set the evaluation point for the Gaussian-Hermite Quadrature
-    set sigma [expr $Efwhm/2.355]
-    set Off   [expr sqrt(3.0)*$sigma]
-	set e1 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( (Econd - $Etrap + $Off - Qfn) / ($Vt) )))))"
-	set e2 "((2.0/3.0) * ((1 / (1 + 4.0 * exp( (Econd - $Etrap - Qfn) / ($Vt) )))))"
-	set e3 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( (Econd - $Etrap - $Off - Qfn) / ($Vt) )))))"
+        #set the evaluation point for the Gaussian-Hermite Quadrature
+        set sigma [expr $Efwhm/2.355]
+        set Off   [expr sqrt(3.0)*$sigma]
+        if {0} {
+            set e1 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( (Econd - $Etrap + $Off - Qfn) / ($Vt) )))))"
+            set e2 "((2.0/3.0) * ((1 / (1 + 4.0 * exp( (Econd - $Etrap - Qfn) / ($Vt) )))))"
+            set e3 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( (Econd - $Etrap - $Off - Qfn) / ($Vt) )))))"
+        } else {
+            set e1 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( ($Etrap + $Off - Qfn) / ($Vt) )))))"
+            set e2 "((2.0/3.0) * ((1 / (1 + 4.0 * exp( ($Etrap - Qfn) / ($Vt) )))))"
+            set e3 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( ($Etrap - $Off - Qfn) / ($Vt) )))))"
+        }
     }
     set Donor "$Ntrap * ($e1 + $e2 + $e3)"
     solution name=Donor solve $Mat const val = ($Donor)
-    solution name=Acceptor solve $Mat const val = 0.0
     
-    set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping + Donor - Elec + Hole"
-    pdbSetString $Mat DevPsi Equation $eqn
+    #set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping + Donor - Elec + Hole"
+    #pdbSetString $Mat DevPsi Equation $eqn
 }
