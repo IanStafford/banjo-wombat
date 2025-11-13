@@ -98,7 +98,7 @@ proc DonorTrap {Mat Ntrap Etrap Efwhm} {
         #set the evaluation point for the Gaussian-Hermite Quadrature
         set sigma [expr $Efwhm/2.355]
         set Off   [expr sqrt(3.0)*$sigma]
-        if {0} {
+        if {1} {
             set e1 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( (Econd - $Etrap + $Off - Qfn) / ($Vt) )))))"
             set e2 "((2.0/3.0) * ((1 / (1 + 4.0 * exp( (Econd - $Etrap - Qfn) / ($Vt) )))))"
             set e3 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( (Econd - $Etrap - $Off - Qfn) / ($Vt) )))))"
@@ -108,7 +108,7 @@ proc DonorTrap {Mat Ntrap Etrap Efwhm} {
             set e3 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( ($Etrap - $Off - Qfn) / ($Vt) )))))"
         }
     }
-    set Donor "$Ntrap * ($e1 + $e2 + $e3)"
+    set Donor "$Ntrap - $Ntrap * ($e1 + $e2 + $e3)"
     solution name=Donor solve $Mat const val = ($Donor)
     
     #set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping + Donor - Elec + Hole"

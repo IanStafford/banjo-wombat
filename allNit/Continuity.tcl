@@ -3,7 +3,7 @@ proc ElecContinuity {Mat} {
 
     pdbSetDouble $Mat Qfn Rel.Error 1.0e-2
     pdbSetDouble $Mat Qfn Abs.Error 1.0e-2
-    pdbSetDouble $Mat Qfn DampValue 0.15
+    pdbSetDouble $Mat Qfn DampValue 0.026
 
     set eqn "ddt(Elec) + ([pdbDelayDouble $Mat Elec mob]) * (Elec+1.0e10) * grad(Qfn)"
     pdbSetString $Mat Qfn Equation $eqn
@@ -20,7 +20,7 @@ proc HoleContinuity {Mat} {
 
     pdbSetDouble $Mat Qfp Rel.Error 1.0e-2
     pdbSetDouble $Mat Qfp Abs.Error 1.0e-2
-    pdbSetDouble $Mat Qfp DampValue 0.15
+    pdbSetDouble $Mat Qfp DampValue 0.026
 
     set eqn "ddt(Hole) - ([pdbDelayDouble $Mat Hole mob]) * (Hole+1.0e10) * grad(Qfp)"
     pdbSetString $Mat Qfp Equation $eqn
