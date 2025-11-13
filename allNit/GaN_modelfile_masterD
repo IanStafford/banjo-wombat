@@ -53,8 +53,8 @@ if {$trapEn} {
     #AcceptorTrap GaN $trapConc 3.0 0.025 ; #GaN bandgap is about 3.4 eV
     #AcceptorTrap AlGaN $trapConc 3.0 0.025 ; #AlGaN bandgap is about 3.75 eV at our Al fraction
 
-    DonorTrap GaN $trapConc 0.55 0.001
-    DonorTrap AlGaN $trapConc 0.55 0.001
+    DonorTrap GaN $trapConc 0.59 0.001
+    DonorTrap AlGaN $trapConc 0.59 0.001
 
 
 

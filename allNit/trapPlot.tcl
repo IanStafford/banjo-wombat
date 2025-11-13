@@ -70,4 +70,4 @@ set trapEn 1
 
 source GaN_modelfile_masterD
 source fieldplate.tcl
-trapPlot "figures/acceptor_GaN_AlGaN_4.csv" 10
+trapPlot "figures/acceptor_GaN_AlGaN_5.csv" 10
