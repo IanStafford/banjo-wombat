@@ -15,8 +15,9 @@ proc trapPlot {ivCSV bias} {
 
     set f [open $ivCSV w]
     close $f
+    set f2 [open "figures/acceptor_GaN_AlGaN_6_AcceptorTrapOccupation_Vgm2.csv" w]
 
-    for {set d 0.0} {$d < [expr $bias + 0.001]} {set d [expr $d+0.01]} {
+    for {set d 0.0} {$d < [expr 3.45 + 0.001]} {set d [expr $d+0.01]} {
         set f [open $ivCSV a]
         contact name=D supply=$d
         device
@@ -25,7 +26,50 @@ proc trapPlot {ivCSV bias} {
         puts $f "$d, $cur"
         close $f
         chart graph=IV curve=DrainCur xval=$d yval=$cur leg.left
-        if { [nearHalfVolt $d 0.001] } {
+        if { [nearHalfVolt $d 0.001]} {
+            #sel z=log10(abs(Acceptor)+1.0)
+            #sel z=Acceptor
+            #plot1d graph=Acceptor xv=0.018 ylab="AcceptorOccupation" title="Acceptor" name="Vds=$d"
+            sel z=log10(abs(Donor)+1.0)
+            #sel z=Donor
+            plot1d graph=Donor xv=0.018 xmax=0.5 xmin=0.0 ylab="DonorOccupation" title="Donor" name="Vds=$d" log
+            puts $f2 [print1d xv=0.018]
+
+            #sel z=Acceptor-Donor name=NetTrap
+            #plot1d graph=NetTrap xv=0.018 ylab="NetTrapOccupation" title="NetTrapOccupationLevel" name="Vds=$d"
+
+            
+            sel z=[expr {"Qfn"}]
+            plot1d graph=Elec xv=0.018 ylab="Qfn(eV)" title="GaN" name="Vds=$d" 
+
+            sel z=[expr {"Econd-Qfn-0.59"}]
+            plot1d graph=Hole xv=0.018 xmax=0.5 xmin=0.0 ylab="Econd(eV)-Qfn-Etrap" title="GaN" name= "Vds=$d"
+            #plot1d graph=Lateral yv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$d" penstyle=solid ymin=-0.5 ymax=0.5
+        } 
+         
+    }
+    close $f2
+    pdbSetDouble GaN Qfn DampValue 0.10
+    pdbSetDouble GaN Qfp DampValue 0.10
+    pdbSetDouble GaN DevPsi DampValue 0.10
+    pdbSetDouble AlGaN Qfn DampValue 0.10
+    pdbSetDouble AlGaN Qfp DampValue 0.10
+    pdbSetDouble AlGaN DevPsi DampValue 0.10
+    pdbSetDouble Nitride Qfn DampValue 0.10
+    pdbSetDouble Nitride Qfp DampValue 0.10
+    pdbSetDouble Nitride DevPsi DampValue 0.10
+
+
+    for {set d 3.45} {$d < [expr $bias + 0.001]} {set d [expr $d+0.0005]} {
+        set f [open $ivCSV a]
+        contact name=D supply=$d
+        device
+        set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}] 
+        #FLOOXS GIVES A/um
+        puts $f "$d, $cur"
+        close $f
+        chart graph=IV curve=DrainCur xval=$d yval=$cur leg.left
+        if { 1.0 } {
             #sel z=log10(abs(Acceptor)+1.0)
             #sel z=Acceptor
             #plot1d graph=Acceptor xv=0.018 ylab="AcceptorOccupation" title="Acceptor" name="Vds=$d"
@@ -40,12 +84,11 @@ proc trapPlot {ivCSV bias} {
             sel z=[expr {"Qfn"}]
             plot1d graph=Elec xv=0.018 ylab="Qfn(eV)" title="GaN" name="Vds=$d" 
 
-            sel z=[expr {"Econd-Qfn-0.55"}]
-            plot1d graph=Hole xv=0.018 xmax=0.5 xmin=0.0 ylab="Econd(eV)-Qfn" title="GaN" name= "Vds=$d"
+            sel z=[expr {"Econd-Qfn-0.59"}]
+            plot1d graph=Hole xv=0.018 xmax=0.5 xmin=0.0 ylab="Econd(eV)-Qfn-Etrap" title="GaN" name= "Vds=$d"
             #plot1d graph=Lateral yv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$d" penstyle=solid ymin=-0.5 ymax=0.5
         }        
     }
-
 
     if {0} {
         device time=10.0e-6 t.ini=1.0e-20 userstep=1.0e-12 movie= {
@@ -70,4 +113,4 @@ set trapEn 1
 
 source GaN_modelfile_masterD
 source fieldplate.tcl
-trapPlot "figures/acceptor_GaN_AlGaN_5.csv" 10
+trapPlot "figures/acceptor_GaN_AlGaN_6.csv" 10
