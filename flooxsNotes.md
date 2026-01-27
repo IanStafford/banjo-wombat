@@ -436,5 +436,12 @@ ___
 - 
 
 
+p eval_str(“sel z=Elec; print1d xv=0.0”)
+This can help plot stuff during the iterations
 
+pyro and qt driver for encapsulated postscript for window plotting
+
+window - help
+
+specify and prepare an answer for ('what does flooxs do different than sentaurus')
 
