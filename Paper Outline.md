@@ -1,4 +1,4 @@
-Right now thinking each bullet can be sentence or two. Gaps between bullets are topics of interest (Will add subheadings at least for the outline)
+
 # Simulation of heavy ion damage and current collapse in GaN HEMTs
 ## Introduction
 - Introduce GaN HEMTs and benefits, drawbacks
@@ -9,6 +9,7 @@ Right now thinking each bullet can be sentence or two. Gaps between bullets are 
 - Need for physics-based models to explain current collapse
 - Overview of subsequent sections of paper
 ## Background / Literature Review
+**OLD**
 - 2DEG formation
 - Device operation
 - Field Distribution
@@ -27,8 +28,22 @@ Right now thinking each bullet can be sentence or two. Gaps between bullets are 
 - Trap energy levels in GaN
 - Role of traps electrostatically
 - Justification of spatial distribution
+___
+**NEW**
+Notes: We probably don't want to talk about 2DEG and normal device operation, we have a lot to talk about otherwise. We should talk about the high field area under the gate and the floating plate area because that relates to the trap characterization. Haziq 2022 talks about that here:
+:
+	*“This high electric field may facilitate charge trapping between the passivation layer and III-nitrides interface. Electrons may also become stuck in free surface states under a strong electric field, triggering virtual gating and current collapse [173]. Owing to smaller gate–drain spacing, devices undergo significantly higher current collapse when scaled down for high-speed operation, amplifying the virtual gating effect of surface traps. Moreover, controlling the electric field distribution between the gate and drain is critical for obtaining a linearly scaled breakdown voltage per channel length. Scaling high-power GaN-based HEMTs to achieve low on-resistance and gate charge (Qg) is thus still a challenge for high-power and high-speed operation. Hence, the peak strength of the electric field at the gate edge must be reduced to achieve a high breakdown voltage [174].” (Haziq et al., 2022, p. 14)
+	 Some viable solutions to address these concerns include FP implementation, surface passivation, and gate structure variations. FP refers to an extension of the gate deposited onto the passivation layer toward the drain side, where the electric field at the AlGaN surface decreases. As shown in Figure 12a, the metallization layer sits on top of the passivation layer of HEMTs and prevents the current collapse effect by reducing the peak electric field near the gate’s drain edge [178]. In theory, the profile of the electric field distribution improves as FP successfully broadens the depletion region with multiple peaks that may substitute for a single peak, resulting in a more uniform electric field distribution [179]. FP implementation also helps reduce reverse leakage current. By providing an extra surface for field line termination and thus dispersing the electric field over a longer gate-to-drain interval, FP can reduce the maximum electric field and lessen electrical field congestion at the drain side of the gate edge. (Haziq et al., 2022, p. 15)*
 
+We also have some more specific charge trapping info from Yu, Faqir, Zou, and Sharma. I can consolidate more of that later I think the justification of the spatial distribution of traps can be derived from some of these trap characterization papers and our own electric field measurements. 
+
+Info on radiation damage effects and electrostatic effects can be derived from Patrick, Anderson, and some of the previously mentioned like Yu, Zou, Sharma. I can pull specifics soon. Dr. Patrick used TRIM and I have a little (We would have to dust it off) to discuss damage characteristics. Not sure device damage characteristics and ion tunneling and worth mentioning, although they can help explain the spatial distribution idea more? We have multiple previous studies on heavy ion but my Zotero isn't synced so I cannot list them (on my TODO)
+
+Current collapse is one of the most discussed phenomena with these devices, and I think it may be best to mention it before getting to radiation effects since it can manifest without radiation. Obviously the radiation worsens it. The two review papers I have are great for their in-depth explanation of current collapse and paraphrasing from them is probably going to be the best, most accurate way of incorporating it into the paper. **I'm thinking something along the lines of "current collapse is x,y,z caused by i,j,k and radiation effects are l,m,n caused by d,e,f and radiation effects worsen current collapse because il, jm, kn" for a general topic statement for the lit review** 
+
+**OLD**
 ## Experimental Methods
+
 - Devices sent from MACOM
 - Devices irradiated by NASA
 - Devices tested by UF
@@ -49,6 +64,17 @@ Right now thinking each bullet can be sentence or two. Gaps between bullets are 
 - DC Bias dependent radiation damage
 
 - Simulation methodology?
+___
+**NEW**
+## Methods
+Combining two sections from my previous outline into one methods section. More in line with everything I've been reading. I won't have much to add on the experimental methods portion, the technical specifics of the cyclotron they used and the pulse width of the curve tracer I'm not really familiar with (Does that stuff need to be in the paper?). But I would like to contain a good overview of the testing methodology to complete the paper.
+
+The TCAD or Simulation Methods section is going to be our jam here. I'm going to introduce FLOOXS as a tool, explain the mobility models (Farahmad?) and justify the changes to the model. Using info from Dr. Law and Dr. Patrick's papers I aim to create a simulation framework and then specify the specific changes we made to the model and the justifications for them(Do we make justifications here or in the results/discussion section?). The main points I want to hit are:
+- Inclusion of trap states in charge carrier portion of the mobility model
+	- This highlights FLOOXS ability to custom tune every aspect of the solver
+- Inclusion of the spatially confined trap area
+	- If the trapping characteristics are affected by a high field region, then it should be easily justifiable to use the spatially confined "High field" region to change where traps form
+- Maybe a transient or two to see if reproducibility is a thing?
 
 ## Results
 - Repeatable current collapse (NOT burnout)
@@ -74,6 +100,7 @@ Right now thinking each bullet can be sentence or two. Gaps between bullets are 
 - Mitigation strategies
 - Topology optimization
 - Rad hardness design and performance
+
 
 ## Conclusion
 Summary of findings, future work, and acknowledgements.

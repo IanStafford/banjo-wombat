@@ -113,14 +113,28 @@ proc HEMT_Struct { } {
     sel z=(1e19*(y>$re)+(y<=$re)*1.0e19*exp(-(y-$re)*(y-$re)/(1.5*0.02*0.02)))*(exp(-(x*x)/(2.0*0.03*0.03)))*(x>=0.0) name=Drain_Doping
     sel z=(1e19*(y<$le)+(y>=$le)*1.0e19*exp(-(y-$le)*(y-$le)/(1.5*0.02*0.02)))*(exp(-(x*x)/(2.0*0.03*0.03)))*(x>=0.0) name=Source_Doping
 
-    # Gaussian distribution for single event charge deposition centered at x=0, y=Gtr
-    # Expose mean_y so external procs can recompute Rad_Doping when Vds changes
-    set mean_y [expr $Gtr + 0.34]
-
     #Total doping
     sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping name=Doping
-
+    if {0} {
+        window row=1 col=1
+        sel z=Rad_Doping
+        plot2d levels=20
+        plot2d xmax=0.5
+    }
     sel z=0.22 name=AlN_Ratio
 }
 HEMT_Struct
+
+# Helper to explicitly recompute the radial Gaussian doping based on the current global Vds.
+proc RecomputeRad {} {
+    global radBase Vds sigma mean_x mean_y
+    if {![info exists Vds]} { set Vds 0.0 }
+    # Exponential increase around Vds = V threshold
+    set radAmp [expr {$radBase * (1.0 + exp(($Vds - 1.5)**3 / 0.5))}]
+    if {$radAmp > -1e18} {
+        sel z=$radAmp*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma)) name=Rad_Doping
+        sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping+Rad_Doping name=Doping
+    }
+
+}
 
