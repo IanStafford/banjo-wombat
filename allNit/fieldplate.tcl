@@ -1,4 +1,4 @@
-pdbSetDouble Math iterLimit 100
+pdbSetDouble Math iterLimit 800
 math device dim=2 col umf none scale
 
 mater add name=Metal

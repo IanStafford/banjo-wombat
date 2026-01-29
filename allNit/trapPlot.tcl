@@ -17,7 +17,7 @@ proc trapPlot {ivCSV bias} {
     close $f
     set f2 [open "figures/acceptor_GaN_AlGaN_6_AcceptorTrapOccupation_Vgm2.csv" w]
 
-    for {set d 0.0} {$d < [expr 3.45 + 0.001]} {set d [expr $d+0.01]} {
+    for {set d 0.0} {$d < [expr 3.45 + 0.001]} {set d [expr $d+0.1]} {
         set f [open $ivCSV a]
         contact name=D supply=$d
         device
