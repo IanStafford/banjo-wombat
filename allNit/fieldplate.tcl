@@ -18,14 +18,8 @@ set FP2 0.8
 
 set AlThick 0.015 ;# 15nm AlGaN thickness
 
-# Parameters for the Gaussian radial cloud (exposed globals so other scripts can recompute)
-set radBase -4.0e4
-set radVscale 10.0
-set sigma 0.015
-set mean_x 0.0
-
 proc HEMT_Struct { } {
-    global Gate_Length AlThick SourceGate SourceT DrainGate DrainT FP2 radTest Vds radBase radVscale sigma mean_x mean_y
+    global Gate_Length AlThick SourceGate SourceT DrainGate DrainT FP2
 
     #Structure definition (AlGaN is 25nm thick.It is below the critical thickness for relaxation ~65nm Ambacher)
     set Mid_Point 0.0
@@ -115,14 +109,7 @@ proc HEMT_Struct { } {
 
     #Total doping
     sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping name=Doping
-    if {0} {
-        window row=1 col=1
-        sel z=Rad_Doping
-        plot2d levels=20
-        plot2d xmax=0.5
-    }
+
     sel z=0.22 name=AlN_Ratio
 }
 HEMT_Struct
-
-# Helper to explicitly recompute the radial Gaussian doping based on the current global Vd
