@@ -58,4 +58,12 @@ pdbSetDouble SiC Thermalk 1.20
 pdbSetDouble SiC Heatcap 2.40
 
 set eqn "([pdbGetDouble SiC Heatcap] * ddt(Temp)) - (([pdbGetDouble SiC Thermalk]) * (grad(Temp))) - ($q * [pdbGetDouble SiC Elec mob] * (Elec) * dot(Qfn,Qfn))"
-pdbSetString SiC Temp Equation $eqn
+if {[catch {pdbSetString SiC Temp Equation $eqn} err]} {
+    puts "ERROR in SiC: Failed to set Temperature equation"
+    puts "  Equation: $eqn"
+    puts "  Heatcap: [pdbGetDouble SiC Heatcap]"
+    puts "  Thermalk: [pdbGetDouble SiC Thermalk]"
+    puts "  Elec mob: [pdbGetDouble SiC Elec mob]"
+    puts "  Error: $err"
+    error "SiC Temperature equation failed: $err"
+}

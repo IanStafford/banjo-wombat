@@ -106,5 +106,13 @@ pdbSetDouble AlGaN Thermalk 0.33
 pdbSetDouble AlGaN Heatcap 2.0
 
 set eqn "((([pdbGetDouble AlGaN Heatcap]) * ddt(Temp))) - (([pdbGetDouble AlGaN Thermalk]) * (grad(Temp))) - ($q * [pdbGetDouble AlGaN Elec mob] * (Elec) * dot(Qfn,Qfn))"
-pdbSetString AlGaN Temp Equation $eqn
+if {[catch {pdbSetString AlGaN Temp Equation $eqn} err]} {
+    puts "ERROR in AlGaN: Failed to set Temperature equation"
+    puts "  Equation: $eqn"
+    puts "  Heatcap: [pdbGetDouble AlGaN Heatcap]"
+    puts "  Thermalk: [pdbGetDouble AlGaN Thermalk]"
+    puts "  Elec mob: [pdbGetDouble AlGaN Elec mob]"
+    puts "  Error: $err"
+    error "AlGaN Temperature equation failed: $err"
+}
 

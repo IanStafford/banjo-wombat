@@ -86,10 +86,24 @@ pdbSetDouble Oxide Thermalk 2.85
 pdbSetDouble Oxide Heatcap 2.584
 
 set eqn "([pdbGetDouble Nitride Heatcap] * ddt(Temp)) - (([pdbGetDouble Nitride Thermalk]) * (grad(Temp)))"
-pdbSetString Nitride Temp Equation $eqn
+if {[catch {pdbSetString Nitride Temp Equation $eqn} err]} {
+    puts "ERROR in Insulator (Nitride): Failed to set Temperature equation"
+    puts "  Equation: $eqn"
+    puts "  Heatcap: [pdbGetDouble Nitride Heatcap]"
+    puts "  Thermalk: [pdbGetDouble Nitride Thermalk]"
+    puts "  Error: $err"
+    error "Nitride Temperature equation failed: $err"
+}
 
 set eqn "([pdbGetDouble Oxide Heatcap] * ddt(Temp)) - (([pdbGetDouble Oxide Thermalk]) * (grad(Temp)))"
-pdbSetString Oxide Temp Equation $eqn
+if {[catch {pdbSetString Oxide Temp Equation $eqn} err]} {
+    puts "ERROR in Insulator (Oxide): Failed to set Temperature equation"
+    puts "  Equation: $eqn"
+    puts "  Heatcap: [pdbGetDouble Oxide Heatcap]"
+    puts "  Thermalk: [pdbGetDouble Oxide Thermalk]"
+    puts "  Error: $err"
+    error "Oxide Temperature equation failed: $err"
+}
 
 proc InitInsulator {Mat} {
     sel z = "Mater($Mat) * [pdbDelayDouble AlGaN Affinity]" name=DevPsi$Mat

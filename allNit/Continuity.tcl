@@ -9,10 +9,21 @@ proc ElecContinuity {Mat} {
     pdbSetString $Mat Qfn Equation $eqn
 
     set e "([pdbDelayDouble $Mat Elec Ec])"
-    solution add name=Econd solve $Mat const val = ($e)
+    if {[catch {solution add name=Econd solve $Mat const val = ($e)} err]} {
+        puts "ERROR in ElecContinuity: Failed to set Econd constraint for material $Mat"
+        puts "  Equation: $e"
+        puts "  Error: $err"
+        error "ElecContinuity Econd constraint failed: $err"
+    }
 
     set e "([pdbDelayDouble $Mat Elec Nc]) * f12( -(Econd-Qfn) / ($Vt) )"
-    solution add name=Elec solve $Mat const val = "($e)"
+    if {[catch {solution add name=Elec solve $Mat const val = "($e)"} err]} {
+        puts "ERROR in ElecContinuity: Failed to set Elec constraint for material $Mat"
+        puts "  Equation: $e"
+        puts "  Vt: $Vt"
+        puts "  Error: $err"
+        error "ElecContinuity Elec constraint failed: $err"
+    }
 }
 
 proc HoleContinuity {Mat} {
@@ -26,9 +37,20 @@ proc HoleContinuity {Mat} {
     pdbSetString $Mat Qfp Equation $eqn
 
     set e "([pdbDelayDouble $Mat Hole Ev])"
-    solution add name=Eval solve $Mat const val = ($e)
+    if {[catch {solution add name=Eval solve $Mat const val = ($e)} err]} {
+        puts "ERROR in HoleContinuity: Failed to set Eval constraint for material $Mat"
+        puts "  Equation: $e"
+        puts "  Error: $err"
+        error "HoleContinuity Eval constraint failed: $err"
+    }
 
     set e "([pdbDelayDouble $Mat Hole Nv]) * f12( -(Qfp - Eval) / ($Vt) )"
-    solution name=Hole solve $Mat const val = "($e)"
+    if {[catch {solution name=Hole solve $Mat const val = "($e)"} err]} {
+        puts "ERROR in HoleContinuity: Failed to set Hole constraint for material $Mat"
+        puts "  Equation: $e"
+        puts "  Vt: $Vt"
+        puts "  Error: $err"
+        error "HoleContinuity Hole constraint failed: $err"
+    }
 }
 

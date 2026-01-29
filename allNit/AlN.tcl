@@ -93,5 +93,13 @@ pdbSetDouble AlN Heatcap 2.584
 #Thermal Transport Equations
 
 set eqn "([pdbGetDouble AlN Heatcap] * ddt(Temp)) - (([pdbGetDouble AlN Thermalk]) * (grad(Temp))) - ($q * [pdbGetDouble AlN Elec mob] * (Elec) * dot(Qfn,Qfn))"
-pdbSetString AlN Temp Equation $eqn
+if {[catch {pdbSetString AlN Temp Equation $eqn} err]} {
+    puts "ERROR in AlN: Failed to set Temperature equation"
+    puts "  Equation: $eqn"
+    puts "  Heatcap: [pdbGetDouble AlN Heatcap]"
+    puts "  Thermalk: [pdbGetDouble AlN Thermalk]"
+    puts "  Elec mob: [pdbGetDouble AlN Elec mob]"
+    puts "  Error: $err"
+    error "AlN Temperature equation failed: $err"
+}
 

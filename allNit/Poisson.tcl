@@ -7,10 +7,23 @@ proc Poisson {Mat} {
     set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping - Donor - Elec + Hole"
     #set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping - Elec + Hole"
     # To let the mobility model work with new acceptor term.
-    solution name=Acceptor solve $Mat const val = 0.0
-    solution name=Donor solve $Mat const val = 1.0
+    if {[catch {solution name=Acceptor solve $Mat const val = 0.0} err]} {
+        puts "ERROR in Poisson: Failed to set Acceptor constraint for material $Mat"
+        puts "  Error: $err"
+        error "Poisson Acceptor constraint failed: $err"
+    }
+    if {[catch {solution name=Donor solve $Mat const val = 1.0} err]} {
+        puts "ERROR in Poisson: Failed to set Donor constraint for material $Mat"
+        puts "  Error: $err"
+        error "Poisson Donor constraint failed: $err"
+    }
 
-    pdbSetString $Mat DevPsi Equation $eqn
+    if {[catch {pdbSetString $Mat DevPsi Equation $eqn} err]} {
+        puts "ERROR in Poisson: Failed to set DevPsi equation for material $Mat"
+        puts "  Equation: $eqn"
+        puts "  Error: $err"
+        error "Poisson DevPsi equation failed: $err"
+    }
 }
 
 proc InsPoisson {Mat} {
@@ -19,8 +32,13 @@ proc InsPoisson {Mat} {
     pdbSetDouble $Mat DevPsi DampValue $VtRoom
     pdbSetDouble $Mat DevPsi Abs.Error 1.0e-2
     pdbSetDouble $Mat DevPsi Rel.Error 1.0e-2
-    set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping" 
-    pdbSetString $Mat DevPsi Equation $eqn
+    set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping"
+    if {[catch {pdbSetString $Mat DevPsi Equation $eqn} err]} {
+        puts "ERROR in InsPoisson: Failed to set DevPsi equation for material $Mat"
+        puts "  Equation: $eqn"
+        puts "  Error: $err"
+        error "InsPoisson DevPsi equation failed: $err"
+    }
 }
 
 proc AcceptorTrapOld {Mat Ntrap Etrap Efwhm} {
@@ -42,7 +60,13 @@ proc AcceptorTrapOld {Mat Ntrap Etrap Efwhm} {
 	set e3 "(($Ntrap/6.0) * ((1 / (1 + 4.0 * exp( (Eval + $Etrap - $Off - Qfp) / ($Vt) )))))"
     }
     set Acceptor "$Acceptor + $e1 + $e2 + $e3"
-    solution name=Acceptor $Mat solve const val = "$Acceptor"
+    if {[catch {solution name=Acceptor $Mat solve const val = "$Acceptor"} err]} {
+        puts "ERROR in AcceptorTrapOld: Failed to set Acceptor constraint for material $Mat"
+        puts "  Ntrap: $Ntrap, Etrap: $Etrap, Efwhm: $Efwhm"
+        puts "  Acceptor equation: $Acceptor"
+        puts "  Error: $err"
+        error "AcceptorTrapOld constraint failed: $err"
+    }
 }
 
 proc AcceptorTrap {Mat Ntrap Etrap Efwhm} {
@@ -72,7 +96,16 @@ proc AcceptorTrap {Mat Ntrap Etrap Efwhm} {
         #set e3 "((1.0/6.0) * ((1 / (1 + 4.0 * exp( (Qfp - (Eval + $Etrap - $Off)) / ($Vt) )))))"
     }
     set Acceptor "$Ntrap * ($e1 + $e2 + $e3) + 1.0"
-    solution name=Acceptor solve $Mat const val = ($Acceptor)
+    if {[catch {solution name=Acceptor solve $Mat const val = ($Acceptor)} err]} {
+        puts "ERROR in AcceptorTrap: Failed to set Acceptor constraint for material $Mat"
+        puts "  Ntrap: $Ntrap, Etrap: $Etrap, Efwhm: $Efwhm"
+        puts "  Acceptor equation: $Acceptor"
+        puts "  e1: $e1"
+        puts "  e2: $e2"
+        puts "  e3: $e3"
+        puts "  Error: $err"
+        error "AcceptorTrap constraint failed: $err"
+    }
 
     #set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping - Acceptor - Elec + Hole"
     #pdbSetString $Mat DevPsi Equation $eqn
@@ -109,7 +142,16 @@ proc DonorTrap {Mat Ntrap Etrap Efwhm} {
         }
     }
     set Donor "$Ntrap - $Ntrap * ($e1 + $e2 + $e3)"
-    solution name=Donor solve $Mat const val = ($Donor)
+    if {[catch {solution name=Donor solve $Mat const val = ($Donor)} err]} {
+        puts "ERROR in DonorTrap: Failed to set Donor constraint for material $Mat"
+        puts "  Ntrap: $Ntrap, Etrap: $Etrap, Efwhm: $Efwhm"
+        puts "  Donor equation: $Donor"
+        puts "  e1: $e1"
+        puts "  e2: $e2"
+        puts "  e3: $e3"
+        puts "  Error: $err"
+        error "DonorTrap constraint failed: $err"
+    }
     
     #set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping + Donor - Elec + Hole"
     #pdbSetString $Mat DevPsi Equation $eqn

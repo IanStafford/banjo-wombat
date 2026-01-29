@@ -87,9 +87,24 @@ proc Ohmic {Mat Contact} {
     pdbSetDouble $Contact Qfp Flux.Scale 1.602e-19
     pdbSetDouble $Contact DevPsi Flux.Scale 1.602e-19
 
-    pdbSetString $Contact DevPsi Equation "Doping-Elec+Hole"
-    pdbSetString $Contact Qfn Equation "Qfn+$Contact"
-    pdbSetString $Contact Qfp Equation "Qfp+$Contact"
+    if {[catch {pdbSetString $Contact DevPsi Equation "Doping-Elec+Hole"} err]} {
+        puts "ERROR in Ohmic: Failed to set DevPsi equation for contact $Contact (material $Mat)"
+        puts "  Equation: Doping-Elec+Hole"
+        puts "  Error: $err"
+        error "Ohmic DevPsi equation failed: $err"
+    }
+    if {[catch {pdbSetString $Contact Qfn Equation "Qfn+$Contact"} err]} {
+        puts "ERROR in Ohmic: Failed to set Qfn equation for contact $Contact (material $Mat)"
+        puts "  Equation: Qfn+$Contact"
+        puts "  Error: $err"
+        error "Ohmic Qfn equation failed: $err"
+    }
+    if {[catch {pdbSetString $Contact Qfp Equation "Qfp+$Contact"} err]} {
+        puts "ERROR in Ohmic: Failed to set Qfp equation for contact $Contact (material $Mat)"
+        puts "  Equation: Qfp+$Contact"
+        puts "  Error: $err"
+        error "Ohmic Qfp equation failed: $err"
+    }
 }
 
 Ohmic Nitride S
