@@ -33,8 +33,8 @@ proc HEMT_Struct { } {
     set Gtr [expr {$Mid_Point + ($Gate_Length/2.0)}]
   
     set bot 7.5
-    line x loc=-0.5 spac=0.025 tag=toptop
-    line x loc=-0.4 spac=0.025 tag=top
+    line x loc=-0.5 spac=0.05 tag=toptop
+    line x loc=-0.4 spac=0.05 tag=top
     line x loc=-0.3 spac=0.025 tag=topIns
     line x loc=-0.15 spac=0.025 tag=topT
     line x loc=-0.10 spac=0.01 tag=topGate
@@ -47,8 +47,8 @@ proc HEMT_Struct { } {
     line y loc=[expr $Gtl-$SourceGate-0.125] spac=0.05 tag=left
     line y loc=[expr $Gtl-$SourceT] spac=0.03 tag=SourceT
     line y loc=[expr $Gtl] spac=0.01 tag=GateL
-    line y loc=[expr $Gtr] spac=0.001 tag=GateR
-    line y loc=[expr $Gtr+$DrainT] spac=0.005 tag=DrainT
+    line y loc=[expr $Gtr] spac=0.005 tag=GateR
+    line y loc=[expr $Gtr+$DrainT] spac=0.01 tag=DrainT
     line y loc=[expr $Gtr+$FP2] spac=0.02 tag=FP2
     line y loc=[expr $Gtr+$DrainGate] spac=0.05 
     line y loc=[expr $Gtr+$DrainGate+0.125] spac=0.05 tag=right

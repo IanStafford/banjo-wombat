@@ -4,7 +4,7 @@ proc run_measurements {ivCSV peakCSV label} {
     device init
 
     if {1} {
-    for {set d 0.0} {$d <10.05} {set d [expr $d+0.25]} {
+    for {set d 0.0} {$d <6.05} {set d [expr $d+0.25]} {
     contact name=D supply=$d
     device 
     }
@@ -18,7 +18,7 @@ proc run_measurements {ivCSV peakCSV label} {
         set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e3}] 
         #FLOOXS GIVES A/um
         puts $f "$g, $cur"
-        chart graph=IV curve=$label xval=$g yval=$cur leg.left
+        chart graph=IV curve=$label xval=$g yval=$cur leg.left title= "Vd=6V"
     }
     close $f
     }
@@ -31,7 +31,7 @@ proc run_measurements {ivCSV peakCSV label} {
     set f [open $peakCSV w]
 
     # Loop over Vds values from 0.0 to 20.0 (approximately)
-    for {set vds 0.0} {$vds < 84.1} {set vds [expr $vds+0.5]} {
+    for {set vds 0.0} {$vds < 50.1} {set vds [expr $vds+0.5]} {
         contact name=D supply=$vds
         device
         sel z=abs(dot(DevPsi,y))*1.0e-4         
