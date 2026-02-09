@@ -21,16 +21,19 @@ pdbSetDouble FP DevPsi Flux.Scale 1.602e-19
 
 #Schottky Contact - assume that the contact itself is in contact with the Nitride
 #a more complicated way would be to solve the metal and have an interface equation for the current
-pdbSetString G DevPsi Equation "([pdbDelayDouble Nitride Elec Ec])+G-$phiB"
+pdbSetString G DevPsi Equation "([pdbDelayDouble GaN Elec Ec])+G"
 pdbSetBoolean G DevPsi Fixed 1
 pdbSetDouble G DevPsi Flux.Scale 1.602e-19
 
 set Original 0
 
 if {$Original} {
-    #original code to pin holes
+    #original code to pin holes and electrons. I think since this is ohmic with the GaN, we can pin both.
     pdbSetString G Qfp Equation "Qfp+G"
     pdbSetBoolean G Qfp Fixed 1
+
+    pdbSetString G Qfn Equation "Qfn+G"
+    pdbSetBoolean G Qfn Fixed 1
 
     #original code had no no equation for Qfn, so comment out the next three lines to go back
 } else {

@@ -18,7 +18,7 @@ window row=1 col=1
 # Call initialization procedure to solve the initial conditions
 Initialize
 device init
-
+if {0} {
 # Data file to store IV results
 set f [open "figures/fpIV0.csv" w]
 
@@ -141,6 +141,8 @@ for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
     chart graph=IV curve="Vg=4" xval=$d yval=$cur leg.left
 }
 close $f
+
+}
 
 # ========================================================
 # Sixth IV curve at Vg = 5V
