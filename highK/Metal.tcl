@@ -7,7 +7,7 @@ pdbSetDouble Metal Temp DampValue 0.025
 pdbSetDouble Metal DevPsi RelEps 1.0e12
 
 #set phiB 
-#per Ambacher et al, used by Heller, 1.3x+0.84, with x=0.26
+#per Ambacher et al, used by Heller, 1.3x+0.84, with x=0.26, but this is with GaN now, so I don't know if Ambacher's formula applies
 set phiB 1.65
 #set phiB 1.4
 #set phiB 1.2255
@@ -25,7 +25,7 @@ pdbSetString G DevPsi Equation "([pdbDelayDouble Nitride Elec Ec])+G-$phiB"
 pdbSetBoolean G DevPsi Fixed 1
 pdbSetDouble G DevPsi Flux.Scale 1.602e-19
 
-set Original 1
+set Original 0
 
 if {$Original} {
     #original code to pin holes

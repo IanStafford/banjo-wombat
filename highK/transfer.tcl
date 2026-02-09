@@ -1,11 +1,11 @@
-source run_measurements.tcl
+source run_measurements_E.tcl
 window row=1 col=1
 
 if {1} {
 set trapEn 0
-source fieldplate.tcl
+source powerdevice.tcl
 source GaN_modelfile_masterD
-run_measurements "figures/1e18cloud.csv" "null" fieldplate
+run_measurements_E "figures/powerIV.csv" "null" fieldplate
 }
 
 if {0} {
