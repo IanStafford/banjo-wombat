@@ -36,7 +36,7 @@ for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
 close $f
 
 # ========================================================
-# Second IV curve at Vg = 1V
+# Second IV curve at Vg = -1V
 # ========================================================
 
 source powerdevice.tcl
@@ -46,7 +46,7 @@ Initialize
 device init
 #set g -1.0
 #contact name=G supply=$g
-for {set g 0.0} {$g < 1.05} {set g [expr $g+0.5]} {
+for {set g 0.0} {$g > -1.05} {set g [expr $g-0.5]} {
     contact name=G supply=$g
     device
 }
@@ -58,12 +58,12 @@ for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
     device
     set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}]
     puts $f "$d, $cur"
-    chart graph=IV curve="Vg=1" xval=$d yval=$cur leg.left
+    chart graph=IV curve="Vg=-1" xval=$d yval=$cur leg.left
 }
 close $f
 
 # ========================================================
-# Third IV curve at Vg = 2V
+# Third IV curve at Vg = -2V
 # ========================================================
 
 source powerdevice.tcl
@@ -73,7 +73,7 @@ Initialize
 device init
 #set g -2.0
 #contact name=G supply=$g
-for {set g 0.0} {$g < 2.05} {set g [expr $g+0.5]} {
+for {set g 0.0} {$g > -2.05} {set g [expr $g-0.5]} {
     contact name=G supply=$g
     device
 }
@@ -85,12 +85,12 @@ for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
     device
     set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}]
     puts $f "$d, $cur"
-    chart graph=IV curve="Vg=2" xval=$d yval=$cur leg.left
+    chart graph=IV curve="Vg=-2" xval=$d yval=$cur leg.left
 }
 close $f
 
 # ========================================================
-# Fourth IV curve at Vg = 3V
+# Fourth IV curve at Vg = -3V
 # ========================================================
 
 source powerdevice.tcl
@@ -100,7 +100,7 @@ Initialize
 device init
 #set g -3.0
 #contact name=G supply=$g
-for {set g 0.0} {$g < 3.05} {set g [expr $g+0.5]} {
+for {set g 0.0} {$g > -3.05} {set g [expr $g-0.5]} {
     contact name=G supply=$g
     device
 }
@@ -112,58 +112,6 @@ for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
     device
     set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}]
     puts $f "$d, $cur"
-    chart graph=IV curve="Vg=3" xval=$d yval=$cur leg.left
-}
-close $f
-
-# ========================================================
-# Fifth IV curve at Vg = 4V
-# ========================================================
-
-source powerdevice.tcl
-source GaN_modelfile_masterD
-
-Initialize
-device init
-#contact name=G supply=$g
-for {set g 0.0} {$g < 4.05} {set g [expr $g+0.5]} {
-    contact name=G supply=$g
-    device
-}
-
-set f [open "figures/fpIV4.csv" w]
-
-for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
-    contact name=D supply=$d 
-    device
-    set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}]
-    puts $f "$d, $cur"
-    chart graph=IV curve="Vg=4" xval=$d yval=$cur leg.left
-}
-close $f
-
-# ========================================================
-# Sixth IV curve at Vg = 5V
-# ========================================================
-
-source powerdevice.tcl
-source GaN_modelfile_masterD
-
-Initialize
-device init
-#contact name=G supply=$g
-for {set g 0.0} {$g < 5.05} {set g [expr $g+0.5]} {
-    contact name=G supply=$g
-    device
-}
-
-set f [open "figures/fpIV5.csv" w]
-
-for {set d 0.0} {$d < 6.05} {set d [expr $d+0.1]} {
-    contact name=D supply=$d 
-    device
-    set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}]
-    puts $f "$d, $cur"
-    chart graph=IV curve="Vg=5" xval=$d yval=$cur leg.left
+    chart graph=IV curve="Vg=-3" xval=$d yval=$cur leg.left
 }
 close $f

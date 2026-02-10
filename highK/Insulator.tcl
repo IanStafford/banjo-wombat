@@ -29,12 +29,6 @@ pdbSetDouble Nitride Hole mob 1e-3
 pdbSetDouble Nitride Hole Ev "((-[pdbGetDouble Nitride Affinity])-([pdbGetDouble Nitride Eg])+(DevPsi))"
 pdbSetDouble Nitride Elec Ec "((-[pdbGetDouble Nitride Affinity])+(DevPsi))"
 
-pdbSetDouble Nitride Qfn Abs.Error 0.1
-pdbSetDouble Nitride Qfn Rel.Error 1.0e-2
-pdbSetDouble Nitride Qfn DampValue 0.025
-pdbSetDouble Nitride Qfp Abs.Error 0.1
-pdbSetDouble Nitride Qfp Rel.Error 1.0e-2
-pdbSetDouble Nitride Qfp DampValue 0.025
 
 if {0} {
     mater add name=Oxide    alias=oxide

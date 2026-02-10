@@ -39,11 +39,11 @@ InsPoisson Metal
 source Continuity.tcl
 ElecContinuity GaN
 ElecContinuity AlGaN
-ElecContinuity Nitride
+#ElecContinuity Nitride
 
 HoleContinuity GaN
 HoleContinuity AlGaN
-HoleContinuity Nitride
+#HoleContinuity Nitride
 
 # Is the interface charge constant everwhere all the time?
 #Add interface charge

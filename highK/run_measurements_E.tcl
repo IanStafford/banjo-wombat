@@ -4,7 +4,7 @@ proc run_measurements_E {ivCSV peakCSV label} {
     device init
 
     if {1} {
-    for {set d 0.0} {$d <6.05} {set d [expr $d+0.25]} {
+    for {set d 0.0} {$d <1.05} {set d [expr $d+0.25]} {
     contact name=D supply=$d
     device 
     }
@@ -12,13 +12,20 @@ proc run_measurements_E {ivCSV peakCSV label} {
 
     # Loop over gate voltage values from  10.0 down to -4.0 (approximately)
     # window row=1 col=2 make window declaration seperately to avoid new window for each run
-    for {set g 0.0} {$g < 5.05} {set g [expr $g+0.1]} {
+    for {set g 0.0} {$g < 5.05} {set g [expr $g+0.05]} {
         contact name=G supply=$g
         device
         set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e3}] 
         #FLOOXS GIVES A/um
         puts $f "$g, $cur"
         chart graph=IV curve=$label xval=$g yval=$cur leg.left title= "Vd=6V"
+        if {$g >= 1.0} {
+            sel z=Qfn name=Qfn_Layers
+            plot1d graph=Qfn_Layers yv=-0.05 ylab="Qfn(eV)" name="Vg=$g" xmax=0.5
+            sel z=Econd name=Econd_Layers
+            plot1d graph=Econd_Layers yv=-0.05 ylab="Econd(eV)" name="Vg=$g" xmax=0.5
+
+        }
     }
     close $f
     }
@@ -30,7 +37,7 @@ proc run_measurements_E {ivCSV peakCSV label} {
     }
     set f [open $peakCSV w]
 
-    # Loop over Vds values from 0.0 to 20.0 (approximately)
+    # Loop over Vds values from 0.0 to 50 (approximately)
     for {set vds 0.0} {$vds < 50.1} {set vds [expr $vds+0.5]} {
         contact name=D supply=$vds
         device

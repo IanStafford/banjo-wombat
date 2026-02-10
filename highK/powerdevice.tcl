@@ -32,10 +32,10 @@ proc HEMT_Struct { } {
     set bot 7.5
     line x loc=-0.4 spac=0.05 tag=topInsulator
     line x loc=-0.28 spac=0.025 tag=topFP
-    line x loc=-0.217 spac=0.01 tag=topSiN
-    line x loc=-0.137 spac=0.01 tag=topGate
+    line x loc=-0.217 spac=0.025 tag=topSiN
+    line x loc=-0.137 spac=0.025 tag=topGate
     line x loc=-0.08 spac=0.01 tag=bottomFP
-    line x loc=-0.047 spac=0.01 tag=topP
+    line x loc=-0.047 spac=0.005 tag=topP
     line x loc=0.0 spac=0.001 tag=AlGaNTop
     line x loc=$AlThick spac=0.001 tag=AlGaNBottom
     line x loc=0.1 spac=0.01
@@ -45,7 +45,7 @@ proc HEMT_Struct { } {
     line y loc=[expr $Gtl-$SourceGate] spac=0.05 tag=SourceContactR
     line y loc=[expr $Gtl-$SiN] spac=0.01 tag=LeftGateSiN
     line y loc=[expr $Gtl] spac=0.01 tag=GateL
-    line y loc=0.0 spac=0.01 tag=FP_Left
+    line y loc=0.0 spac=0.025 tag=FP_Left
     line y loc=[expr $Gtr] spac=0.005 tag=GateR
     line y loc=[expr $Gtr+$SiN] spac=0.01 tag=FP2_Left
     line y loc=[expr $Gtr+$FP2] spac=0.02 tag=FP2
