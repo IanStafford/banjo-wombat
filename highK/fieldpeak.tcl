@@ -1,4 +1,4 @@
-window row=1 col=3
+window row=1 col=2
 source run_measurements.tcl
 
 if {1} {

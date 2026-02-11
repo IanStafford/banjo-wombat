@@ -3,7 +3,7 @@ proc run_measurements {ivCSV peakCSV label} {
     Initialize
     device init
 
-    if {1} {
+    if {0} {
     for {set d 0.0} {$d <10.05} {set d [expr $d+0.25]} {
     contact name=D supply=$d
     device 
@@ -34,7 +34,7 @@ proc run_measurements {ivCSV peakCSV label} {
     for {set vds 0.0} {$vds < 84.1} {set vds [expr $vds+0.5]} {
         contact name=D supply=$vds
         device
-        sel z=abs(dot(DevPsi,y))*1.0e-4         
+        sel z=abs(dot(DevPsi,y))*1.0e-4*(y<2.5)         
         set pstr [peak GaN]
         puts [peak GaN]
         set peakfield [lindex $pstr 1]

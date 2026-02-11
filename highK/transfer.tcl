@@ -1,5 +1,5 @@
 source run_measurements_E.tcl
-window row=1 col=3
+window row=1 col=1
 
 if {1} {
     set trapEn 0
