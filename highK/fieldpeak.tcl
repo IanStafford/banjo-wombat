@@ -1,7 +1,7 @@
 window row=1 col=2
 source run_measurements.tcl
 
-if {1} {
+if {0} {
     set trapEn 0
     source fieldplate_highk.tcl
     source GaN_modelfile_masterD

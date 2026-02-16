@@ -48,7 +48,7 @@ mater add name=GaN
     set Gseg1 "$Gmumin*(1*exp(log(Temp/300)*($Gbeta1)))"
     set Gseg2 "($Gmumax-$Gmumin)*(1*exp(log(Temp/300)*($Gbeta2)))"
     set Gseg3 "$GNref*(1*exp(log(Temp/300)*($Gbeta3)))"
-    set Gseg4 "abs((Doping+Acceptor+1)/$Gseg3)";     #modified to include ionized donor or acceptor traps
+    set Gseg4 "abs((Doping+NeutralAcceptor+1)/($Gseg3))";     #modified to include ionized donor or acceptor traps
     set Gseg5 "$Glowalpha*(1*exp(log(Temp/300)*($Gbeta4)))"
     set Gseg6 "1*exp(log($Gseg4)*($Gseg5))"
     set Gseg7 "1+$Gseg6"
@@ -82,12 +82,12 @@ mater add name=GaN
     set G1 "((([pdbGetDouble GaN Elec lowfldmob])*($GEfield))/($Gvsat))"
     set G2 "(exp(log($G1)*($Gbeta)))"
     set G3 "(1+($G2))"
-    set G4 "(1/$Gbeta)"
+    set G4 "(1/($Gbeta))"
     set G5 "(exp(log($G3)*($G4)))"
 
     set Ghigh "(([pdbGetDouble GaN Elec lowfldmob])/($G5))"
       
-    pdbSetDouble GaN Elec mob $Ghigh   ; # turn this one back on to get Farhamand mobility
+    #pdbSetDouble GaN Elec mob $Ghigh   ; # turn this one back on to get Farhamand mobility
    
     #set parameters for GaN High Field mobility from Farahmand 
     pdbSetDouble GaN Elec alpha 6.1973
@@ -115,7 +115,8 @@ mater add name=GaN
     set num1 "($Glowfldmob+($Gvsat*(($GEn1_1)/($GEn1_3))))"
     set denom1 "(1.0+($Ghighalpha*($GEn2_1))+($GEn1_2))"
 
-    #set testmob1 "($num1)/($denom1)"
+    set testmob1 "($num1)/($denom1)"
+    #pdbSetDouble GaN Elec mob $testmob1
 
 # set GaN mobility as a constatn based on Lu's results for 1um AFRL devices 1907 cm2/V-s
     pdbSetDouble GaN Elec mob 1907      ;# 1907,  decrease 41% with 2e14 radiation is 1125  

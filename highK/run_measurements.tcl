@@ -8,7 +8,10 @@ proc run_measurements {ivCSV peakCSV label} {
     contact name=D supply=$d
     device 
     }
+
+    # Wipes the  file before the loop
     set f [open $ivCSV w]
+    close $f
 
     # Loop over gate voltage values from  10.0 down to -4.0 (approximately)
     # window row=1 col=2 make window declaration seperately to avoid new window for each run
@@ -17,7 +20,12 @@ proc run_measurements {ivCSV peakCSV label} {
         device
         set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e3}] 
         #FLOOXS GIVES A/um
+
+        #Appends the file and closes it every iteration to avoid data loss in case of crash
+        set f [open $ivCSV a]
         puts $f "$g, $cur"
+        close $f
+
         chart graph=IV curve=$label xval=$g yval=$cur leg.left title= "Vd=6V"
     }
     close $f
@@ -31,14 +39,18 @@ proc run_measurements {ivCSV peakCSV label} {
     set f [open $peakCSV w]
 
     # Loop over Vds values from 0.0 to 20.0 (approximately)
-    for {set vds 0.0} {$vds < 84.1} {set vds [expr $vds+0.5]} {
+    for {set vds 0.0} {$vds < 30.1} {set vds [expr $vds+0.5]} {
         contact name=D supply=$vds
         device
         sel z=abs(dot(DevPsi,y))*1.0e-4*(y<2.5)         
         set pstr [peak GaN]
         puts [peak GaN]
         set peakfield [lindex $pstr 1]
+
+        set f [open $peakCSV a]
         puts $f "$vds, $peakfield"
+        close $f
+
         chart graph=PeakField curve=$label xval=$vds yval=$peakfield leg.left ylab= "Electric Field (V/cm)" title= "Peak Field GaN"
 
         set pstr [peak AlGaN]
@@ -46,6 +58,5 @@ proc run_measurements {ivCSV peakCSV label} {
         set peakfield [lindex $pstr 1]
         chart graph=PeakField_AlGaN curve=$label xval=$vds yval=$peakfield leg.left ylab= "Electric Field (V/cm)" title= "Peak Field AlGaN"
     }
-    close $f
     }
 }

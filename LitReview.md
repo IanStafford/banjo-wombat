@@ -28,7 +28,7 @@
 	- Updated review that extends into wide and ultra-wide bandgap semiconductors. Good for positioning GaN HEMTs relative to other rad-hard materials and citing more recent trends.
     
 - **Fleetwood et al. (2022)**
-	- Focused specifically on radiation effects in AlGaN/GaN HEMTs. Probably my most directly relevant review — covers displacement damage, ionization effects, and device-level responses.
+	- Focused specifically on radiation effects in AlGaN/GaN HEMTs. Probably my most directly relevant review — covers displacement damage, ionization effects, and responses.
     
 - **Weaver et al. (2016)** 
 	- Covers radiation tolerance of AlGaN/GaN HEMTs more broadly. Helpful for contextualizing before the more recent heavy ion work.

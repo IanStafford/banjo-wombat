@@ -18,11 +18,6 @@ set FP2 0.8
 
 set AlThick 0.015 ;# 15nm AlGaN thickness
 
-# Parameters for the Gaussian radial cloud (exposed globals so other scripts can recompute)
-set radBase -4.0e4
-set radVscale 10.0
-set sigma 0.015
-set mean_x 0.0
 
 proc HEMT_Struct { } {
     global Gate_Length AlThick SourceGate SourceT DrainGate DrainT FP2 radTest Vds radBase radVscale sigma mean_x mean_y
@@ -112,10 +107,6 @@ proc HEMT_Struct { } {
     set re [expr $Gtr+$DrainGate]
     sel z=(1e19*(y>$re)+(y<=$re)*1.0e19*exp(-(y-$re)*(y-$re)/(1.5*0.02*0.02)))*(exp(-(x*x)/(2.0*0.03*0.03)))*(x>=0.0) name=Drain_Doping
     sel z=(1e19*(y<$le)+(y>=$le)*1.0e19*exp(-(y-$le)*(y-$le)/(1.5*0.02*0.02)))*(exp(-(x*x)/(2.0*0.03*0.03)))*(x>=0.0) name=Source_Doping
-
-    # Gaussian distribution for single event charge deposition centered at x=0, y=Gtr
-    # Expose mean_y so external procs can recompute Rad_Doping when Vds changes
-    set mean_y [expr $Gtr + 0.34]
 
     #Total doping
     sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping name=Doping

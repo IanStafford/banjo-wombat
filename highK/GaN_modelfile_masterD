@@ -59,7 +59,7 @@ set sigma 0.015
 set mean_x 0.0
 set mean_y 0.14
 set trapConc "1e19*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))"
-set trapConc 5e19
+#set trapConc 5e19
 
 if {![info exists trapEn]} { set trapEn 0.0 }
 
@@ -67,8 +67,8 @@ if {$trapEn} {
     #AcceptorTrap GaN $trapConc 3.0 0.025 ; #GaN bandgap is about 3.4 eV
     #AcceptorTrap AlGaN $trapConc 3.0 0.025 ; #AlGaN bandgap is about 3.75 eV at our Al fraction
 
-    DonorTrap GaN $trapConc 0.84 0.001
-    DonorTrap AlGaN $trapConc 0.84 0.001
+    NeutralAcceptor GaN $trapConc 0.71 0.001
+    NeutralAcceptor AlGaN $trapConc 0.71 0.001
 }
 
 #Electrical Initial Conditions
