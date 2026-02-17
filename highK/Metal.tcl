@@ -64,6 +64,7 @@ if {!$pGaN} {
     pdbSetString FP DevPsi Equation "([pdbDelayDouble AlGaN Elec Ec])+FP-$phiB"
     pdbSetBoolean FP DevPsi Fixed 1
     pdbSetDouble FP DevPsi Flux.Scale 1.602e-19
+    #pdbSetDouble FP DevPsi Equation "200 * 5.0e12 * grad(DevPsi)"
 
     # Schottky Contact - assume that the contact itself is in contact with the AlGaN or very close thru thin layer of SiN
     pdbSetString G DevPsi Equation "([pdbDelayDouble AlGaN Elec Ec])+G-$phiB"
@@ -77,9 +78,13 @@ if {!$pGaN} {
     set eqn "200 * 5.0e12 * grad(Qfp)"
     pdbSetString Metal Qfp Equation $eqn
 
+
+
 } else {
     # We treat the pGaN contact as ohmic, so we pin both holes and electrons, and use the GaN Ec for the electrostatics since we are in direct contact with the GaN.
     Ohmic GaN G
+
+
 }
 
 proc InitMetal {} {

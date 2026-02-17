@@ -34,6 +34,20 @@
               "icon": "lucide-file",
               "title": "LitReview"
             }
+          },
+          {
+            "id": "adec07755c0ef790",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Paper Outline.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Paper Outline"
+            }
           }
         ],
         "currentTab": 1
@@ -93,7 +107,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "right": {
     "id": "4890d1687ec8fbd8",
@@ -186,7 +201,12 @@
   },
   "active": "902c01d7d05b8951",
   "lastOpenFiles": [
+    "highK/Vt.png",
+    "highK/figures/acceptor_GaN_AlGaN_6_AcceptorTrapOccupation_Vgm2.csv",
+    "highK/figures/testing.csv",
+    "highK/trapPlotD.tcl",
     "Paper Outline.md",
+    "LitReview.md",
     "highK/run_measurements_E.tcl",
     "highK/powerdevice.tcl",
     "highK/figures/powerIV.csv",
@@ -194,10 +214,6 @@
     "highK/figures/fpIV3.csv",
     "highK/figures/fpIV2.csv",
     "highK/figures/fpIV1.csv",
-    "highK/figures/fpIV0.csv",
-    "highK/IV_E.tcl",
-    "highK/IV.tcl",
-    "LitReview.md",
     "flooxsNotes.md",
     "Pasted image 20250723110535.png"
   ]

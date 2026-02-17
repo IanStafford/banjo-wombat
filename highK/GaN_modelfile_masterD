@@ -131,6 +131,11 @@ proc Initialize {} {
     sel z=0.0 name=Impurity
 
     device init
+    puts "gary"
     solution add name=Qfp solve negative damp continuous pde
     solution add name=Qfn solve negative damp continuous pde
+    
+    # Keep quasi-Fermi levels pinned at zero in AlGaN
+    pdbSetString AlGaN Qfn Equation "Qfn"
+    pdbSetString AlGaN Qfp Equation "Qfp"
 }
