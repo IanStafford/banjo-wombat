@@ -67,7 +67,7 @@ if {!$pGaN} {
     #pdbSetDouble FP DevPsi Equation "200 * 5.0e12 * grad(DevPsi)"
 
     # Schottky Contact - assume that the contact itself is in contact with the AlGaN or very close thru thin layer of SiN
-    pdbSetString G DevPsi Equation "([pdbDelayDouble AlGaN Elec Ec])+G-$phiB"
+    pdbSetString G DevPsi Equation "([pdbDelayDouble Nitride Elec Ec])+G-$phiB"
     pdbSetBoolean G DevPsi Fixed 1
     pdbSetDouble G DevPsi Flux.Scale 1.602e-19
 

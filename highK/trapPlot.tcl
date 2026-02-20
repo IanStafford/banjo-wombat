@@ -8,9 +8,9 @@ proc trapPlot {ivCSV bias} {
     Initialize
     device init
 
-    for {set g 0.0} {$g > -2.05} {set g [expr $g-0.1]} {
-        #contact name=G supply=$g
-        #device
+    for {set g 0.0} {$g > -2.0} {set g [expr $g-0.1]} {
+        contact name=G supply=$g
+        device
     }   
 
     set f [open $ivCSV w]
@@ -38,14 +38,6 @@ proc trapPlot {ivCSV bias} {
             plot1d graph=Trap xv=0.018 xmin=-1.0 xmax=1.0 ylab="TrapConc" title="Traps" name="Vds=$d" log
             puts $f2 [print1d xv=0.018]
 
-            #sel z=Acceptor-Donor name=NetTrap
-            #plot1d graph=NetTrap xv=0.018 ylab="NetTrapOccupation" title="NetTrapOccupationLevel" name="Vds=$d"
-
-            
-            sel z=[expr {"Qfn"}]
-            plot1d graph=Elec xv=0.018 ylab="Qfn(eV)" title="GaN" name="Vds=$d" 
-
-            #plot1d graph=Lateral yv=0.01 ylab="AcceptorTrapOccupation" title="TrapOccupationLevel" name="Vds=$d" penstyle=solid ymin=-0.5 ymax=0.5
         } 
          
     }
@@ -101,7 +93,7 @@ if {0} {
     }
 
 }
-window row=2 col=2
+window row=1 col=2
 set trapEn 1
 
 source GaN_modelfile_masterD
@@ -110,8 +102,8 @@ source fieldplate_highk.tcl
 pdbSetDouble GaN Qfn DampValue 0.10
 pdbSetDouble GaN Qfp DampValue 0.10
 pdbSetDouble GaN DevPsi DampValue 0.10
-pdbSetDouble AlGaN Qfn DampValue 0.10
-pdbSetDouble AlGaN Qfp DampValue 0.10
+pdbSetDouble Nitride DevPsi DampValue 0.10
 pdbSetDouble AlGaN DevPsi DampValue 0.10
+
 
 trapPlot "figures/radPlot.csv" 10
