@@ -1,7 +1,7 @@
 source run_measurements_E.tcl
 window row=1 col=1
 
-if {0} {
+if {1} {
     set trapEn 0
     set ::pGaN 1.0
     source powerdevice.tcl
@@ -9,7 +9,7 @@ if {0} {
     run_measurements_E "figures/powerIV.csv" "null" fieldplate
 }
 
-if {1} {
+if {0} {
     set trapEn 0
     set ::pGaN 1.0
     source powerdevice.tcl

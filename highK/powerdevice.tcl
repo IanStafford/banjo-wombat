@@ -113,8 +113,8 @@ proc HEMT_Struct { } {
     #Source and Drain contact doping-from contact to 2DEG like Heller-just to make contacts ohmic
     set le [expr $Gtl-$SourceGate]
     set re [expr $Gtr+$DrainGate]
-    sel z=(1e19*(y>$re)+(y<=$re)*1.0e19*exp(-(y-$re)*(y-$re)/(1.5*0.02*0.02)))*(exp(-(x*x)/(2.0*0.03*0.03)))*(x>=0.0) name=Drain_Doping
-    sel z=(1e19*(y<$le)+(y>=$le)*1.0e19*exp(-(y-$le)*(y-$le)/(1.5*0.02*0.02)))*(exp(-(x*x)/(2.0*0.03*0.03)))*(x>=0.0) name=Source_Doping
+    sel z=(1e18*(y>$re)+(y<=$re)*1.0e19*exp(-(y-$re)*(y-$re)/(1.5*0.02*0.02)))*(exp(-(x*x)/(2.0*0.03*0.03)))*(x>=0.0) name=Drain_Doping
+    sel z=(1e18*(y<$le)+(y>=$le)*1.0e19*exp(-(y-$le)*(y-$le)/(1.5*0.02*0.02)))*(exp(-(x*x)/(2.0*0.03*0.03)))*(x>=0.0) name=Source_Doping
 
     #Total doping
     sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping+pGaN_Doping name=Doping

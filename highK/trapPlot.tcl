@@ -21,6 +21,7 @@ proc trapPlot {ivCSV bias} {
         set f [open $ivCSV a]
         contact name=D supply=$d
         device
+        device
         set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}] 
         #FLOOXS GIVES A/um
         puts $f "$d, $cur"
@@ -76,7 +77,7 @@ if {0} {
     }
 }
     if {0} {
-        device time=10.0e-6 t.ini=1.0e-20 userstep=1.0e-12 movie= {
+        device time=300 t.ini=1.0e-13 userstep=1.0e-12 movie= {
 
             set d [expr 2.1 + (0.1 * $Time) / 1.0e-6]
             contact name=D supply=$d
