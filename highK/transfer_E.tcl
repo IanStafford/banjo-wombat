@@ -85,7 +85,7 @@ proc sweepContact {contactName targetBias CSV plot} {
         set y      $cur
         set diff   [expr {$p1 - $y}]
         set abserr [expr {abs($diff)}]
-        set maxerr [expr {$err * (abs($y) + 1.0e-30)*1.0e5}]
+        set maxerr [expr {$err * (abs($y) + 1.0e-30)*1.0e3}]
 
         if {$abserr < $maxerr} {
             puts "Accepted $contactName=$v (|err|=$abserr, max=$maxerr)"

@@ -1,5 +1,5 @@
 pdbSetDouble Math iterLimit 125
-math device dim=2 col ilu bcgs scale
+math device dim=2 col umf none !scale
 
 mater add name=Metal
 mater add name=Nitride

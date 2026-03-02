@@ -119,6 +119,7 @@ mater add name=GaN
 
 # set GaN mobility as a constatn based on Lu's results for 1um AFRL devices 1907 cm2/V-s
     #pdbSetDouble GaN Elec mob 1907      ;# 1907,  decrease 41% with 2e14 radiation is 1125  
+    pdbSetDouble GaN Elec mob 600
 
     #set hole mobility as constant
     pdbSetDouble GaN Hole mob 100
