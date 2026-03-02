@@ -8,7 +8,7 @@ mater add name=AlGaN
 mater add name=HighK alias=highk
 mater add name=HighK alias=Highk
 
-math diffuse dim=2 umf none col !scale 
+#math diffuse dim=2 umf none col !scale 
 set Gate_Length 0.2
 set SourceGate 1.0
 set DrainGate 3.5

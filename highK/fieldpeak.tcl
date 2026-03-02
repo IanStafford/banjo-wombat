@@ -17,7 +17,8 @@ if {0} {
 
 if {1} {
     set trapEn 0
-    source rfdevice.tcl
+    #source rfdevice.tcl
+    source fieldplate_highk.tcl
     source GaN_modelfile_masterD
     run_measurements "figures/testing.csv" "figures/testing.csv" HighK
 }

@@ -1,5 +1,5 @@
-pdbSetDouble Math iterLimit 250
-math device dim=2 col umf none scale
+pdbSetDouble Math iterLimit 125
+math device dim=2 col ilu bcgs scale
 
 mater add name=Metal
 mater add name=Nitride
@@ -8,7 +8,7 @@ mater add name=AlGaN
 mater add name=HighK alias=highk
 mater add name=HighK alias=Highk
 
-math diffuse dim=2 umf none col !scale 
+#math diffuse dim=2 umf none col !scale 
 set Gate_Length 1.2
 set SourceGate 0.25
 set SD_Length 1.1
