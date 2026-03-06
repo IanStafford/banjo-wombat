@@ -3,7 +3,7 @@ proc solvePoint {CSV contactName contactVal plot} {
     upvar cur cur
     contact name=$contactName supply=$contactVal 
     device
-    device
+    #device
     set cur [expr {abs([contact name=D sol=Qfn flux])*1.0e6}]
     if {$plot} {
         set f [open $CSV a]
@@ -96,7 +96,7 @@ proc sweepContact {contactName targetBias CSV plot} {
                 set secder [expr {abs((2.0 * $diff) / $diffsq)}]
             }
             if {$secder > 0.0} {
-                set inc [expr {sqrt((2.0 * $maxerr) / $secder)}]
+                set inc [expr {0.75*sqrt((2.0 * $maxerr) / $secder)}]
             }
             if {$inc < $incMin} { set inc $incMin }
             if {$inc > $incMax} { set inc $incMax }

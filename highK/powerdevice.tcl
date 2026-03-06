@@ -1,5 +1,5 @@
-pdbSetDouble Math iterLimit 125
-math device dim=2 col umf none !scale
+pdbSetDouble Math iterLimit 250
+math device dim=2 col lu none scale
 
 mater add name=Metal
 mater add name=Nitride
@@ -9,6 +9,7 @@ mater add name=HighK alias=highk
 mater add name=HighK alias=Highk
 
 #math diffuse dim=2 umf none col !scale 
+
 set Gate_Length 1.2
 set SourceGate 0.25
 set SD_Length 1.1
@@ -31,7 +32,7 @@ proc HEMT_Struct { } {
   
     set bot 7.5
     line x loc=-0.4 spac=0.05 tag=topInsulator
-    line x loc=-0.28 spac=0.025 tag=topFP
+    line x loc=-0.28 spac=0.05 tag=topFP
     line x loc=-0.217 spac=0.025 tag=topSiN
     line x loc=-0.137 spac=0.025 tag=topGate
     line x loc=-0.08 spac=0.01 tag=bottomFP
@@ -41,7 +42,7 @@ proc HEMT_Struct { } {
     line x loc=0.1 spac=0.01
     line x loc=7.5 spac=0.25 tag=BBottom
 
-    line y loc=[expr $Gtl-$SourceGate-$SD_Length] spac=0.05 tag=left
+    line y loc=[expr $Gtl-$SourceGate-$SD_Length] spac=0.1 tag=left
     line y loc=[expr $Gtl-$SourceGate] spac=0.05 tag=SourceContactR
     line y loc=[expr $Gtl-$SiN] spac=0.01 tag=LeftGateSiN
     line y loc=[expr $Gtl] spac=0.01 tag=GateL
@@ -49,8 +50,8 @@ proc HEMT_Struct { } {
     line y loc=[expr $Gtr] spac=0.005 tag=GateR
     line y loc=[expr $Gtr+$SiN] spac=0.01 tag=FP2_Left
     line y loc=[expr $Gtr+$FP2] spac=0.02 tag=FP2
-    line y loc=[expr $Gtr+$DrainGate] spac=0.05 
-    line y loc=[expr $Gtr+$DrainGate+$SD_Length] spac=0.05 tag=right
+    line y loc=[expr $Gtr+$DrainGate] spac=0.05
+    line y loc=[expr $Gtr+$DrainGate+$SD_Length] spac=0.1 tag=right
 
     #work layers top down, left to right
     # Top cap of HfO2
@@ -104,7 +105,7 @@ proc HEMT_Struct { } {
       
     #doping definition-will use method from pfmos_qf deck for simplicity
     #GaN Doping-from Dessis file from Heller-acceptor-p-type
-    sel z=-8e15*Mater(GaN)*(x>0) name=GaN_Doping
+    sel z=-8e17*Mater(GaN)*(x>0) name=GaN_Doping
     sel z=-1e20*Mater(GaN)*(x<=0) name=pGaN_Doping
 
     #AlGaN Doping-from Dessis file from Heller-he puts equivalent donor and acceptor doping in region to signify traps
