@@ -4,7 +4,7 @@ proc Poisson {Mat} {
     pdbSetDouble $Mat DevPsi Abs.Error 1.0e-1
     pdbSetDouble $Mat DevPsi Rel.Error 1.0e-1
 
-    set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping - NeutralAcceptor - Elec + Hole"
+    set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping - Acceptor - NeutralAcceptor - Elec + Hole"
     #set eqn "- ($eps0 * [pdbDelayDouble $Mat DevPsi RelEps] * grad(DevPsi) / $q) + Doping - Elec + Hole"
     # To let the mobility model work with new acceptor term.
     solution name=Acceptor solve $Mat const val = 0.0
@@ -49,15 +49,12 @@ proc AcceptorTrap {Mat Ntrap Etrap Efwhm} {
 
     #set Acceptor [solution name=Acceptor $Mat print]
     set Vt ($k*Temp/$q)
-    pdbSetDouble $Mat DevPsi DampValue $Vt
-    pdbSetDouble $Mat DevPsi Abs.Error 1.0e-1
-    pdbSetDouble $Mat DevPsi Rel.Error 1.0e-1
     #do a switch so we can figure out testing...
     #solution name=TrapConc solve $Mat const val = ($Ntrap)
 
     if {$Efwhm == 0.0} {
         set e1 0.0
-        set e2 "(($Ntrap) / (1 + 4.0 * exp( (Eval + $Etrap - Qfn) / ($Vt) )))"
+        set e2 "((1.0) / (1 + 4.0 * exp( (Eval + $Etrap - Qfp) / ($Vt) )))"
         set e3 0.0
     } else {
         #set the evaluation point for the Gaussian-Hermite Quadrature

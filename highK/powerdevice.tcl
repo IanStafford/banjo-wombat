@@ -1,9 +1,10 @@
-pdbSetDouble Math iterLimit 250
+pdbSetDouble Math iterLimit 125
 math device dim=2 col lu none scale
 
 mater add name=Metal
 mater add name=Nitride
 mater add name=GaN
+mater add name=GaN2
 mater add name=AlGaN
 mater add name=HighK alias=highk
 mater add name=HighK alias=Highk
@@ -35,8 +36,8 @@ proc HEMT_Struct { } {
     line x loc=-0.28 spac=0.05 tag=topFP
     line x loc=-0.217 spac=0.025 tag=topSiN
     line x loc=-0.137 spac=0.025 tag=topGate
-    line x loc=-0.08 spac=0.01 tag=bottomFP
-    line x loc=-0.047 spac=0.005 tag=topP
+    line x loc=-0.08 spac=0.001 tag=bottomFP
+    line x loc=-0.047 spac=0.001 tag=topP
     line x loc=0.0 spac=0.001 tag=AlGaNTop
     line x loc=$AlThick spac=0.001 tag=AlGaNBottom
     line x loc=0.1 spac=0.01
@@ -75,7 +76,7 @@ proc HEMT_Struct { } {
     region Metal xlo=topGate xhi=topP ylo=GateL yhi=GateR 
     region Nitride xlo=bottomFP xhi=AlGaNTop ylo=left yhi=GateL
     region Nitride xlo=bottomFP xhi=AlGaNTop ylo=GateR yhi=right
-    region GaN xlo=topP xhi=AlGaNTop ylo=GateL yhi=GateR
+    region GaN2 xlo=topP xhi=AlGaNTop ylo=GateL yhi=GateR
 
     #AlGaN GaN under gate
     region AlGaN xlo=AlGaNTop xhi=AlGaNBottom ylo=left yhi=right
@@ -87,7 +88,7 @@ proc HEMT_Struct { } {
 
     #Contacts
     contact name=FP Metal xlo=[expr -0.28-$buf] xhi=[expr -0.22+$buf] ylo=[expr 0+$buf] yhi=[expr $FP2] add depth=1.0 width=1.0
-    contact name=G GaN xlo=[expr -0.047-$buf] xhi=[expr -0.04+$buf] ylo=[expr $Gtl] yhi=[expr $Gtr] add depth=1.0 width=1.0
+    contact name=G GaN2 xlo=[expr -0.051-$buf] xhi=[expr -0.044+$buf] ylo=[expr $Gtl] yhi=[expr $Gtr] add depth=1.0 width=1.0
     # contact name=G AlGaN xlo=[expr 0.0-$buf] xhi=0.001 ylo=[expr $Gtl+$buf] yhi=[expr $Gtr-$buf] add depth=1.0 width=1.0
     # contact name=G Nitride xlo=[expr -0.006] xhi=-0.001 ylo=[expr $Gtl+$buf] yhi=[expr $Gtr-$buf] add depth=1.0 width=1.0
 
@@ -97,7 +98,7 @@ proc HEMT_Struct { } {
     contact name=D AlGaN ylo=[expr $r-$buf] yhi=[expr $r+$buf] xlo=[expr 0.0-$buf] xhi=[expr $AlThick-$buf] add depth=1.0 width=1.0
     contact name=B GaN xlo=[expr $bot-$buf]  xhi=[expr $bot+$buf] ylo=$l yhi=$r add depth=1.0 width=1.0
 
-    contact name=G current=(Hole_GaN-Elec_GaN) voltage supply=0.0
+    contact name=G current=(Hole_GaN2-Elec_GaN2) voltage supply=0.0
     contact name=B current=(Hole_GaN-Elec_GaN) voltage supply=0.0
     contact name=D current=(Hole_GaN-Elec_GaN) voltage supply=0.0
     contact name=S current=(Hole_GaN-Elec_GaN) voltage supply=0.0
@@ -106,7 +107,12 @@ proc HEMT_Struct { } {
     #doping definition-will use method from pfmos_qf deck for simplicity
     #GaN Doping-from Dessis file from Heller-acceptor-p-type
     sel z=-8e17*Mater(GaN)*(x>0) name=GaN_Doping
-    sel z=-1e20*Mater(GaN)*(x<=0) name=pGaN_Doping
+    sel z=-1e19*Mater(GaN2) name=pGaN_Doping
+    # from the Mg in GaN paper
+    #set betaMg 3.6
+    #set Et_Mg "[pdbDelayDouble GaN2 Eg]/2.0 + 0.17"
+    #set MgOcc "1.0/(1.0+(1.0/$betaMg)*exp(($Et_Mg - Qfp)/Vt))"
+    #sel z=1 name=pGaN_Doping
 
     #AlGaN Doping-from Dessis file from Heller-he puts equivalent donor and acceptor doping in region to signify traps
     sel z=1e12 name=AlGaN_Doping

@@ -9,13 +9,14 @@ set eps0 8.854e-14
 set kev 8.617e-5
 set VtRoom [expr $k*300.0/$q]
 global VtRoom
+set h 6.62607015e-34
 set hbar 1.054571628e-34
 set egan 7.88e-13
+set mo0 9.10938356e-31
 
 source GaN.tcl
+source GaN2.tcl
 source AlGaN.tcl
-#source SiC.tcl
-#source AlN.tcl
 source Insulator.tcl
 source Metal.tcl
 
@@ -35,25 +36,42 @@ solution add name=Qfn solve negative damp continuous
 
 source Continuity.tcl
 ElecContinuity GaN
+ElecContinuity GaN2
 ElecContinuity AlGaN
 
 HoleContinuity GaN
+HoleContinuity GaN2
 HoleContinuity AlGaN
 
 # Is the interface charge constant everwhere all the time?
 #Add interface charge
-#pdbSetString AlGaN_GaN DevPsi Equation "1.06e13"
+pdbSetString AlGaN_GaN DevPsi Equation "1.06e13"
 #pdbSetString AlGaN_GaN DevPsi Equation "6e12"
-pdbSetString AlGaN_GaN DevPsi Equation "7.0e12"
+#pdbSetString AlGaN_GaN DevPsi Equation "7.0e12"
 #pdbSetString AlGaN_GaN DevPsi Equation "1.486e13"
 #pdbSetString AlGaN_GaN DevPsi Equation "-1*(1e13*log(AlN_Ratio)+3e13)"
+
+pdbSetString AlGaN_GaN2 DevPsi Equation "-7.0e12"
+#pdbSetString AlGaN_GaN DevPsi Equation "-1.06e13"
+
+
+    # from the Mg in GaN paper
+    #set betaMg 3.6
+    #set Et_Mg "[pdbDelayDouble GaN2 Eg]/2.0 + 0.17"
+    #set MgOcc "1.0/(1.0+(1.0/$betaMg)*exp(($Et_Mg - Qfp)/$Vt))"
+    #sel z=-1e20*Mater(GaN2) name=pGaN_Doping
+    #sel z=GaN_Doping+AlGaN_Doping+Drain_Doping+Source_Doping+pGaN_Doping name=Doping
+
 
 source Poisson.tcl
 Poisson AlGaN
 Poisson GaN
+Poisson GaN2
 InsPoisson Metal
 InsPoisson Nitride
 InsPoisson HighK
+
+#AcceptorTrap GaN2 1.0e20 0.17 0.0
 
 # 2D Gaussian trap distribution
 set sigma 0.015
@@ -92,6 +110,18 @@ proc Initialize {} {
     #sel z = "Mater(GaN) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=GaN_P
 
     newton GaN eqn=Doping-Elec+Hole var=DevPsi damp=0.025
+
+    #GaN First
+    set nc "([pdbDelayDouble GaN2 Elec Nc])"
+    set nv "([pdbDelayDouble GaN2 Hole Nv])"
+    set aff "([pdbGetDouble GaN2 Affinity])"
+    set Eg "([pdbGetDouble GaN2 Eg])"
+    sel z= abs(Doping)+1.0 name=AbsDop
+
+    #sel z = "Mater(GaN2) * ((Doping>0.0) ? (-$Vt * log( AbsDop / $nc) + $aff) : 0.0)"  name=GaN2_N ;# Is the fraction in the logarithm inverted?
+    #sel z = "Mater(GaN2) * ((Doping<0.0) ? ($Vt * log(AbsDop / $nv) + $aff + $Eg) : 0.0)"  name=GaN2_P
+
+    newton GaN2 eqn=Doping-Elec+Hole var=DevPsi damp=0.025
 
     #now AlGaN
     set nc "([pdbDelayDouble AlGaN Elec Nc])"

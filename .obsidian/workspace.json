@@ -67,12 +67,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Abstract.md",
+                "file": "Paper Outline.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Abstract"
+              "title": "Paper Outline"
             }
           }
         ],
@@ -226,20 +226,21 @@
   },
   "active": "ba68b7a2a26388c9",
   "lastOpenFiles": [
+    "octave-workspace",
+    "allNit/null",
+    "highK/gate_plot.tcl",
+    "highK/GaN2.tcl",
+    "highK/GaN_2.tcl",
+    "LitReview.md",
+    "Paper Outline.md",
     "Abstract.md",
     "highK/Vt.png",
     "highK/figures/acceptor_GaN_AlGaN_6_AcceptorTrapOccupation_Vgm2.csv",
     "highK/figures/testing.csv",
     "highK/trapPlotD.tcl",
-    "Paper Outline.md",
-    "LitReview.md",
     "highK/run_measurements_E.tcl",
     "highK/powerdevice.tcl",
     "highK/figures/powerIV.csv",
-    "highK/figures/fpIV5.csv",
-    "highK/figures/fpIV3.csv",
-    "highK/figures/fpIV2.csv",
-    "highK/figures/fpIV1.csv",
     "flooxsNotes.md",
     "Pasted image 20250723110535.png"
   ]

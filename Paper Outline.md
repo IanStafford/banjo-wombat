@@ -1,4 +1,4 @@
-
+ee1 for the password
 # Simulation of heavy ion damage and current collapse in GaN HEMTs
 ## Introduction
 - Introduce GaN HEMTs and benefits, drawbacks
@@ -8,6 +8,15 @@
 
 - Need for physics-based models to explain current collapse
 - Overview of subsequent sections of paper
+
+### Draft
+Gallium nitride (GaN) based high electron mobility transistors (HEMT) have emerged as a leading technology for high-power, high-frequency electrnoic applications. Their performance stems from the formation of a two-dimensional electron gas (2DEG) at the AlGaN/GaN heterojunction, induced by spontaneous and piezoelectric polarization discontinuities that generate sheet charger densities on the order of 10^13 cm^-2 [Ambacher] The resultant channel supports high density sheets of electrons that, when combined with GaN's wide bandgap and critical electric field, can achieve power densities greater than those achievable in silicon or even GaAs devices [Farahmand]. These (attributes/characteristics) have driven widespread adoption of GaN HEMTs in high frequency, high power amplifiers as well as radar systems and telecommunications equipment [Haziq].
+
+Current research in GaN technology aims to extend device performance and lifespan in demanding environments such as space and aerospace applications. Satellites, deep-space probes, and the launch vehicle electronics themselves are subjected to sustained exposure to high concentrations of energetic particles. Protons and electrons that are trapped in the Van Allen belts as well as solar energetic particles can degrade and destroy semiconductor components and compromise device operation over a devices operating lifetime [Pearton, 2015]. GaN HEMTs are attracting attention as radiation tolerant alternativesa to conventional devices due to their wide bandgap and the high displacement energies in the crystal itself [Pearton, 2021]. Heavy ions, in particular, present a distinct threat to all electronics technologies, and GaN is no exception. A single energetic ion traversing the active region of a device deposits a dense ionization column along its path on picosecond timescales, producing carrier densities far exceeding equilibrum values and inducing transient, and potentially permanent changes to device behavior [Kuboyama, Onoda]. As GaN HEMTs are increasingly used in space applications, understanding their response to heavy ion strikes and the mechanisms by which those strikes degrade performance has become a point of concern in GaN technology [Islam].
+
+*AI helped make this paragraph sound more formal*
+Experimental irradiation measurements establish the phenomenon of heavy ion current collapse, but cannot directly resolve the spatial distribution of trapped charge contributing to the effect. Physics-based simulations address this gap by self-consistently solving coupled carrier transport and Poisson equations together with trap occupancy rate equations [Patrick, Patrick]. These technologies enable us to resolve specific physical processes such as spa
+
 ## Background / Literature Review
 **OLD**
 - 2DEG formation

@@ -1,5 +1,5 @@
 source run_measurements_E.tcl
-window row=1 col=1
+window row=2 col=3
 
 if {0} {
     set trapEn 0
@@ -19,8 +19,8 @@ if {0} {
 
 if {1} {
     set trapEn 0
-    set trapLevel 3.0
-    source powerdevice.tcl
+    set ::eMode 1.0
     source GaN_modelfile_masterD
+    source powerdevice.tcl
     run_measurements_E "figures/null.csv" "null" fieldplate
 }
