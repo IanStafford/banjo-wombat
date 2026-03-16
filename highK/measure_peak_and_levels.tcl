@@ -1,8 +1,10 @@
 proc measure_peak_and_levels {label vdsMAX} {
 
     # Loop over Vds values from 0.0 to 50.0 (approximately)
-    set g -4.0
-    contact name=G supply=$g
+    for {set g 0.0} {$g > -4.05} {set g [expr $g-0.5]} {
+        contact name=G supply=$g
+        device
+    }
 
     for {set vds 0.0} {$vds < [expr $vdsMAX+0.1]} {set vds [expr $vds+0.25]} {
         contact name=D supply=$vds
@@ -22,3 +24,12 @@ proc measure_peak_and_levels {label vdsMAX} {
     plot2d xmax=0.5
 
 }
+
+source rfdevice.tcl
+source GaN_modelfile_masterD
+pdbSetDouble HighK DevPsi RelEps 6.3
+
+Initialize
+device init
+
+measure_peak_and_levels "SiN" 25

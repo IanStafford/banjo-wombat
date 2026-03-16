@@ -18,7 +18,7 @@ set DrainT 0.360
 set FP2 0.6
 set FP_Offset 0.160
 
-set SiN_Thick 0.100
+set SiN_Thick 0.05
 set HPD_Thick 0.100
 set FP_Thick 0.420
 set Gate_Thick 0.200

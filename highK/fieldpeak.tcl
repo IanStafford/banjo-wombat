@@ -1,4 +1,4 @@
-window row=1 col=2
+window row=1 col=3
 source run_measurements.tcl
 
 if {0} {
@@ -17,8 +17,9 @@ if {0} {
 
 if {1} {
     set trapEn 0
+    pdbSetDouble HighK DevPsi RelEps 35
     source rfdevice.tcl
     #source fieldplate_highk.tcl
     source GaN_modelfile_masterD
-    run_measurements "figures/testing.csv" "figures/testing.csv" HighK
+    run_measurements "figures/testing.csv" "figures/50V_plot_HighK.csv" HighK
 }
