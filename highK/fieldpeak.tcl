@@ -17,9 +17,9 @@ if {0} {
 
 if {1} {
     set trapEn 0
-    pdbSetDouble HighK DevPsi RelEps 35
+    pdbSetDouble HighK DevPsi RelEps 6.3
     source rfdevice.tcl
     #source fieldplate_highk.tcl
     source GaN_modelfile_masterD
-    run_measurements "figures/testing.csv" "figures/50V_plot_HighK.csv" HighK
+    run_measurements "figures/SiN_rf_IV.csv" "figures/50V_plot_HighK.csv" HighK
 }

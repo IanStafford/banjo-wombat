@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "flooxsNotes.md",
+                "file": "Paper Outline.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "flooxsNotes"
+              "title": "Paper Outline"
             }
           },
           {
@@ -67,16 +67,16 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Paper Outline.md",
+                "file": "Abstract.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Paper Outline"
+              "title": "Abstract"
             }
           }
         ],
-        "currentTab": 4
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -224,24 +224,24 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "ba68b7a2a26388c9",
+  "active": "8c788c7a77e7fd5a",
   "lastOpenFiles": [
-    "highK/figures/50V_plot_HighK.csv",
+    "highK/figures/SiN_rf_IV.csv",
+    "highK/figures/rf_IV.csv",
     "highK/measure_peak_and_levels.tcl",
     "highK/figures/50V_plot_SiN.csv",
-    "octave-workspace",
-    "allNit/null",
-    "highK/gate_plot.tcl",
-    "highK/GaN2.tcl",
-    "highK/GaN_2.tcl",
+    "highK/figures/50V_plot_HighK.csv",
+    "highK/figures/null2.csv",
     "LitReview.md",
-    "Paper Outline.md",
     "Abstract.md",
-    "highK/Vt.png",
-    "highK/figures/acceptor_GaN_AlGaN_6_AcceptorTrapOccupation_Vgm2.csv",
-    "highK/figures/testing.csv",
-    "highK/trapPlotD.tcl",
+    "Paper Outline.md",
     "flooxsNotes.md",
+    "highK/gate_plot.tcl",
+    "highK/figures/null.csv",
+    "highK/GaN2.tcl",
+    "OLD/newTgate/measure_peak_and_levels.tcl",
+    "octave-workspace",
+    "highK/Vt.png",
     "Pasted image 20250723110535.png"
   ]
 }
