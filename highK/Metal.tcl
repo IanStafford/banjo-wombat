@@ -64,9 +64,9 @@ proc SchottkyPGaN2 {Mat Contact} {
     pdbSetDouble $Contact Qfp Rel.Error 1.0e-2
     pdbSetDouble $Contact Qfp Abs.Error 1.0e-2
     pdbSetDouble $Contact Qfp DampValue 0.025
-    #pdbSetDouble $Contact Qfn Rel.Error 1.0e-2
-    #pdbSetDouble $Contact Qfn Abs.Error 1.0e-2
-    #pdbSetDouble $Contact Qfn DampValue 0.025
+    pdbSetDouble $Contact Qfn Rel.Error 1.0e-2
+    pdbSetDouble $Contact Qfn Abs.Error 1.0e-2
+    pdbSetDouble $Contact Qfn DampValue 0.025
     pdbSetDouble $Contact DevPsi Rel.Error 1.0e-2
     pdbSetDouble $Contact DevPsi Abs.Error 1.0e-2
     pdbSetDouble $Contact DevPsi DampValue 0.025
@@ -86,12 +86,15 @@ proc SchottkyPGaN2 {Mat Contact} {
 
     #set ni2 "[expr {$ni * $ni}]"
     if {1} {
-        set eqn "($q * $vn * (Elec - $ni * $ni * (1.0 / Hole+1.0)))"
-        pdbSetString G Qfn Equation $eqn
-        pdbSetDouble $Contact Qfn Fixed 0
-        pdbSetDouble $Contact Qfn Flux 1
-        pdbSetDouble $Contact Qfn Flux.Scale 1.602e-19
+        #thermionic emission current for electrons
+        set n0B "([pdbDelayDouble GaN2 Elec Nc]) * f12( - (1.225) / ($Vt) )"
+        set v_n 2.0e4
+        pdbSetString G Qfn Equation "-$v_n*(Elec - $n0B)"
+        pdbSetString G Qfn Fixed 0
+        pdbSetString G Qfn Flux 1
+        pdbSetDouble G Qfn Flux.Scale 1.602e-19
     }
+
     # Richardson constant for holes
     # A* = 4*pi*q*mp*k^2/h^3, where mp is the effective mass of holes in GaN, 
     set Astar [expr {12.5663 * $q * 0.8 * $mo0 * pow($k, 2) / pow($h, 3) * 1.0e-4}] ;# in A/cm^2/K^2
@@ -102,7 +105,7 @@ proc SchottkyPGaN2 {Mat Contact} {
 
     # psi_a is the Mg activation energy 0.16-0.17 eV from Alves et al as well as Bhat et al.
     set psiA 0.16
-    set Na 1.0e19
+    set Na 5.0e17
 
     # Equation 2 from Bhat et al.
     set Vsh0 "(sqrt(2.0*$egan*($phiP - $psiA)/($q*$Na)))"
@@ -156,7 +159,7 @@ proc SchottkyPGaN {Mat Contact} {
 
     # psi_a is the Mg activation energy 0.16-0.17 eV from Alves et al as well as Bhat et al.
     set psiA 0.16
-    set Na 1.0e19
+    set Na 5e17
 
     # Equation 2 from Bhat et al.
     set Vsh0 "(sqrt(2.0*$egan*($phiP - $psiA)/($q*$Na)))"
@@ -186,7 +189,7 @@ set eMode 1.0
 
     # Using AlGaN Ec because we aren't getting current through it anyway.
     # If we used Nitride Ec we would have diff model for gate and FP
-    set phiB 1.65; # Placeholder for field plate when using pGaN contact
+    set ::phiB 1.65; # Placeholder for field plate when using pGaN contact
     pdbSetString FP DevPsi Equation "([pdbDelayDouble Nitride Elec Ec])+FP-$phiB"
     pdbSetBoolean FP DevPsi Fixed 1
     pdbSetDouble FP DevPsi Flux.Scale 1.602e-19
@@ -213,9 +216,10 @@ if {0} {
 }
 
     SchottkyPGaN2 GaN2 G
+    #SchottkyPGaN GaN2 G
 
 proc InitMetal {} {
-    global phiP psiA
+    global phiP psiA phiB
     set phiP 0.85    
     set psiA 0.16    
 

@@ -22,5 +22,5 @@ if {1} {
     set ::eMode 1.0
     source GaN_modelfile_masterD
     source powerdevice.tcl
-    run_measurements_E "figures/null.csv" "null" fieldplate
+    run_measurements_E "figures/null2.csv" "null" fieldplate
 }

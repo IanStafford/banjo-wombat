@@ -103,7 +103,7 @@ proc HEMT_Struct { } {
     #doping definition-will use method from pfmos_qf deck for simplicity
     #GaN Doping-from Dessis file from Heller-acceptor-p-type
     sel z=-8e15*Mater(GaN)*(x>0) name=GaN_Doping
-    sel z=-1e20*Mater(GaN)*(x<=0) name=pGaN_Doping
+    sel z=-1e19*Mater(GaN2)*(x<=0) name=pGaN_Doping
 
     #AlGaN Doping-from Dessis file from Heller-he puts equivalent donor and acceptor doping in region to signify traps
     sel z=1e12 name=AlGaN_Doping

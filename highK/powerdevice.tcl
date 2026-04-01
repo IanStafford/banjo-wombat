@@ -1,5 +1,5 @@
 pdbSetDouble Math iterLimit 125
-math device dim=2 col lu none scale
+math device dim=2 col umf none scale
 
 mater add name=Metal
 mater add name=Nitride
@@ -88,7 +88,7 @@ proc HEMT_Struct { } {
 
     #Contacts
     contact name=FP Metal xlo=[expr -0.28-$buf] xhi=[expr -0.22+$buf] ylo=[expr 0+$buf] yhi=[expr $FP2] add depth=1.0 width=1.0
-    contact name=G GaN2 xlo=[expr -0.051-$buf] xhi=[expr -0.044+$buf] ylo=[expr $Gtl] yhi=[expr $Gtr] add depth=1.0 width=1.0
+    contact name=G GaN2 xlo=[expr -0.051-$buf] xhi=[expr -0.047+$buf] ylo=[expr $Gtl] yhi=[expr $Gtr] add depth=1.0 width=1.0
     # contact name=G AlGaN xlo=[expr 0.0-$buf] xhi=0.001 ylo=[expr $Gtl+$buf] yhi=[expr $Gtr-$buf] add depth=1.0 width=1.0
     # contact name=G Nitride xlo=[expr -0.006] xhi=-0.001 ylo=[expr $Gtl+$buf] yhi=[expr $Gtr-$buf] add depth=1.0 width=1.0
 
@@ -106,8 +106,8 @@ proc HEMT_Struct { } {
       
     #doping definition-will use method from pfmos_qf deck for simplicity
     #GaN Doping-from Dessis file from Heller-acceptor-p-type
-    sel z=-8e17*Mater(GaN)*(x>0) name=GaN_Doping
-    sel z=-1e19*Mater(GaN2) name=pGaN_Doping
+    sel z=-8e16*Mater(GaN)*(x>0) name=GaN_Doping
+    sel z=-5e17*Mater(GaN2) name=pGaN_Doping
     # from the Mg in GaN paper
     #set betaMg 3.6
     #set Et_Mg "[pdbDelayDouble GaN2 Eg]/2.0 + 0.17"
