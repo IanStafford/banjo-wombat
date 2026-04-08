@@ -17,6 +17,7 @@ if {0} {
 
 if {1} {
     set trapEn 0
+    pdbSetDouble HighK DevPsi RelEps 6.3
     source rfdevice.tcl
     #source fieldplate_highk.tcl
     source GaN_modelfile_masterD

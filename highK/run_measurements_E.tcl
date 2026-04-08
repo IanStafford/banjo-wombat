@@ -9,7 +9,7 @@ proc run_measurements_E {ivCSV peakCSV label} {
     Initialize
     device init
 
-    if {1} {
+    if {0} {
     for {set d 0.0} {$d <10.05} {set d [expr $d+0.1]} {
         contact name=D supply=$d
         device 
@@ -160,15 +160,15 @@ proc run_measurements_E {ivCSV peakCSV label} {
 
     }
 
-    if {0} {
-    for {set g 0.0} {$g <-4.0} {set d [expr $g-0.5]} {
+    if {1} {
+    for {set g 0.0} {$g < -4.0} {set d [expr $g-0.5]} {
         contact name=G supply=$g
         device
     }
     set f [open $peakCSV a]
 
     # Loop over Vds values from 0.0 to 50 (approximately)
-    for {set vds 0.0} {$vds < 50.1} {set vds [expr $vds+0.5]} {
+    for {set vds 0.0} {$vds < 50.1} {set vds [expr $vds+0.1]} {
         contact name=D supply=$vds
         device
         sel z=abs(dot(DevPsi,y))*1.0e-4

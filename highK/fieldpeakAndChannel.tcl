@@ -22,7 +22,7 @@ set f [open "figures/highK_power_channel.csv" w]
 close $f
 
 # Loop over Vds values from 0.0 to 50.0 (approximately)
-for {set vds 0.0} {$vds < [expr $vdsMAX + 0.1]} {set vds [expr $vds+0.25]} {
+for {set vds 0.0} {$vds < [expr $vdsMAX + 0.1]} {set vds [expr $vds+0.1]} {
     contact name=D supply=$vds
     device
     sel z=abs(dot(DevPsi,y))*1.0e-4 
@@ -61,7 +61,7 @@ set f [open "figures/SiN_power_channel.csv" w]
 close $f
 
 # Loop over Vds values from 0.0 to 50.0 (approximately)
-for {set vds 0.0} {$vds < [expr $vdsMAX + 0.1]} {set vds [expr $vds+0.25]} {
+for {set vds 0.0} {$vds < [expr $vdsMAX + 0.1]} {set vds [expr $vds+0.1]} {
     contact name=D supply=$vds
     device
     sel z=abs(dot(DevPsi,y))*1.0e-4 

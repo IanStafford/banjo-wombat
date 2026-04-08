@@ -21,6 +21,7 @@ if {1} {
     set trapEn 0
     set ::eMode 1.0
     source GaN_modelfile_masterD
+    pdbSetDouble HighK DevPsi RelEps 35
     source powerdevice.tcl
-    run_measurements_E "figures/null2.csv" "null" fieldplate
+    run_measurements_E "figures/null.csv" "newPowerField.csv" fieldplate
 }
