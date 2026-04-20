@@ -98,7 +98,7 @@ window row=1 col=2
 set trapEn 1
 
 source GaN_modelfile_masterD
-source fieldplate_highk.tcl
+source rfdevice.tcl
 
 pdbSetDouble GaN Qfn DampValue 0.10
 pdbSetDouble GaN Qfp DampValue 0.10
