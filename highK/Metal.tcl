@@ -57,7 +57,7 @@ Ohmic AlGaN S
 Ohmic AlGaN D
 Ohmic GaN B
 
-proc SchottkyPGaN2 {Mat Contact} {
+proc SchottkyPpGaN {Mat Contact} {
     global Vt k q h mo0 egan
     # Trying this from scratch
     # Boilerplate solver settings
@@ -87,7 +87,7 @@ proc SchottkyPGaN2 {Mat Contact} {
     #set ni2 "[expr {$ni * $ni}]"
     if {1} {
         #thermionic emission current for electrons
-        set n0B "([pdbDelayDouble GaN2 Elec Nc]) * f12( - (1.225) / ($Vt) )"
+        set n0B "([pdbDelayDouble pGaN Elec Nc]) * f12( - (1.225) / ($Vt) )"
         set v_n 2.0e4
         pdbSetString G Qfn Equation "-$v_n*(Elec - $n0B)"
         pdbSetString G Qfn Fixed 0
@@ -215,8 +215,8 @@ if {0} {
 
 }
 
-    SchottkyPGaN2 GaN2 G
-    #SchottkyPGaN GaN2 G
+    SchottkyPpGaN pGaN G
+    #SchottkyPGaN pGaN G
 
 proc InitMetal {} {
     global phiP psiA phiB
@@ -224,10 +224,10 @@ proc InitMetal {} {
     set psiA 0.16    
 
     if {1} {
-        # DevPsi_metal = Affinity_GaN2 + Eg_GaN2 - phiP
+        # DevPsi_metal = Affinity_pGaN + Eg_pGaN - phiP
         # psiA = Mg activation energy = 0.16 eV (cancels but
         # included explicitly for clarity)
-        sel z = "Mater(Metal) * ([pdbDelayDouble GaN2 Affinity] +[pdbDelayDouble GaN2 Eg] -$phiP)" name=MetalDevPsi
+        sel z = "Mater(Metal) * ([pdbDelayDouble pGaN Affinity] +[pdbDelayDouble pGaN Eg] -$phiP)" name=MetalDevPsi
     } else {
         sel z = "Mater(Metal) * ([pdbDelayDouble AlGaN Affinity]+$phiB)" name=MetalDevPsi; # for regular d mode device
     }

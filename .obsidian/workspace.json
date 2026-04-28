@@ -200,6 +200,7 @@
   },
   "active": "b74d6d5578da27d8",
   "lastOpenFiles": [
+    "highK/pGaN.tcl",
     "4_26_dataPackage/powerdevice.tcl",
     "4_26_dataPackage/transfer.tcl",
     "4_26_dataPackage/Continuity.tcl",
@@ -210,7 +211,6 @@
     "4_26_dataPackage/GaN_modelfile_masterD",
     "4_26_dataPackage/GaN.tcl",
     "4_26_dataPackage/Poisson.tcl",
-    "4_26_dataPackage/rfdevice.tcl",
     "Abstract.md",
     "Dr. Patrick Presentation Outline.md",
     "Paper Outline.md",

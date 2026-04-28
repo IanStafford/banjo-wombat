@@ -9,7 +9,7 @@ proc run_measurements_E {ivCSV peakCSV label} {
     Initialize
     device init
 
-    if {0} {
+    if {1} {
     for {set d 0.0} {$d <10.05} {set d [expr $d+0.1]} {
         contact name=D supply=$d
         device 
@@ -86,12 +86,12 @@ proc run_measurements_E {ivCSV peakCSV label} {
     pdbSetDouble GaN Qfp DampValue 0.0512
     pdbSetDouble AlGaN Qfn DampValue 0.01
     pdbSetDouble AlGaN Qfp DampValue 0.01
-    pdbSetDouble GaN2 Qfn DampValue 0.0512
-    pdbSetDouble GaN2 Qfp DampValue 0.0512
-    pdbSetDouble GaN2 Qfn Rel.Error 5.0e-2
-    pdbSetDouble GaN2 Qfn Abs.Error 5.0e-2
-    pdbSetDouble GaN2 Qfn Rel.Error 5.0e-2
-    pdbSetDouble GaN2 Qfn Abs.Error 5.0e-2
+    pdbSetDouble pGaN Qfn DampValue 0.0512
+    pdbSetDouble pGaN Qfp DampValue 0.0512
+    pdbSetDouble pGaN Qfn Rel.Error 5.0e-2
+    pdbSetDouble pGaN Qfn Abs.Error 5.0e-2
+    pdbSetDouble pGaN Qfn Rel.Error 5.0e-2
+    pdbSetDouble pGaN Qfn Abs.Error 5.0e-2
 
     set eqn "ddt(Elec) + ([pdbDelayDouble AlGaN Elec mob]) * (Elec+1.0e10) * grad(Qfn)"
     pdbSetString AlGaN Qfn Equation $eqn
@@ -160,7 +160,7 @@ proc run_measurements_E {ivCSV peakCSV label} {
 
     }
 
-    if {1} {
+    if {0} {
     for {set g 0.0} {$g < -4.0} {set d [expr $g-0.5]} {
         contact name=G supply=$g
         device
