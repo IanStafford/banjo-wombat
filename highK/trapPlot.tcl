@@ -8,7 +8,7 @@ proc trapPlot {ivCSV bias} {
     Initialize
     device init
 
-    for {set g 0.0} {$g > -2.0} {set g [expr $g-0.1]} {
+    for {set g 0.0} {$g < 4.0} {set g [expr $g+0.05]} {
         contact name=G supply=$g
         device
     }   
@@ -101,7 +101,8 @@ window row=1 col=2
 set trapEn 1
 
 source GaN_modelfile_masterD
-source fieldplate_highk.tcl
+set ::eMode 1.0
+source powerdevice.tcl
 
 #pdbSetDouble GaN Qfn DampValue 0.10
 #pdbSetDouble GaN Qfp DampValue 0.10
