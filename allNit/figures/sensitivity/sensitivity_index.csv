@@ -1,0 +1,4 @@
+run,mean_x_um,mean_y_um,trapDensity,trapSigma,trapType,trapEnergy,trapWidth,ivCSV
+0,0.0,0.08,3e18,0.015,Acceptor,3.1,0.025,/home/staffian/banjo-wombat/allNit/figures/sensitivity/iv_x0d0000_y0d0800.csv
+1,0.0,0.15000000000000002,3e18,0.015,Acceptor,3.1,0.025,/home/staffian/banjo-wombat/allNit/figures/sensitivity/iv_x0d0000_y0d1500.csv
+2,0.0,0.22000000000000003,3e18,0.015,Acceptor,3.1,0.025,/home/staffian/banjo-wombat/allNit/figures/sensitivity/iv_x0d0000_y0d2200.csv

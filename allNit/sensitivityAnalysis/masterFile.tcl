@@ -17,68 +17,77 @@ source AlGaN.tcl
 source Insulator.tcl
 source Metal.tcl
 
-
-#thermal domain
-#solution add name=Temp solve pde !negative continuous damp
+# Simulation Setup
+# =====================================
+# Not solving for temp
 solution add name=Temp const val=300.0
-#solution add name=Impurity solve negative damp
+# =====================================
 
-#electrical domain
 
+
+# DevPsi is continuous for initial solve and Qfn, Qfp are set to 0
+# =====================================
 solution add name=DevPsi solve negative damp continuous
 #solution add name=Qfp solve negative damp continuous
 #solution add name=Qfn solve negative damp continuous
+# =====================================
 
-
-source Poisson.tcl
+puts "Trap parameters: sigma=$sigma, mean_x=$mean_x, mean_y=$mean_y, trapConc=$trapConc, trapEn=$trapEn, trapLevel=$trapLevel, trapWidth=$trapWidth"
 
 
 # 2D Gaussian trap distribution
-set sigma 0.015
-set mean_x 0.0
-set mean_y 0.14
-set trapConc "3e18*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))"
-#set trapConc 5e19
+if {![info exists sigma]} { set sigma 0.015 }
+if {![info exists mean_x]} { set mean_x 0.0 }
+#if {![info exists mean_y]} { set mean_y 0.14 }
+if {![info exists trapConc]} { set trapConc "3e18*exp(-((x-$mean_x)*(x-$mean_x)+(y-$mean_y)*(y-$mean_y))/(2.0*$sigma*$sigma))" }
 
 if {![info exists trapEn]} { set trapEn 0.0 }
+if {![info exists trapLevel]} { set trapLevel 3.1 }
+if {![info exists trapWidth]} { set trapWidth 0.025 }
+
+puts "Trap parameters: sigma=$sigma, mean_x=$mean_x, mean_y=$mean_y, trapConc=$trapConc, trapEn=$trapEn, trapLevel=$trapLevel, trapWidth=$trapWidth"
+
+# Poisson's equation for all materials
+# No ionized charge terms for metal or insulator
+# But we still solve for DevPsi as its continuous 
+# across the device and is used to calculate Qfn and Qfp
+# =====================================
+source Poisson.tcl
+Poisson GaN
+Poisson AlGaN
+InsPoisson Nitride
+InsPoisson Metal
 
 if {$trapEn} {
-
-    InsPoisson Nitride
-    Poisson GaN
-    Poisson AlGaN
-
-    AcceptorTrap GaN $trapConc 3.1 0.025 ; #GaN bandgap is about 3.4 eV
-    AcceptorTrap AlGaN $trapConc 3.1 0.025 ; #AlGaN bandgap is about 3.75 eV at our Al fraction
+    AcceptorTrap GaN $trapConc $trapLevel $trapWidth ; #GaN bandgap is about 3.4 eV
+    AcceptorTrap AlGaN $trapConc $trapLevel $trapWidth ; #AlGaN bandgap is about 3.75 eV at our Al fraction
 
     #DonorTrap GaN $trapConc 0.84 0.001
     #DonorTrap AlGaN $trapConc 0.84 0.001
-
-
-
-} else {
-    Poisson GaN
-    Poisson AlGaN
-    InsPoisson Nitride
 }
+# =====================================
 
 
-InsPoisson Metal
 
+# Continuity equations in GaN and AlGaN
+# =====================================
 source Continuity.tcl
+
 ElecContinuity GaN
 ElecContinuity AlGaN
 
 HoleContinuity GaN
 HoleContinuity AlGaN
+# =====================================
 
-# Is the interface charge constant everwhere all the time?
-#Add interface charge
-#pdbSetString AlGaN_GaN DevPsi Equation "1.06e13"
-pdbSetString AlGaN_GaN DevPsi Equation "6e12"
-# pdbSetString AlGaN_GaN DevPsi Equation "7.0e12"
+# Add interface charge
+# =====================================
+pdbSetString AlGaN_GaN DevPsi Equation "1.06e13"
+
+#pdbSetString AlGaN_GaN DevPsi Equation "6e12"
 #pdbSetString AlGaN_GaN DevPsi Equation "1.486e13"
 #pdbSetString AlGaN_GaN DevPsi Equation "-1*(1e13*log(AlN_Ratio)+3e13)"
+# =====================================
 
 #Electrical Initial Conditions
 proc Initialize {} {
